@@ -1,21 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\dries\\source\\repos\\Celwahit\\Celwahit\\Celwahit.csproj": {}
+    "C:\\Users\\Cedric\\Documents\\GitHub\\Celwahit\\Celwahit\\Celwahit.csproj": {}
   },
   "projects": {
-    "C:\\Users\\dries\\source\\repos\\Celwahit\\Celwahit\\Celwahit.csproj": {
+    "C:\\Users\\Cedric\\Documents\\GitHub\\Celwahit\\Celwahit\\Celwahit.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\dries\\source\\repos\\Celwahit\\Celwahit\\Celwahit.csproj",
+        "projectUniqueName": "C:\\Users\\Cedric\\Documents\\GitHub\\Celwahit\\Celwahit\\Celwahit.csproj",
         "projectName": "Celwahit",
-        "projectPath": "C:\\Users\\dries\\source\\repos\\Celwahit\\Celwahit\\Celwahit.csproj",
-        "packagesPath": "C:\\Users\\dries\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dries\\source\\repos\\Celwahit\\Celwahit\\obj\\",
+        "projectPath": "C:\\Users\\Cedric\\Documents\\GitHub\\Celwahit\\Celwahit\\Celwahit.csproj",
+        "packagesPath": "C:\\Users\\Cedric\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Cedric\\Documents\\GitHub\\Celwahit\\Celwahit\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+        ],
         "configFilePaths": [
-          "C:\\Users\\dries\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Cedric\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -67,7 +73,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }

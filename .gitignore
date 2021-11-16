@@ -11,3 +11,4 @@ artifacts/
 *.dll
 *.cache
 *.txt
+*.cache

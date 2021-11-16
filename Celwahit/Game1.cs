@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 
+
 namespace Celwahit
 {
     public class Game1 : Game
@@ -49,7 +50,9 @@ namespace Celwahit
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
             hero.Update();
+
             base.Update(gameTime);
         }
 

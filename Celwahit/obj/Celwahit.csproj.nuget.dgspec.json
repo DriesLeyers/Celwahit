@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\dries\\source\\repos\\Celwahit\\Celwahit\\Celwahit.csproj": {}
+    "C:\\Users\\dries\\Documents\\GitHub\\Celwahit\\Celwahit\\Celwahit.csproj": {}
   },
   "projects": {
-    "C:\\Users\\dries\\source\\repos\\Celwahit\\Celwahit\\Celwahit.csproj": {
+    "C:\\Users\\dries\\Documents\\GitHub\\Celwahit\\Celwahit\\Celwahit.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\dries\\source\\repos\\Celwahit\\Celwahit\\Celwahit.csproj",
+        "projectUniqueName": "C:\\Users\\dries\\Documents\\GitHub\\Celwahit\\Celwahit\\Celwahit.csproj",
         "projectName": "Celwahit",
-        "projectPath": "C:\\Users\\dries\\source\\repos\\Celwahit\\Celwahit\\Celwahit.csproj",
+        "projectPath": "C:\\Users\\dries\\Documents\\GitHub\\Celwahit\\Celwahit\\Celwahit.csproj",
         "packagesPath": "C:\\Users\\dries\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dries\\source\\repos\\Celwahit\\Celwahit\\obj\\",
+        "outputPath": "C:\\Users\\dries\\Documents\\GitHub\\Celwahit\\Celwahit\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\dries\\AppData\\Roaming\\NuGet\\NuGet.Config",

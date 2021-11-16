@@ -28,7 +28,7 @@ namespace Celwahit
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            texture = LoadContent.Load<Texture2D>("Neo Geo NGCD - Metal Slug 2 Metal Slug X - Eri Kasamoto");
+            texture = Content.Load<Texture2D>("PlayerLegsSheet");
 
             // TODO: use this.Content to load your game content here
         }
@@ -47,6 +47,9 @@ namespace Celwahit
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
+
+            _spriteBatch.Draw(texture, new Vector2(10,10), Color.White);
+
             _spriteBatch.End();
 
             // TODO: Add your drawing code here

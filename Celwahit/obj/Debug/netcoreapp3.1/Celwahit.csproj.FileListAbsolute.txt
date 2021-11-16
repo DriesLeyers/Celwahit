@@ -73,3 +73,5 @@ C:\Users\dries\Documents\GitHub\Celwahit\Celwahit\obj\Debug\netcoreapp3.1\Celwah
 C:\Users\dries\Documents\GitHub\Celwahit\Celwahit\obj\Debug\netcoreapp3.1\Celwahit.genruntimeconfig.cache
 C:\Users\dries\Documents\GitHub\Celwahit\Celwahit\bin\Debug\netcoreapp3.1\Content\spriteTest.xnb
 C:\Users\dries\Documents\GitHub\Celwahit\Celwahit\bin\Debug\netcoreapp3.1\Content\spritesheetvolt_run.xnb
+C:\Users\dries\Documents\GitHub\Celwahit\Celwahit\bin\Debug\netcoreapp3.1\Content\PlayerBodySheet.xnb
+C:\Users\dries\Documents\GitHub\Celwahit\Celwahit\bin\Debug\netcoreapp3.1\Content\PlayerLegsSheet.xnb

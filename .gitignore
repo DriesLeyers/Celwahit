@@ -8,3 +8,6 @@ artifacts/
 .vscode/
 .dotnet/
 *.binlog
+*.dll
+*.cache
+*.txt

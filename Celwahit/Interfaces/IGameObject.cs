@@ -10,7 +10,7 @@ namespace Celwahit.Interfaces
     /// </summary>
     interface IGameObject
     {
-        public void Update(SpriteBatch spriteBatch)
+        public void Update()
         {
 
         }

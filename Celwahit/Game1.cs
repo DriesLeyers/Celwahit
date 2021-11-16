@@ -10,9 +10,13 @@ namespace Celwahit
         private SpriteBatch _spriteBatch;
 
         private Texture2D playerLegs;
+        private Texture2D playerBody;
 
         private Rectangle partRectangleLegs;
         private int moveRectangleLegs_X = 32;
+
+        private Rectangle partRectangleBody;
+        private int moveRectangleBody_X = 36;
 
         public Game1()
         {
@@ -25,6 +29,7 @@ namespace Celwahit
         {
             // TODO: Add your initialization logic here
             partRectangleLegs = new Rectangle(moveRectangleLegs_X, 23, 32, 23);
+            partRectangleBody = new Rectangle(moveRectangleBody_X, 0, 36, 30);
 
             base.Initialize();
         }
@@ -33,16 +38,13 @@ namespace Celwahit
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             playerLegs = Content.Load<Texture2D>("PlayerLegsSheet");
-
-            // TODO: use this.Content to load your game content here
+            playerBody = Content.Load<Texture2D>("PlayerBodySheet");
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            // TODO: Add your update logic here
 
             base.Update(gameTime);
         }
@@ -52,9 +54,16 @@ namespace Celwahit
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
 
-            _spriteBatch.Draw(playerLegs, new Vector2(0, 10), partRectangleLegs, Color.White);
+            _spriteBatch.Draw(playerLegs, new Vector2(0, 18), partRectangleLegs, Color.White);
+            _spriteBatch.Draw(playerBody, new Vector2(0, 0), partRectangleBody, Color.White);
 
             _spriteBatch.End();
+
+            moveRectangleBody_X += 36;
+            if (moveRectangleBody_X > 159)
+                moveRectangleBody_X = 2;
+
+            partRectangleBody.X = moveRectangleBody_X;
 
             moveRectangleLegs_X += 32;
             if (moveRectangleLegs_X > 384)

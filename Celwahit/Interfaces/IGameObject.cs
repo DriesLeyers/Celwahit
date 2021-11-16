@@ -10,7 +10,13 @@ namespace Celwahit.Interfaces
     /// </summary>
     interface IGameObject
     {
-        public void Draw() { } 
-        public void Update(SpriteBatch spriteBatch) { }
+        public void Update(SpriteBatch spriteBatch)
+        {
+
+        }
+        public void Draw(SpriteBatch spriteBatch)
+        {
+
+        } 
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,6 +11,6 @@ namespace Celwahit.Interfaces
     interface IGameObject
     {
         public void Draw() { } 
-        public void Update() { }
+        public void Update(SpriteBatch spriteBatch) { }
     }
 }

@@ -15,7 +15,7 @@ namespace Celwahit
         Texture2D playerBody;
         Texture2D playerLegs;
 
-        Player hero;
+        Player player;
 
         public Game1()
         {
@@ -42,7 +42,7 @@ namespace Celwahit
 
         private void InitializeGameObjects()
         {
-            hero = new Player(playerBody, playerLegs);
+            player = new Player(playerBody, playerLegs);
         }
 
         protected override void Update(GameTime gameTime)
@@ -50,7 +50,7 @@ namespace Celwahit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            hero.Update();
+            player.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -61,10 +61,10 @@ namespace Celwahit
 
             _spriteBatch.Begin();
 
-            hero.Draw(_spriteBatch);
+            player.Draw(_spriteBatch, gameTime);
 
             _spriteBatch.End();
-
+           
             base.Draw(gameTime);
         }
     }

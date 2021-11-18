@@ -54,17 +54,16 @@ namespace Celwahit.GameObjects
 
         }
 
-        public void Update()
+        public void Update(GameTime gameTime)
         {
-            animationBody.Update();
-            animationLegs.Update();
+            animationBody.UpdateBody(gameTime);
+            animationLegs.UpdateLegs(gameTime);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             spriteBatch.Draw(playerBody, new Vector2(0, 0), animationBody.CurrentFrame.SourceRect, Color.White);
             spriteBatch.Draw(playerLegs, new Vector2(0, 18), animationLegs.CurrentFrame.SourceRect, Color.White);
-            Update();
         }
     }
 }

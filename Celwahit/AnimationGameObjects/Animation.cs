@@ -24,32 +24,17 @@ namespace Celwahit.AnimationGameObjects
             CurrentFrame = frames[0];
         }
 
-        public void UpdateBody(GameTime gameTime)
+        public void Update(GameTime gameTime, int offsetTemp)
         {
             CurrentFrame = frames[counter];
             frameMovement += CurrentFrame.SourceRect.Width * gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (frameMovement >= CurrentFrame.SourceRect.Width / 8)
+            if (frameMovement >= CurrentFrame.SourceRect.Width / offsetTemp)
             {
                 counter++;
                 frameMovement = 0;
             }
                
-            if (counter >= frames.Count)
-                counter = 0;
-        }
-
-        public void UpdateLegs(GameTime gameTime)
-        {
-            CurrentFrame = frames[counter];
-            frameMovement += CurrentFrame.SourceRect.Width * gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (frameMovement >= CurrentFrame.SourceRect.Width / 12)
-            {
-                counter++;
-                frameMovement = 0;
-            }
-
             if (counter >= frames.Count)
                 counter = 0;
         }

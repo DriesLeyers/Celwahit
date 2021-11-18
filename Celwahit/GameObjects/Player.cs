@@ -40,15 +40,15 @@ namespace Celwahit.GameObjects
             int moveRectangleBody_X = 0;
             for(int i = 0; i < 4; i++)
             {
-                animationBody.AddFrame(new AnimationFrame(new Rectangle(moveRectangleBody_X, 0, 36, 30)));
-                moveRectangleBody_X += 36;
+                animationBody.AddFrame(new AnimationFrame(new Rectangle(moveRectangleBody_X, 0, 32, 29)));
+                moveRectangleBody_X += 32;
             }
 
             //Legs frames
             int moveRectangleLegs_X = 0;
             for(int i = 0; i < 4; i++)
             {
-                animationLegs.AddFrame(new AnimationFrame(new Rectangle(moveRectangleLegs_X, 23, 32, 23)));
+                animationLegs.AddFrame(new AnimationFrame(new Rectangle(moveRectangleLegs_X, 23, 32, 28)));
                 moveRectangleLegs_X += 32;
             }
 
@@ -56,14 +56,15 @@ namespace Celwahit.GameObjects
 
         public void Update(GameTime gameTime)
         {
-            animationBody.UpdateBody(gameTime);
-            animationLegs.UpdateLegs(gameTime);
+            //8, 12 MN for making sprite move normally
+            animationBody.Update(gameTime, 8);
+            animationLegs.Update(gameTime, 12);
         }
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            spriteBatch.Draw(playerBody, new Vector2(0, 0), animationBody.CurrentFrame.SourceRect, Color.White);
             spriteBatch.Draw(playerLegs, new Vector2(0, 18), animationLegs.CurrentFrame.SourceRect, Color.White);
+            spriteBatch.Draw(playerBody, new Vector2(0, 0), animationBody.CurrentFrame.SourceRect, Color.White);
         }
     }
 }

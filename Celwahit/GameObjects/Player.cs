@@ -56,24 +56,9 @@ namespace Celwahit.GameObjects
 
         public void Update()
         {
-
-            //moveRectangleBody_X += 36;
-            //if (moveRectangleBody_X > 159)
-            //    moveRectangleBody_X = 2;
-
-            //animationBody.CurrentFrame.SourceRect.X = moveRectangleBody_X;
-
-            //moveRectangleLegs_X += 32;
-            //if (moveRectangleLegs_X > 384)
-            //    moveRectangleLegs_X = 0;
-
-            //animationLegs.CurrentFrame.SourceRect.X = moveRectangleLegs_X;
-
             animationBody.Update();
             animationLegs.Update();
         }
-
-
 
         public void Draw(SpriteBatch spriteBatch)
         {

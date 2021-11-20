@@ -16,12 +16,9 @@ namespace Celwahit.GameObjects
         Animation animationBody;
         Animation animationLegs;
 
-
-        //private Rectangle partRectangleBody;
-        //private int moveRectangleBody_X = 36;
-
-        //private Rectangle partRectangleLegs;
-        //private int moveRectangleLegs_X = 32;
+        Vector2 position;
+        Vector2 velocity;
+        Vector2 bodyOffset;
 
 
         public Player(Texture2D playerBody, Texture2D playerLegs)
@@ -31,6 +28,11 @@ namespace Celwahit.GameObjects
 
             animationBody = new Animation();
             animationLegs = new Animation();
+
+            position = new Vector2(10,10);
+            velocity = new Vector2(1.5f,0);
+            bodyOffset = new Vector2(0,18);
+
             setFrames();
         }
 
@@ -59,12 +61,18 @@ namespace Celwahit.GameObjects
             //8, 12 MN for making sprite move normally
             animationBody.Update(gameTime, 8);
             animationLegs.Update(gameTime, 12);
+            Move();
+        }
+
+        private void Move()
+        {
+            position += velocity;
         }
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            spriteBatch.Draw(playerLegs, new Vector2(0, 18), animationLegs.CurrentFrame.SourceRect, Color.White);
-            spriteBatch.Draw(playerBody, new Vector2(0, 0), animationBody.CurrentFrame.SourceRect, Color.White);
+            spriteBatch.Draw(playerLegs, position+bodyOffset, animationLegs.CurrentFrame.SourceRect, Color.White);
+            spriteBatch.Draw(playerBody, position, animationBody.CurrentFrame.SourceRect, Color.White);
         }
     }
 }

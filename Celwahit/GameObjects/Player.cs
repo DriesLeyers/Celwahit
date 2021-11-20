@@ -34,7 +34,7 @@ namespace Celwahit.GameObjects
             position = new Vector2(10,10);
             velocity = new Vector2(1.5f,0);
             acceleration = new Vector2(0.1f, 0);
-            bodyOffset = new Vector2(0,18);
+            bodyOffset = new Vector2(0,14);
 
             setFrames();
         }
@@ -54,7 +54,7 @@ namespace Celwahit.GameObjects
             int moveRectangleLegs_X = 0;
             for(int i = 0; i < 4; i++)
             {
-                animationLegs.AddFrame(new AnimationFrame(new Rectangle(moveRectangleLegs_X, 23, 32, 28)));
+                animationLegs.AddFrame(new AnimationFrame(new Rectangle(moveRectangleLegs_X, 19, 32, 28)));
                 moveRectangleLegs_X += 32;
             }
 

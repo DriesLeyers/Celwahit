@@ -9,4 +9,4 @@ artifacts/
 *.dll
 *.txt
 *.cache
-*mgstats
+*.mgstats

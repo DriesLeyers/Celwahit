@@ -15,8 +15,6 @@ namespace Celwahit
         Texture2D playerBody;
         Texture2D playerLegs;
 
-        Texture2D temp;
-
         Player player;
 
         public Game1()
@@ -38,8 +36,6 @@ namespace Celwahit
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             playerLegs = Content.Load<Texture2D>("PlayerLegsSheet");
             playerBody = Content.Load<Texture2D>("Player/Fiolina_Top_Walking");
-
-            temp = Content.Load<Texture2D>("Fiolina_Bot_Walking");
 
             InitializeGameObjects();
         }
@@ -66,7 +62,6 @@ namespace Celwahit
             _spriteBatch.Begin();
 
             player.Draw(_spriteBatch, gameTime);
-            _spriteBatch.Draw(temp, new Vector2(0, 18), new Rectangle(0,50,384,30),Color.White);
 
             _spriteBatch.End();
            

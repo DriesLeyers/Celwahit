@@ -44,7 +44,7 @@ namespace Celwahit.GameObjects
             //TODO: Sprite afsnijden zodat geen random pixels :)
             //Body frames
             int moveRectangleBody_X = 0;
-            for(int i = 0; i < 4; i++)
+            for(int i = 0; i < 12; i++)
             {
                 animationBody.AddFrame(new AnimationFrame(new Rectangle(moveRectangleBody_X, 0, 32, 29)));
                 moveRectangleBody_X += 32;
@@ -52,9 +52,9 @@ namespace Celwahit.GameObjects
 
             //Legs frames
             int moveRectangleLegs_X = 0;
-            for(int i = 0; i < 4; i++)
+            for(int i = 0; i < 12; i++)
             {
-                animationLegs.AddFrame(new AnimationFrame(new Rectangle(moveRectangleLegs_X, 19, 32, 28)));
+                animationLegs.AddFrame(new AnimationFrame(new Rectangle(moveRectangleLegs_X, 0, 32, 28)));
                 moveRectangleLegs_X += 32;
             }
 
@@ -64,7 +64,7 @@ namespace Celwahit.GameObjects
         {
             //8, 12 MN for making sprite move normally
             animationBody.Update(gameTime, 8);
-            animationLegs.Update(gameTime, 10);
+            animationLegs.Update(gameTime, 12);
             Move();
         }
 

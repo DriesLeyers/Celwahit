@@ -34,7 +34,7 @@ namespace Celwahit
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            playerLegs = Content.Load<Texture2D>("PlayerLegsSheet");
+            playerLegs = Content.Load<Texture2D>("Player/Fiolina_Bot_Walking");
             playerBody = Content.Load<Texture2D>("Player/Fiolina_Top_Walking");
 
             InitializeGameObjects();

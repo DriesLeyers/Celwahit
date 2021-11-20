@@ -60,7 +60,7 @@ namespace Celwahit.GameObjects
             int moveRectangleLegs_X = 0;
             for(int i = 0; i < 12; i++)
             {
-                animationLegs.AddFrame(new AnimationFrame(new Rectangle(moveRectangleLegs_X, 0, 32, 28)));
+                animationLegs.AddFrame(new AnimationFrame(new Rectangle(moveRectangleLegs_X, 0, 30, 28)));
                 moveRectangleLegs_X += 32;
             }
 

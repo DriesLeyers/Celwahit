@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Celwahit.AnimationGameObjects;
+using Microsoft.Xna.Framework.Input;
 
 namespace Celwahit.GameObjects
 {
@@ -22,6 +23,9 @@ namespace Celwahit.GameObjects
         //To get the sprites properly aligned
         Vector2 bodyOffset;
 
+        KeyboardState keyboardState;
+
+        bool moveRight;
 
         public Player(Texture2D playerBody, Texture2D playerLegs)
         {
@@ -30,6 +34,8 @@ namespace Celwahit.GameObjects
 
             animationBody = new Animation();
             animationLegs = new Animation();
+
+            moveRight = true;
 
             position = new Vector2(10,10);
             velocity = new Vector2(1.5f,0);
@@ -70,20 +76,49 @@ namespace Celwahit.GameObjects
 
         private void Move()
         {
-            position += velocity;
-            velocity += acceleration;
-            velocity = Limit(velocity,1.5f);
+            keyboardState = Keyboard.GetState();
+            Keys[] pressedKeys = keyboardState.GetPressedKeys();
 
-            if(position.X > 600 || position.X < 0)
+            if (!(pressedKeys.Length == 0))
             {
-                velocity.X *= -1;
-                acceleration.X *= -1;
+                switch (pressedKeys[pressedKeys.Length - 1])
+                {
+                    case Keys.Right:
+                        moveRight = true;
+                        //velocity.X *= -1;
+                        acceleration.X = 0.25f;
+                        Accelerate();
+                        break;
+                    case Keys.Left:
+                        moveRight = false;
+                        //velocity.X *= -1;
+                        acceleration.X = -0.25f;
+                        Accelerate();
+                        break;
+                    default:
+                        velocity = new Vector2(0, 0);
+                        break;
+                }
+                position += velocity;
             }
-            if (position.Y > 400 || position.Y < 0)
-            {
-                velocity.Y *= -1;
-                acceleration.Y *= -1;
-            }
+
+            //if (position.x > 600 || position.x < 0)
+            //{
+            //    velocity.x *= -1;
+            //    acceleration.x *= -1;
+
+            //}
+            //if (position.y > 400 || position.y < 0)
+            //{
+            //    velocity.y *= -1;
+            //    acceleration.y *= -1;
+            //}
+        }
+
+        private void Accelerate()
+        {
+            velocity += acceleration;
+            velocity = Limit(velocity, 1.5f);
         }
 
         /// <summary>
@@ -105,8 +140,17 @@ namespace Celwahit.GameObjects
         }
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            spriteBatch.Draw(playerLegs, position + bodyOffset, animationLegs.CurrentFrame.SourceRect, Color.White);
-            spriteBatch.Draw(playerBody, position, animationBody.CurrentFrame.SourceRect, Color.White);
+            if (!moveRight)
+            {
+                spriteBatch.Draw(playerLegs,position + bodyOffset, animationLegs.CurrentFrame.SourceRect, Color.White,0f,new Vector2(0,0),1, SpriteEffects.FlipHorizontally,1f);
+                spriteBatch.Draw(playerBody, position, animationBody.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
+            }
+            else
+            {
+                spriteBatch.Draw(playerLegs, position + bodyOffset, animationLegs.CurrentFrame.SourceRect, Color.White);
+                spriteBatch.Draw(playerBody, position, animationBody.CurrentFrame.SourceRect, Color.White);
+            }
+
         }
     }
 }

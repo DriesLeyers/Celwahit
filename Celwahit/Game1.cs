@@ -12,8 +12,11 @@ namespace Celwahit
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        Texture2D playerBody;
-        Texture2D playerLegs;
+        Texture2D walkingPlayerBody;
+        Texture2D walkingPlayerLegs;
+
+        Texture2D idlePlayerBody;
+        Texture2D idlePlayerLegs;
 
         Player player;
 
@@ -34,15 +37,17 @@ namespace Celwahit
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            playerLegs = Content.Load<Texture2D>("Player/Fiolina_Bot_Walking");
-            playerBody = Content.Load<Texture2D>("Player/Fiolina_Top_Walking");
+            walkingPlayerLegs = Content.Load<Texture2D>("Player/Fiolina_Bot_Walking");
+            walkingPlayerBody = Content.Load<Texture2D>("Player/Fiolina_Top_Walking");
+
+
 
             InitializeGameObjects();
         }
 
         private void InitializeGameObjects()
         {
-            player = new Player(playerBody, playerLegs);
+            player = new Player(walkingPlayerBody, walkingPlayerLegs);
         }
 
         protected override void Update(GameTime gameTime)

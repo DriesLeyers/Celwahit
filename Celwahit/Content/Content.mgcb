@@ -13,7 +13,7 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Player/Fiolina_Bot_Walking.png
+#begin Player/Fiolina_Bot_Idle.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -23,7 +23,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Player/Fiolina_Bot_Walking.png
+/build:Player/Fiolina_Bot_Idle.png
 
 #begin Player/Fiolina_Bot_Walking.png
 /importer:TextureImporter
@@ -37,7 +37,7 @@
 /processorParam:TextureFormat=Color
 /build:Player/Fiolina_Bot_Walking.png
 
-#begin Player/Fiolina_Top_Walking.png
+#begin Player/Fiolina_Top_Idle.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -47,7 +47,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Player/Fiolina_Top_Walking.png
+/build:Player/Fiolina_Top_Idle.png
 
 #begin Player/Fiolina_Top_Walking.png
 /importer:TextureImporter

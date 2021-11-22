@@ -11,11 +11,14 @@ namespace Celwahit.GameObjects
 {
     public class Player : IGameObject
     {
-        Texture2D playerBody;
-        Texture2D playerLegs;
+        Texture2D walkingPlayerBody;
+        Texture2D walkingPlayerLegs;
 
-        Animation animationBody;
-        Animation animationLegs;
+        Animation walkingAnimationBody;
+        Animation walkingAnimationLegs;
+
+        Animation idleAnimationBody;
+        Animation idleAnimationLegs;
 
         Vector2 position;
         Vector2 velocity;
@@ -25,52 +28,45 @@ namespace Celwahit.GameObjects
 
         KeyboardState keyboardState;
 
-        bool moveRight;
+        bool playerFlipped;
 
-        public Player(Texture2D playerBody, Texture2D playerLegs)
+        enum Direction
         {
-            this.playerBody = playerBody;
-            this.playerLegs = playerLegs;
+            Idle,
+            Right,
+            Left,
+            Falling,
+            Jumping
+        };
 
-            animationBody = new Animation();
-            animationLegs = new Animation();
+        Direction direction;
 
-            moveRight = true;
+        public Player(Texture2D walkingPlayerBody, Texture2D walkingPlayerLegs, Texture2D idlePlayerBody, Texture2D idlePlayerLegs)
+        {
+            this.walkingPlayerBody = walkingPlayerBody;
+            this.walkingPlayerLegs = walkingPlayerLegs;
+
+            walkingAnimationBody = AnimationFactory.WalkingAnimationPlayerBody(walkingPlayerBody);
+            walkingAnimationLegs = AnimationFactory.WalkingAnimationPlayerLegs(walkingPlayerLegs);
+
+            idleAnimationBody = AnimationFactory.IdleAnimationPlayerBody(idlePlayerBody);
+            idleAnimationLegs = AnimationFactory.IdleAnimationPlayerLegs(idlePlayerLegs);
+
+            direction = Direction.Idle;
 
             position = new Vector2(10,10);
             velocity = new Vector2(1.5f,0);
             acceleration = new Vector2(0.1f, 0);
-            bodyOffset = new Vector2(0,14);
-
-            setFrames();
-        }
-
-        public void setFrames()
-        {
-            //TODO: Sprite afsnijden zodat geen random pixels :)
-            //Body frames
-            int moveRectangleBody_X = 0;
-            for(int i = 0; i < 12; i++)
-            {
-                animationBody.AddFrame(new AnimationFrame(new Rectangle(moveRectangleBody_X, 0, 32, 29)));
-                moveRectangleBody_X += 32;
-            }
-
-            //Legs frames
-            int moveRectangleLegs_X = 0;
-            for(int i = 0; i < 12; i++)
-            {
-                animationLegs.AddFrame(new AnimationFrame(new Rectangle(moveRectangleLegs_X, 0, 30, 28)));
-                moveRectangleLegs_X += 32;
-            }
+            bodyOffset = new Vector2(0,10);
 
         }
+
 
         public void Update(GameTime gameTime)
         {
             //8, 12 MN for making sprite move normally
-            animationBody.Update(gameTime, 8);
-            animationLegs.Update(gameTime, 12);
+            walkingAnimationBody.Update(gameTime, 8);
+            walkingAnimationLegs.Update(gameTime, 12);
             Move();
         }
 
@@ -84,15 +80,17 @@ namespace Celwahit.GameObjects
                 switch (pressedKeys[pressedKeys.Length - 1])
                 {
                     case Keys.Right:
-                        moveRight = true;
+                        direction = Direction.Right;
                         //velocity.X *= -1;
                         acceleration.X = 0.25f;
+                        playerFlipped = false;
                         Accelerate();
                         break;
                     case Keys.Left:
-                        moveRight = false;
+                        direction = Direction.Left;
                         //velocity.X *= -1;
                         acceleration.X = -0.25f;
+                        playerFlipped = true;
                         Accelerate();
                         break;
                     default:
@@ -100,6 +98,10 @@ namespace Celwahit.GameObjects
                         break;
                 }
                 position += velocity;
+            }
+            else
+            {
+                direction = Direction.Idle;
             }
 
             //if (position.x > 600 || position.x < 0)
@@ -140,15 +142,25 @@ namespace Celwahit.GameObjects
         }
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            if (!moveRight)
+            if (direction == Direction.Left)
             {
-                spriteBatch.Draw(playerLegs,position + bodyOffset, animationLegs.CurrentFrame.SourceRect, Color.White,0f,new Vector2(0,0),1, SpriteEffects.FlipHorizontally,1f);
-                spriteBatch.Draw(playerBody, position, animationBody.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
+                spriteBatch.Draw(walkingPlayerLegs,position + bodyOffset, walkingAnimationLegs.CurrentFrame.SourceRect, Color.White,0f,new Vector2(0,0),1, SpriteEffects.FlipHorizontally,1f);
+                spriteBatch.Draw(walkingPlayerBody, position, walkingAnimationBody.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
             }
-            else
+            else if(direction == Direction.Right)
             {
-                spriteBatch.Draw(playerLegs, position + bodyOffset, animationLegs.CurrentFrame.SourceRect, Color.White);
-                spriteBatch.Draw(playerBody, position, animationBody.CurrentFrame.SourceRect, Color.White);
+                spriteBatch.Draw(walkingPlayerLegs, position + bodyOffset, walkingAnimationLegs.CurrentFrame.SourceRect, Color.White);
+                spriteBatch.Draw(walkingPlayerBody, position, walkingAnimationBody.CurrentFrame.SourceRect, Color.White);
+            }
+            else if(direction == Direction.Idle && !playerFlipped)
+            {
+                spriteBatch.Draw(, position + bodyOffset, walkingAnimationLegs.CurrentFrame.SourceRect, Color.White);
+                spriteBatch.Draw(, position, walkingAnimationBody.CurrentFrame.SourceRect, Color.White);
+            }
+            else if(direction == Direction.Idle && playerFlipped)
+            {
+                spriteBatch.Draw(, position + bodyOffset, walkingAnimationLegs.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
+                spriteBatch.Draw(, position, walkingAnimationBody.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
             }
 
         }

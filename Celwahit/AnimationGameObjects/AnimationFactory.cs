@@ -11,7 +11,7 @@ namespace Celwahit.AnimationGameObjects
         #region Idle
         public static Animation IdleAnimationPlayerBody(Texture2D idlePlayerBody)
         {
-            Animation animation;
+            Animation animation = new Animation();
 
 
 
@@ -21,7 +21,7 @@ namespace Celwahit.AnimationGameObjects
         }
         public static Animation IdleAnimationPlayerLegs(Texture2D idlePlayerLegs)
         {
-            Animation animation;
+            Animation animation = new Animation();
 
 
 

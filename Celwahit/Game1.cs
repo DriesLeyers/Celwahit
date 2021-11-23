@@ -40,14 +40,15 @@ namespace Celwahit
             walkingPlayerLegs = Content.Load<Texture2D>("Player/Fiolina_Bot_Walking");
             walkingPlayerBody = Content.Load<Texture2D>("Player/Fiolina_Top_Walking");
 
-
+            idlePlayerBody = Content.Load<Texture2D>("Player/Fiolina_Top_Idle");
+            idlePlayerLegs = Content.Load<Texture2D>("Player/Fiolina_Bot_Idle");
 
             InitializeGameObjects();
         }
 
         private void InitializeGameObjects()
         {
-            player = new Player(walkingPlayerBody, walkingPlayerLegs);
+            player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody,idlePlayerLegs);
         }
 
         protected override void Update(GameTime gameTime)

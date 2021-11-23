@@ -19,7 +19,8 @@ namespace Celwahit.GameObjects
 
         Texture2D walkingPlayerLegs;
         Texture2D walkingPlayerBody;
-
+        Texture2D idlePlayerBody;
+        Texture2D idlePlayerLegs;
 
         Vector2 position;
         Vector2 velocity;
@@ -47,6 +48,8 @@ namespace Celwahit.GameObjects
 
             this.walkingPlayerBody = walkingPlayerBody;
             this.walkingPlayerLegs = walkingPlayerLegs;
+            this.idlePlayerBody = idlePlayerBody;
+            this.idlePlayerLegs = idlePlayerLegs;
 
             walkingAnimationBody = AnimationFactory.WalkingAnimationPlayerBody(walkingPlayerBody);
             walkingAnimationLegs = AnimationFactory.WalkingAnimationPlayerLegs(walkingPlayerLegs);
@@ -69,6 +72,8 @@ namespace Celwahit.GameObjects
             //8, 12 MN for making sprite move normally
             walkingAnimationBody.Update(gameTime, 8);
             walkingAnimationLegs.Update(gameTime, 12);
+            idleAnimationBody.Update(gameTime, 8);
+            idleAnimationLegs.Update(gameTime, 12);
             Move();
         }
 
@@ -156,13 +161,13 @@ namespace Celwahit.GameObjects
             }
             else if(direction == Direction.Idle && !playerFlipped)
             {
-                spriteBatch.Draw(walkingPlayerLegs, position + bodyOffset, walkingAnimationLegs.CurrentFrame.SourceRect, Color.White);
-                spriteBatch.Draw(walkingPlayerLegs, position, walkingAnimationBody.CurrentFrame.SourceRect, Color.White);
+                spriteBatch.Draw(idlePlayerLegs, position + bodyOffset, idleAnimationLegs.CurrentFrame.SourceRect, Color.White);
+                spriteBatch.Draw(idlePlayerBody, position, idleAnimationBody.CurrentFrame.SourceRect, Color.White);
             }
             else if(direction == Direction.Idle && playerFlipped)
             {
-                spriteBatch.Draw(walkingPlayerLegs, position + bodyOffset, walkingAnimationLegs.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
-                spriteBatch.Draw(walkingPlayerLegs, position, walkingAnimationBody.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
+                spriteBatch.Draw(idlePlayerLegs, position + bodyOffset, idleAnimationLegs.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
+                spriteBatch.Draw(idlePlayerBody, position, idleAnimationBody.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
             }
 
         }

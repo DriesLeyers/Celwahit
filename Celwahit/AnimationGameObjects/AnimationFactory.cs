@@ -13,19 +13,22 @@ namespace Celwahit.AnimationGameObjects
         {
             Animation animation = new Animation();
 
+            Animation animationBody = new Animation();
 
+            int moveRectangle_X = 0;
+            for (int i = 0; i < 4; i++)
+            {
+                animationBody.AddFrame(new AnimationFrame(new Rectangle(moveRectangle_X, 0, 32, 26)));
+                moveRectangle_X += 32;
+            }
 
+            return animationBody;
 
-
-            return animation;
         }
         public static Animation IdleAnimationPlayerLegs(Texture2D idlePlayerLegs)
         {
             Animation animation = new Animation();
-
-
-
-
+            animation.AddFrame(new AnimationFrame(new Rectangle(0, 0, 32, 28)));
             return animation;
         }
         #endregion Idle

@@ -31,6 +31,7 @@ namespace Celwahit.GameObjects
         KeyboardState keyboardState;
 
         bool playerFlipped;
+        bool hasJumped;
 
         enum Direction
         {
@@ -38,7 +39,8 @@ namespace Celwahit.GameObjects
             Right,
             Left,
             Falling,
-            Jumping
+            Jumping,
+            Crouching
         };
 
         Direction direction;
@@ -59,9 +61,11 @@ namespace Celwahit.GameObjects
 
             direction = Direction.Idle;
 
-            position = new Vector2(10,10);
+            hasJumped = true;
+
+            position = new Vector2(150,150);
             velocity = new Vector2(1.5f,0);
-            acceleration = new Vector2(0.1f, 0);
+            acceleration = new Vector2(0.1f, 0.1f);
             bodyOffset = new Vector2(0,10);
 
         }
@@ -75,8 +79,39 @@ namespace Celwahit.GameObjects
             idleAnimationBody.Update(gameTime, 8);
             idleAnimationLegs.Update(gameTime, 12);
             Move();
+
+            Jump();
+
+            if (hasJumped)
+            {
+                float i = 1;
+                velocity.Y += 0.15f * i;
+            }
+
+            if(position.Y >= -300)
+            {
+                hasJumped = false;
+            }
+
+            if (!hasJumped)
+            {
+                velocity.Y = 0f;
+            }
+
+            position += velocity;
         }
 
+        private void Jump()
+        {
+            if (!hasJumped)
+            {
+                position.Y -= -10f;
+                velocity.Y = -5f;
+            }
+            hasJumped = true;
+        }
+
+        //TODO: KeyboardReader.cs maken
         private void Move()
         {
             keyboardState = Keyboard.GetState();
@@ -100,8 +135,18 @@ namespace Celwahit.GameObjects
                         playerFlipped = true;
                         Accelerate();
                         break;
+                    case Keys.Up:
+                        direction = Direction.Jumping;
+                        if (!hasJumped)
+                            Jump();
+                        Accelerate();
+                        break;
+                    case Keys.Down:
+                        direction = Direction.Crouching;
+                        break;
                     default:
                         velocity = new Vector2(0, 0);
+                        acceleration = new Vector2(0, 0);
                         break;
                 }
                 position += velocity;
@@ -110,24 +155,13 @@ namespace Celwahit.GameObjects
             {
                 direction = Direction.Idle;
             }
-
-            //if (position.x > 600 || position.x < 0)
-            //{
-            //    velocity.x *= -1;
-            //    acceleration.x *= -1;
-
-            //}
-            //if (position.y > 400 || position.y < 0)
-            //{
-            //    velocity.y *= -1;
-            //    acceleration.y *= -1;
-            //}
         }
-
+        //TODO: Movement.cs maken fzoeit
         private void Accelerate()
         {
             velocity += acceleration;
             velocity = Limit(velocity, 1.5f);
+            
         }
 
         /// <summary>
@@ -159,15 +193,18 @@ namespace Celwahit.GameObjects
                 spriteBatch.Draw(walkingPlayerLegs, position + bodyOffset, walkingAnimationLegs.CurrentFrame.SourceRect, Color.White);
                 spriteBatch.Draw(walkingPlayerBody, position, walkingAnimationBody.CurrentFrame.SourceRect, Color.White);
             }
-            else if(direction == Direction.Idle && !playerFlipped)
+            else 
             {
-                spriteBatch.Draw(idlePlayerLegs, position + bodyOffset, idleAnimationLegs.CurrentFrame.SourceRect, Color.White);
-                spriteBatch.Draw(idlePlayerBody, position, idleAnimationBody.CurrentFrame.SourceRect, Color.White);
-            }
-            else if(direction == Direction.Idle && playerFlipped)
-            {
-                spriteBatch.Draw(idlePlayerLegs, position + bodyOffset, idleAnimationLegs.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
-                spriteBatch.Draw(idlePlayerBody, position, idleAnimationBody.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
+                if (playerFlipped)
+                {
+                    spriteBatch.Draw(idlePlayerLegs, position + bodyOffset, idleAnimationLegs.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
+                    spriteBatch.Draw(idlePlayerBody, position, idleAnimationBody.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
+                }
+                else
+                {
+                    spriteBatch.Draw(idlePlayerLegs, position + bodyOffset, idleAnimationLegs.CurrentFrame.SourceRect, Color.White);
+                    spriteBatch.Draw(idlePlayerBody, position, idleAnimationBody.CurrentFrame.SourceRect, Color.White);
+                }
             }
 
         }

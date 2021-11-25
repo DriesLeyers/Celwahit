@@ -33,6 +33,7 @@ namespace Celwahit.GameObjects
         bool playerFlipped;
         bool hasJumped;
 
+
         enum Direction
         {
             Idle,
@@ -80,7 +81,7 @@ namespace Celwahit.GameObjects
             idleAnimationLegs.Update(gameTime, 12);
             Move();
 
-            Jump();
+            //Jump();
 
             if (hasJumped)
             {
@@ -88,7 +89,7 @@ namespace Celwahit.GameObjects
                 velocity.Y += 0.15f * i;
             }
 
-            if(position.Y >= -300)
+            if(position.Y >= 300)
             {
                 hasJumped = false;
             }
@@ -105,10 +106,11 @@ namespace Celwahit.GameObjects
         {
             if (!hasJumped)
             {
-                position.Y -= -10f;
+                position.Y -= 10f;
                 velocity.Y = -5f;
             }
             hasJumped = true;
+            position += velocity;
         }
 
         //TODO: KeyboardReader.cs maken
@@ -131,6 +133,8 @@ namespace Celwahit.GameObjects
                     case Keys.Left:
                         direction = Direction.Left;
                         //velocity.X *= -1;
+                        //Check tutorial 
+
                         acceleration.X = -0.25f;
                         playerFlipped = true;
                         Accelerate();
@@ -154,6 +158,7 @@ namespace Celwahit.GameObjects
             else
             {
                 direction = Direction.Idle;
+                Accelerate();
             }
         }
         //TODO: Movement.cs maken fzoeit

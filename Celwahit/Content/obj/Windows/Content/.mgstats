@@ -1,1 +1,4 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Users/Cedric/Documents/GitHub/Celwahit/Celwahit/Content/Player/Fiolina_Bot_Idle.png","C:/Users/Cedric/Documents/GitHub/Celwahit/Celwahit/Content/bin/Windows/Content/Player/Fiolina_Bot_Idle.xnb","TextureProcessor","Texture2DContent",2356,3669,0.130388
+"C:/Users/Cedric/Documents/GitHub/Celwahit/Celwahit/Content/Player/Fiolina_Top_Idle.png","C:/Users/Cedric/Documents/GitHub/Celwahit/Celwahit/Content/bin/Windows/Content/Player/Fiolina_Top_Idle.xnb","TextureProcessor","Texture2DContent",3129,13397,0.0018268
+"C:/Users/Cedric/Documents/GitHub/Celwahit/Celwahit/Content/startscherm.png","C:/Users/Cedric/Documents/GitHub/Celwahit/Celwahit/Content/bin/Windows/Content/startscherm.xnb","TextureProcessor","Texture2DContent",137441,3686485,0.0846607

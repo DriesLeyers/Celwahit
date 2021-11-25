@@ -6,10 +6,11 @@ using System.Collections.Generic;
 using System.Text;
 using Celwahit.AnimationGameObjects;
 using Microsoft.Xna.Framework.Input;
+using Celwahit.Collisions;
 
 namespace Celwahit.GameObjects
 {
-    public class Player : IGameObject
+    public class Player : IGameObject//, ICollisionGameObject
     {
         Animation walkingAnimationBody;
         Animation walkingAnimationLegs;
@@ -21,6 +22,9 @@ namespace Celwahit.GameObjects
         Texture2D walkingPlayerBody;
         Texture2D idlePlayerBody;
         Texture2D idlePlayerLegs;
+
+        //in da filmpje van collision heeft die en _collisionRect en CollisionRect
+        public Rectangle CollisionRectangle;
 
         Vector2 position;
         Vector2 velocity;
@@ -69,6 +73,7 @@ namespace Celwahit.GameObjects
             acceleration = new Vector2(0.1f, 0.1f);
             bodyOffset = new Vector2(0,10);
 
+            CollisionRectangle = new Rectangle((int)position.X, (int)position.Y, 32, 80);
         }
 
 
@@ -89,10 +94,10 @@ namespace Celwahit.GameObjects
                 velocity.Y += 0.15f * i;
             }
 
-            if(position.Y >= 300)
-            {
-                hasJumped = false;
-            }
+            //if(position.Y >= 300)
+            //{
+            //    hasJumped = false;
+            //}
 
             if (!hasJumped)
             {
@@ -100,6 +105,8 @@ namespace Celwahit.GameObjects
             }
 
             position += velocity;
+            CollisionRectangle.X = (int)position.X;
+            CollisionRectangle.Y = (int)position.Y;
         }
 
         private void Jump()

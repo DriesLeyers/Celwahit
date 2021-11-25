@@ -1,7 +1,9 @@
-﻿using Celwahit.GameObjects;
+﻿using Celwahit.Collisions;
+using Celwahit.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 using System.Threading;
 
 namespace Celwahit
@@ -24,6 +26,8 @@ namespace Celwahit
         MouseState mouseState;
         MouseState previousMouseState;
 
+        Rectangle _groundRect;
+
         Player player;
 
         GameState gameState;
@@ -37,6 +41,7 @@ namespace Celwahit
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
+            _groundRect = new Rectangle(0,300,1280,50);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -81,10 +86,10 @@ namespace Celwahit
 
         protected override void Update(GameTime gameTime)
         {
+            //TODO: start screen apart in class zettten.
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            player.Update(gameTime);
 
             mouseState = Mouse.GetState();
 
@@ -100,6 +105,13 @@ namespace Celwahit
                 MouseClicked(mouseState.X, mouseState.Y);
             }
 
+            Debug.Write(" " + player.CollisionRectangle.X);
+            if (CollisionManager.CheckCollision(_groundRect, player.CollisionRectangle))
+            {
+                Debug.Write("yeet");
+            }
+
+            player.Update(gameTime);
             previousMouseState = mouseState;
 
             base.Update(gameTime);

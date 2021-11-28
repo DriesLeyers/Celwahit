@@ -7,7 +7,7 @@ namespace Celwahit.Collisions
 {
     interface ICollisionGameObject
     {
-        Rectangle CollisionRectangle { get; set; }
+        public Rectangle CollisionRect { get; set; }
 
         private void UpdateCollision()
         {

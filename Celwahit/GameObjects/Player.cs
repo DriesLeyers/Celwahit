@@ -10,7 +10,7 @@ using Celwahit.Collisions;
 
 namespace Celwahit.GameObjects
 {
-    public class Player : IGameObject//, ICollisionGameObject
+    public class Player : IGameObject, ICollisionGameObject
     {
         Animation walkingAnimationBody;
         Animation walkingAnimationLegs;
@@ -24,7 +24,7 @@ namespace Celwahit.GameObjects
         Texture2D idlePlayerLegs;
 
         //in da filmpje van collision heeft die en _collisionRect en CollisionRect
-        public Rectangle CollisionRectangle;
+        public Rectangle CollisionRect { get; set; }
 
         Vector2 position;
         Vector2 velocity;
@@ -38,6 +38,8 @@ namespace Celwahit.GameObjects
         bool hasJumped;
 
 
+  
+
         enum Direction
         {
             Idle,
@@ -49,6 +51,7 @@ namespace Celwahit.GameObjects
         };
 
         Direction direction;
+
 
         public Player(Texture2D walkingPlayerBody, Texture2D walkingPlayerLegs, Texture2D idlePlayerBody, Texture2D idlePlayerLegs)
         {
@@ -73,12 +76,13 @@ namespace Celwahit.GameObjects
             acceleration = new Vector2(0.1f, 0.1f);
             bodyOffset = new Vector2(0,10);
 
-            CollisionRectangle = new Rectangle((int)position.X, (int)position.Y, 32, 80);
+            CollisionRect = new Rectangle((int)position.X, (int)position.Y, 32, 80);
         }
 
 
         public void Update(GameTime gameTime)
         {
+            Rectangle _collisionRect = CollisionRect;
             //8, 12 MN for making sprite move normally
             walkingAnimationBody.Update(gameTime, 8);
             walkingAnimationLegs.Update(gameTime, 12);
@@ -105,18 +109,16 @@ namespace Celwahit.GameObjects
             }
 
             position += velocity;
-            CollisionRectangle.X = (int)position.X;
-            CollisionRectangle.Y = (int)position.Y;
+            _collisionRect.X = (int)position.X;
+            _collisionRect.Y = (int)position.Y;
+
+            CollisionRect = _collisionRect;
         }
 
         public void StopJump()
         {
-            if(position.Y >= 300)
-            {
-                hasJumped = false;
-            }
+            hasJumped = false;
             velocity.Y = 0;
-
         }
 
         private void Jump()

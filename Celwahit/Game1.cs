@@ -105,8 +105,8 @@ namespace Celwahit
                 MouseClicked(mouseState.X, mouseState.Y);
             }
 
-            Debug.Write(" " + player.CollisionRectangle.X);
-            if (CollisionManager.CheckCollision(_groundRect, player.CollisionRectangle))
+            Debug.Write(" " + player.CollisionRect.Y);
+            if (CollisionManager.CheckCollision(_groundRect, player.CollisionRect))
             {
                 Debug.Write("yeet");
                 player.StopJump();

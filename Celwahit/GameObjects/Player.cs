@@ -109,6 +109,16 @@ namespace Celwahit.GameObjects
             CollisionRectangle.Y = (int)position.Y;
         }
 
+        public void StopJump()
+        {
+            if(position.Y >= 300)
+            {
+                hasJumped = false;
+            }
+            velocity.Y = 0;
+
+        }
+
         private void Jump()
         {
             if (!hasJumped)

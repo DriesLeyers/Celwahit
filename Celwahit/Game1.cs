@@ -109,6 +109,7 @@ namespace Celwahit
             if (CollisionManager.CheckCollision(_groundRect, player.CollisionRectangle))
             {
                 Debug.Write("yeet");
+                player.StopJump();
             }
 
             player.Update(gameTime);

@@ -12,12 +12,19 @@ namespace Celwahit
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-
+        #region player
+        Player player;
         Texture2D walkingPlayerBody;
         Texture2D walkingPlayerLegs;
-
         Texture2D idlePlayerBody;
         Texture2D idlePlayerLegs;
+        #endregion player
+
+        #region soldier
+        Soldier soldier;
+        Texture2D walkingSoldier;
+        Texture2D idleSoldier;
+        #endregion soldier
 
         private Texture2D startButton;
         private Vector2 startButtonPosition;
@@ -28,7 +35,7 @@ namespace Celwahit
 
         Rectangle _groundRect;
 
-        Player player;
+
 
         GameState gameState;
         enum GameState
@@ -76,12 +83,18 @@ namespace Celwahit
             idlePlayerBody = Content.Load<Texture2D>("Player/Fiolina_Top_Idle");
             idlePlayerLegs = Content.Load<Texture2D>("Player/Fiolina_Bot_Idle");
 
+            idleSoldier = Content.Load<Texture2D>("Soldier_Idle");
+            walkingSoldier = Content.Load<Texture2D>("Soldier_Walking");
+
+
+
             InitializeGameObjects();
         }
 
         private void InitializeGameObjects()
         {
             player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody, idlePlayerLegs);
+            soldier = new Soldier(idleSoldier, walkingSoldier);
         }
 
         protected override void Update(GameTime gameTime)
@@ -113,6 +126,7 @@ namespace Celwahit
             }
 
             player.Update(gameTime);
+            soldier.Update(gameTime);
             previousMouseState = mouseState;
 
             base.Update(gameTime);
@@ -131,6 +145,7 @@ namespace Celwahit
             if (gameState == GameState.Playing)
             {
                 player.Draw(_spriteBatch, gameTime);
+                soldier.Draw(_spriteBatch, gameTime);
             }
 
             _spriteBatch.End();

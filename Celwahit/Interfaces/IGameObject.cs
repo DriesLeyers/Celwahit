@@ -6,9 +6,16 @@ using System.Text;
 
 namespace Celwahit.Interfaces
 {
-    /// <summary>
-    /// Must be drawn to screen
-    /// </summary>
+    enum Direction
+    {
+        Idle,
+        Right,
+        Left,
+        Falling,
+        Jumping,
+        Crouching
+    };
+
     interface IGameObject
     {
         public void Update(GameTime gameTime)

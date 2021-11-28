@@ -8,6 +8,7 @@ namespace Celwahit.AnimationGameObjects
 {
     class AnimationFactory
     {
+        #region Player
         #region Idle
         public static Animation IdleAnimationPlayerBody(Texture2D idlePlayerBody)
         {
@@ -62,5 +63,38 @@ namespace Celwahit.AnimationGameObjects
             return animation;
         }
         #endregion Walking
+        #endregion Player
+
+        #region Soldier
+
+        public static Animation WalkingAnimationSoldier(Texture2D walkingSoldier)
+        {
+            Animation animation = new Animation();
+
+            int moveRectangle_X = 0;
+            for (int i = 0; i < 12; i++)
+            {
+                animation.AddFrame(new AnimationFrame(new Rectangle(moveRectangle_X, 0, 27, 41)));
+                moveRectangle_X += 27;
+            }
+
+            return animation;
+        }
+
+        public static Animation IdleAnimationSoldier(Texture2D IdleSoldier)
+        {
+            Animation animation = new Animation();
+
+            int moveRectangle_X = 0;
+            for (int i = 0; i < 6; i++)
+            {
+                animation.AddFrame(new AnimationFrame(new Rectangle(moveRectangle_X, 0, 27, 38)));
+                moveRectangle_X += 27;
+            }
+
+            return animation;
+        }
+
+        #endregion Soldier
     }
 }

@@ -7,6 +7,7 @@ using System.Text;
 using Celwahit.AnimationGameObjects;
 using Microsoft.Xna.Framework.Input;
 using Celwahit.Collisions;
+using Celwahit.InputReaders;
 
 namespace Celwahit.GameObjects
 {
@@ -32,23 +33,8 @@ namespace Celwahit.GameObjects
         //To get the sprites properly aligned
         Vector2 bodyOffset;
 
-        KeyboardState keyboardState;
-
         bool playerFlipped;
         bool hasJumped;
-
-
-  
-
-        enum Direction
-        {
-            Idle,
-            Right,
-            Left,
-            Falling,
-            Jumping,
-            Crouching
-        };
 
         Direction direction;
 
@@ -132,11 +118,10 @@ namespace Celwahit.GameObjects
             position += velocity;
         }
 
-        //TODO: KeyboardReader.cs maken
+
         private void Move()
         {
-            keyboardState = Keyboard.GetState();
-            Keys[] pressedKeys = keyboardState.GetPressedKeys();
+            Keys[] pressedKeys = KeyboardReader.GetKeys();
 
             if (!(pressedKeys.Length == 0))
             {
@@ -153,7 +138,6 @@ namespace Celwahit.GameObjects
                         direction = Direction.Left;
                         //velocity.X *= -1;
                         //Check tutorial 
-
                         acceleration.X = -0.25f;
                         playerFlipped = true;
                         Accelerate();
@@ -205,6 +189,8 @@ namespace Celwahit.GameObjects
 
             return vector;
         }
+
+        //TODO: drawFactory mss?
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             if (direction == Direction.Left)

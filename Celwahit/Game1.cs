@@ -35,8 +35,6 @@ namespace Celwahit
 
         Rectangle _groundRect;
 
-
-
         GameState gameState;
         enum GameState
         {
@@ -112,7 +110,7 @@ namespace Celwahit
             {
                 gameState = GameState.Playing;
             }
-
+            //TODO: gamestate veranderen
             if (previousMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released && gameState == GameState.StartMenu)
             {
                 MouseClicked(mouseState.X, mouseState.Y);

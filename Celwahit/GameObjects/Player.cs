@@ -59,7 +59,7 @@ namespace Celwahit.GameObjects
 
             position = new Vector2(150,150);
             velocity = new Vector2(1.5f,0);
-            acceleration = new Vector2(0.1f, 0.1f);
+            acceleration = new Vector2(0.0f, 0.0f);
             bodyOffset = new Vector2(0,10);
 
             CollisionRect = new Rectangle((int)position.X, (int)position.Y, 32, 80);
@@ -130,39 +130,41 @@ namespace Celwahit.GameObjects
 
                     case Keys.Right:
                         direction = Direction.Right;
-                        //velocity.X *= -1;
-                        acceleration.X = 0.25f;
+                        velocity.X = 1.5f;
+                        //acceleration.X = 0.25f;
                         playerFlipped = false;
-                        Accelerate();
+                        //Accelerate();
                         break;
                     case Keys.Left:
                         direction = Direction.Left;
-                        //velocity.X *= -1;
+                        velocity.X = -1.5f;
                         //Check tutorial 
-                        acceleration.X = -0.25f;
+                        //acceleration.X = -0.25f;
                         playerFlipped = true;
-                        Accelerate();
+                        //Accelerate();
                         break;
                     case Keys.Up:
                         direction = Direction.Jumping;
                         if (!hasJumped)
                             Jump();
-                        Accelerate();
+                        //Accelerate();
                         break;
                     case Keys.Down:
                         direction = Direction.Crouching;
                         break;
                     default:
-                        velocity = new Vector2(0, 0);
-                        acceleration = new Vector2(0, 0);
                         break;
                 }
+
                 position += velocity;
             }
             else
             {
                 direction = Direction.Idle;
-                Accelerate();
+                velocity.X = 0;
+                acceleration = new Vector2(0, 0);
+                //Accelerate();
+                position += velocity;
             }
         }
         //TODO: Movement.cs maken fzoeit

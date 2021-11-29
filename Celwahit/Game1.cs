@@ -101,17 +101,14 @@ namespace Celwahit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-
             mouseState = Mouse.GetState();
-
             KeyboardState keyboardState = Keyboard.GetState();
 
             if (gameState == GameState.StartMenu && keyboardState.IsKeyDown(Keys.Enter))
             {
                 gameState = GameState.Playing;
             }
-            //TODO: gamestate veranderen
-            if (previousMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released && gameState == GameState.StartMenu)
+            if (gameState == GameState.StartMenu && previousMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
             {
                 MouseClicked(mouseState.X, mouseState.Y);
             }
@@ -121,7 +118,7 @@ namespace Celwahit
                 Debug.Write(" " + player.CollisionRect.Y);
                 if (CollisionManager.CheckCollision(_groundRect, player.CollisionRect))
                 {
-                    Debug.Write("yeet");
+                    Debug.Write("hit ground");
                     player.StopJump();
                 }
 

@@ -134,39 +134,38 @@ namespace Celwahit.GameObjects
 
             if (!(pressedKeys.Length == 0))
             {
-                switch (pressedKeys[pressedKeys.Length - 1])
+                for(int i = 0; i < pressedKeys.Length; i++)
                 {
-                    case Keys.Right:
-                        direction = Direction.Right;
-                        velocity.X = 1.5f;
-                        //acceleration.X = 0.25f;
-                        playerFlipped = false;
-                        //Accelerate();
-                        break;
-                    case Keys.Left:
-                        direction = Direction.Left;
-                        velocity.X = -1.5f;
-                        //Check tutorial 
-                        //acceleration.X = -0.25f;
-                        playerFlipped = true;
-                        //Accelerate();
-                        break;
-                    case Keys.Up:
-                        direction = Direction.Jumping;
-                        if (!hasJumped)
-                            Jump();
-                        //Accelerate();
-                  
-                        
-                        break;
-                    case Keys.Down:
-                        direction = Direction.Crouching;
-                        break;
-                    default:
-                        break;
-                }
+                    switch (pressedKeys[i])
+                    {
+                        case Keys.Right:
+                            direction = Direction.Right;
+                            velocity.X = 1.5f;
+                            //acceleration.X = 0.25f;
+                            playerFlipped = false;
+                            //Accelerate();
+                            break;
+                        case Keys.Left:
+                            direction = Direction.Left;
+                            velocity.X = -1.5f;
+                            //Check tutorial 
+                            //acceleration.X = -0.25f;
+                            playerFlipped = true;
+                            //Accelerate();
+                            break;
+                        case Keys.Up:
+                            direction = Direction.Jumping;
+                            if (!hasJumped)
+                                Jump();
+                            //Accelerate();
+                            break;
+                        case Keys.Down:
+                            direction = Direction.Crouching;
+                            break;
+                    }
 
-                position += velocity;
+                    position += velocity;
+                }
             }
             else
             {

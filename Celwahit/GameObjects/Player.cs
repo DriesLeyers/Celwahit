@@ -27,7 +27,16 @@ namespace Celwahit.GameObjects
         //in da filmpje van collision heeft die en _collisionRect en CollisionRect
         public Rectangle CollisionRect { get; set; }
 
-        Vector2 position;
+        private Vector2 position;
+
+        public Vector2 Positition
+        {
+            get { return position; }
+            set { position = value; }
+        }
+
+
+        //Vector2 position;
         Vector2 velocity;
         Vector2 acceleration;
         //To get the sprites properly aligned
@@ -79,8 +88,8 @@ namespace Celwahit.GameObjects
 
             if (hasJumped)
             {
-                float i = 1;
-                velocity.Y += 0.15f * i;
+                //float i = 1;
+                velocity.Y += 0.15f * 1.0f;
             }
 
             //if(position.Y >= 300)
@@ -118,6 +127,7 @@ namespace Celwahit.GameObjects
         }
 
 
+
         private void Move()
         {
             Keys[] pressedKeys = KeyboardReader.GetKeys();
@@ -146,6 +156,8 @@ namespace Celwahit.GameObjects
                         if (!hasJumped)
                             Jump();
                         //Accelerate();
+                  
+                        
                         break;
                     case Keys.Down:
                         direction = Direction.Crouching;

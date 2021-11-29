@@ -128,7 +128,7 @@ namespace Celwahit
                 player.Update(gameTime);
                 soldier.Update(gameTime);
             }
-
+            //FollowPlayer();
             previousMouseState = mouseState;
 
             base.Update(gameTime);
@@ -168,6 +168,15 @@ namespace Celwahit
                     gameState = GameState.Playing;
                 }
             }
+        }
+
+
+        public void FollowPlayer()
+        {
+            Rectangle rectangle = GraphicsDevice.Viewport.Bounds;
+            rectangle.X = (int)((_graphics.PreferredBackBufferWidth / 2) - player.Positition.X - 17 * 2);
+            rectangle.Y = (int)((_graphics.PreferredBackBufferHeight / 2) - player.Positition.Y - 27 * 2);
+            GraphicsDevice.Viewport = new Viewport(rectangle);
         }
 
         void LoadGame()

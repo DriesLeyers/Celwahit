@@ -116,15 +116,19 @@ namespace Celwahit
                 MouseClicked(mouseState.X, mouseState.Y);
             }
 
-            Debug.Write(" " + player.CollisionRect.Y);
-            if (CollisionManager.CheckCollision(_groundRect, player.CollisionRect))
+            if(gameState == GameState.Playing)
             {
-                Debug.Write("yeet");
-                player.StopJump();
+                Debug.Write(" " + player.CollisionRect.Y);
+                if (CollisionManager.CheckCollision(_groundRect, player.CollisionRect))
+                {
+                    Debug.Write("yeet");
+                    player.StopJump();
+                }
+
+                player.Update(gameTime);
+                soldier.Update(gameTime);
             }
 
-            player.Update(gameTime);
-            soldier.Update(gameTime);
             previousMouseState = mouseState;
 
             base.Update(gameTime);

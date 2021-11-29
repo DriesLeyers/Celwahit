@@ -6,10 +6,12 @@ using System.Collections.Generic;
 using System.Text;
 using Celwahit.AnimationGameObjects;
 using Microsoft.Xna.Framework.Input;
+using Celwahit.Collisions;
+using Celwahit.InputReaders;
 
 namespace Celwahit.GameObjects
 {
-    public class Player : IGameObject
+    public class Player : IGameObject, ICollisionGameObject
     {
         Animation walkingAnimationBody;
         Animation walkingAnimationLegs;
@@ -22,29 +24,20 @@ namespace Celwahit.GameObjects
         Texture2D idlePlayerBody;
         Texture2D idlePlayerLegs;
 
+        //in da filmpje van collision heeft die en _collisionRect en CollisionRect
+        public Rectangle CollisionRect { get; set; }
+
         Vector2 position;
         Vector2 velocity;
         Vector2 acceleration;
         //To get the sprites properly aligned
         Vector2 bodyOffset;
 
-        KeyboardState keyboardState;
-
         bool playerFlipped;
         bool hasJumped;
 
-
-        enum Direction
-        {
-            Idle,
-            Right,
-            Left,
-            Falling,
-            Jumping,
-            Crouching
-        };
-
         Direction direction;
+
 
         public Player(Texture2D walkingPlayerBody, Texture2D walkingPlayerLegs, Texture2D idlePlayerBody, Texture2D idlePlayerLegs)
         {
@@ -69,10 +62,12 @@ namespace Celwahit.GameObjects
             acceleration = new Vector2(0.1f, 0.1f);
             bodyOffset = new Vector2(0,10);
 
+            CollisionRect = new Rectangle((int)position.X, (int)position.Y, 32, 80);
         }
 
         public void Update(GameTime gameTime)
         {
+            Rectangle _collisionRect = CollisionRect;
             //8, 12 MN for making sprite move normally
             walkingAnimationBody.Update(gameTime, 8);
             walkingAnimationLegs.Update(gameTime, 12);
@@ -88,10 +83,10 @@ namespace Celwahit.GameObjects
                 velocity.Y += 0.15f * i;
             }
 
-            if(position.Y >= 300)
-            {
-                hasJumped = false;
-            }
+            //if(position.Y >= 300)
+            //{
+            //    hasJumped = false;
+            //}
 
             if (!hasJumped)
             {
@@ -99,6 +94,16 @@ namespace Celwahit.GameObjects
             }
 
             position += velocity;
+            _collisionRect.X = (int)position.X;
+            _collisionRect.Y = (int)position.Y;
+
+            CollisionRect = _collisionRect;
+        }
+
+        public void StopJump()
+        {
+            hasJumped = false;
+            velocity.Y = 0;
         }
 
         private void Jump()
@@ -112,11 +117,10 @@ namespace Celwahit.GameObjects
             position += velocity;
         }
 
-        //TODO: KeyboardReader.cs maken
+
         private void Move()
         {
-            keyboardState = Keyboard.GetState();
-            Keys[] pressedKeys = keyboardState.GetPressedKeys();
+            Keys[] pressedKeys = KeyboardReader.GetKeys();
 
             if (!(pressedKeys.Length == 0))
             {
@@ -133,7 +137,6 @@ namespace Celwahit.GameObjects
                         direction = Direction.Left;
                         //velocity.X *= -1;
                         //Check tutorial 
-
                         acceleration.X = -0.25f;
                         playerFlipped = true;
                         Accelerate();
@@ -185,6 +188,8 @@ namespace Celwahit.GameObjects
 
             return vector;
         }
+
+        //TODO: drawFactory mss?
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             if (direction == Direction.Left)

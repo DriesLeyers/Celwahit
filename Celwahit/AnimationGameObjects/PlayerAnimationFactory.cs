@@ -1,5 +1,4 @@
-﻿using Celwahit.Interfaces;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -7,8 +6,9 @@ using System.Text;
 
 namespace Celwahit.AnimationGameObjects
 {
-    class PlayerAnimationFactory : IAnimationFactory
+    class AnimationFactory
     {
+        #region Player
         #region Idle
         public static Animation IdleAnimationPlayerBody(Texture2D idlePlayerBody)
         {
@@ -63,11 +63,38 @@ namespace Celwahit.AnimationGameObjects
             return animation;
         }
         #endregion Walking
-<<<<<<< Updated upstream:Celwahit/AnimationGameObjects/AnimationFactory.cs
-=======
         #endregion Player
 
+        #region Soldier
 
->>>>>>> Stashed changes:Celwahit/AnimationGameObjects/PlayerAnimationFactory.cs
+        public static Animation WalkingAnimationSoldier(Texture2D walkingSoldier)
+        {
+            Animation animation = new Animation();
+
+            int moveRectangle_X = 0;
+            for (int i = 0; i < 12; i++)
+            {
+                animation.AddFrame(new AnimationFrame(new Rectangle(moveRectangle_X, 0, 27, 41)));
+                moveRectangle_X += 27;
+            }
+
+            return animation;
+        }
+
+        public static Animation IdleAnimationSoldier(Texture2D IdleSoldier)
+        {
+            Animation animation = new Animation();
+
+            int moveRectangle_X = 0;
+            for (int i = 0; i < 6; i++)
+            {
+                animation.AddFrame(new AnimationFrame(new Rectangle(moveRectangle_X, 0, 27, 38)));
+                moveRectangle_X += 27;
+            }
+
+            return animation;
+        }
+
+        #endregion Soldier
     }
 }

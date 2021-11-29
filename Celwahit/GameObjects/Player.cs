@@ -151,8 +151,6 @@ namespace Celwahit.GameObjects
                         direction = Direction.Crouching;
                         break;
                     default:
-                        velocity = new Vector2(0, 0);
-                        acceleration = new Vector2(0, 0);
                         break;
                 }
 

@@ -126,6 +126,8 @@ namespace Celwahit.GameObjects
             {
                 switch (pressedKeys[pressedKeys.Length - 1])
                 {
+                    //TODO: RECHTS + SPRING GAAT NIET LINKS + SPRING WEL FIX
+
                     case Keys.Right:
                         direction = Direction.Right;
                         //velocity.X *= -1;

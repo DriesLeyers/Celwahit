@@ -124,39 +124,38 @@ namespace Celwahit.GameObjects
 
             if (!(pressedKeys.Length == 0))
             {
-                switch (pressedKeys[pressedKeys.Length - 1])
+                for(int i = 0; i < pressedKeys.Length; i++)
                 {
-                    //TODO: RECHTS + SPRING GAAT NIET LINKS + SPRING WEL FIX
+                    switch (pressedKeys[i])
+                    {
+                        case Keys.Right:
+                            direction = Direction.Right;
+                            velocity.X = 1.5f;
+                            //acceleration.X = 0.25f;
+                            playerFlipped = false;
+                            //Accelerate();
+                            break;
+                        case Keys.Left:
+                            direction = Direction.Left;
+                            velocity.X = -1.5f;
+                            //Check tutorial 
+                            //acceleration.X = -0.25f;
+                            playerFlipped = true;
+                            //Accelerate();
+                            break;
+                        case Keys.Up:
+                            direction = Direction.Jumping;
+                            if (!hasJumped)
+                                Jump();
+                            //Accelerate();
+                            break;
+                        case Keys.Down:
+                            direction = Direction.Crouching;
+                            break;
+                    }
 
-                    case Keys.Right:
-                        direction = Direction.Right;
-                        velocity.X = 1.5f;
-                        //acceleration.X = 0.25f;
-                        playerFlipped = false;
-                        //Accelerate();
-                        break;
-                    case Keys.Left:
-                        direction = Direction.Left;
-                        velocity.X = -1.5f;
-                        //Check tutorial 
-                        //acceleration.X = -0.25f;
-                        playerFlipped = true;
-                        //Accelerate();
-                        break;
-                    case Keys.Up:
-                        direction = Direction.Jumping;
-                        if (!hasJumped)
-                            Jump();
-                        //Accelerate();
-                        break;
-                    case Keys.Down:
-                        direction = Direction.Crouching;
-                        break;
-                    default:
-                        break;
+                    position += velocity;
                 }
-
-                position += velocity;
             }
             else
             {

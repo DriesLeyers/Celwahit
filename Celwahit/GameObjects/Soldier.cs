@@ -33,8 +33,8 @@ namespace Celwahit.GameObjects
             this.idleSoldier = idleSoldier;
             this.walkingSoldier = walkingSoldier;
 
-            walkingAnimation = AnimationFactory.WalkingAnimationSoldier(walkingSoldier);
-            idleAnimation = AnimationFactory.IdleAnimationSoldier(idleSoldier);
+            walkingAnimation = AnimationBuilder.WalkingAnimationSoldier(walkingSoldier);
+            idleAnimation = AnimationBuilder.IdleAnimationSoldier(idleSoldier);
 
             direction = Direction.Idle;
 

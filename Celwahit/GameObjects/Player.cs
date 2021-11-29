@@ -65,7 +65,6 @@ namespace Celwahit.GameObjects
             CollisionRect = new Rectangle((int)position.X, (int)position.Y, 32, 80);
         }
 
-
         public void Update(GameTime gameTime)
         {
             Rectangle _collisionRect = CollisionRect;

@@ -47,11 +47,11 @@ namespace Celwahit.GameObjects
             this.idlePlayerBody = idlePlayerBody;
             this.idlePlayerLegs = idlePlayerLegs;
 
-            walkingAnimationBody = AnimationFactory.WalkingAnimationPlayerBody(walkingPlayerBody);
-            walkingAnimationLegs = AnimationFactory.WalkingAnimationPlayerLegs(walkingPlayerLegs);
+            walkingAnimationBody = PlayerAnimationBuilder.WalkingAnimationBody(walkingPlayerBody);
+            walkingAnimationLegs = PlayerAnimationBuilder.WalkingAnimationLegs(walkingPlayerLegs);
 
-            idleAnimationBody = AnimationFactory.IdleAnimationPlayerBody(idlePlayerBody);
-            idleAnimationLegs = AnimationFactory.IdleAnimationPlayerLegs(idlePlayerLegs);
+            idleAnimationBody = PlayerAnimationBuilder.IdleAnimationBody(idlePlayerBody);
+            idleAnimationLegs = PlayerAnimationBuilder.IdleAnimationLegs(idlePlayerLegs);
 
             direction = Direction.Idle;
 

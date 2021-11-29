@@ -71,7 +71,6 @@ namespace Celwahit.GameObjects
 
         }
 
-
         public void Update(GameTime gameTime)
         {
             //8, 12 MN for making sprite move normally

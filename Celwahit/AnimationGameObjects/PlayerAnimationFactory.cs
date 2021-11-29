@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Celwahit.Interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace Celwahit.AnimationGameObjects
 {
-    class AnimationFactory
+    class PlayerAnimationFactory : IAnimationFactory
     {
         #region Idle
         public static Animation IdleAnimationPlayerBody(Texture2D idlePlayerBody)
@@ -62,5 +63,11 @@ namespace Celwahit.AnimationGameObjects
             return animation;
         }
         #endregion Walking
+<<<<<<< Updated upstream:Celwahit/AnimationGameObjects/AnimationFactory.cs
+=======
+        #endregion Player
+
+
+>>>>>>> Stashed changes:Celwahit/AnimationGameObjects/PlayerAnimationFactory.cs
     }
 }

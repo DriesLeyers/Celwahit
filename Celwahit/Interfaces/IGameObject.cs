@@ -18,13 +18,8 @@ namespace Celwahit.Interfaces
 
     interface IGameObject
     {
-        public void Update(GameTime gameTime)
-        {
+        public void Update(GameTime gameTime);
 
-        }
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
-        {
-
-        } 
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime);
     }
 }

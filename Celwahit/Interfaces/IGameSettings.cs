@@ -8,13 +8,13 @@ namespace Celwahit.Interfaces
 {
     interface IGameSettings
     {
-        public GraphicsDevice GraphicsDevice { get; set; }
 
-        public GraphicsDeviceManager GraphicsManager { get; set; }
+        public int WindowHeight { get; set; }
+        public int WindowWidth { get; set; }
+        public Vector2 StartButtonPos { get; set; }
 
-        public SpriteBatch SpriteBatch { get; set; }
-
-
+        public GraphicsDeviceManager Graphics { get; set; }
 
     }
 }
+

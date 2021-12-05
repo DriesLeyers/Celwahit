@@ -10,8 +10,11 @@ namespace Celwahit
 {
     public class Game1 : Game
     {
-        private GraphicsDeviceManager _graphics;
+        //private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
+        GameSettings gameSettings;
+
         #region player
         Player player;
         Texture2D walkingPlayerBody;
@@ -45,7 +48,9 @@ namespace Celwahit
 
         public Game1()
         {
-            _graphics = new GraphicsDeviceManager(this);
+
+            gameSettings = new GameSettings(new GraphicsDeviceManager(this));
+
             _groundRect = new Rectangle(0,300,1280,50);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -58,9 +63,9 @@ namespace Celwahit
 
             base.Initialize();
 
-            _graphics.PreferredBackBufferWidth = 1280;
-            _graphics.PreferredBackBufferHeight = 720;
-            _graphics.ApplyChanges();
+            gameSettings.Graphics.PreferredBackBufferWidth = 1280;
+            gameSettings.Graphics.PreferredBackBufferHeight = 720;
+            gameSettings.Graphics.ApplyChanges();
 
             IsMouseVisible = true;
             LoadGame();
@@ -179,6 +184,20 @@ namespace Celwahit
         void LoadGame()
         {
 
+        }
+
+        private void FollowPlayer()
+        {
+            var position = Matrix.CreateTranslation(-player.CollisionRect.X - (gameSettings.WindowWidth / 2), -player.CollisionRect.Y - (gameSettings.WindowHeight/ 2),
+0);
+
+            var offset = Matrix.CreateTranslation(
+                gameSettings.WindowWidth/ 2,
+                gameSettings.WindowHeight/ 2, 0);
+
+            var Transform = position * offset;
+
+            _spriteBatch.Begin(transformMatrix: Transform);
         }
     }
 }

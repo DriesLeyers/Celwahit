@@ -1,6 +1,8 @@
 ﻿using Celwahit.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,20 +11,19 @@ namespace Celwahit
 {
     class GameSettings : IGameSettings
     {
-        public GraphicsDevice GraphicsDevice { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public GraphicsDeviceManager GraphicsManager { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public SpriteBatch SpriteBatch { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public int ScreenWidth;
-        public int ScreenHeight;
+        public int WindowHeight { get ; set ; }
+        public int WindowWidth { get ; set ; }
+        public Vector2 StartButtonPos { get ; set; }
+        public GraphicsDeviceManager Graphics { get; set; }
 
-        public GameSettings(GraphicsDevice GD, GraphicsDeviceManager GM, SpriteBatch SB)
+        public GameSettings(GraphicsDeviceManager graphics)
         {
-            GraphicsDevice = GD;
-            GraphicsManager = GM;
-            SpriteBatch = SB;
+            this.Graphics = graphics;
 
-            
+            WindowHeight = graphics.PreferredBackBufferHeight;
+            WindowWidth = graphics.PreferredBackBufferWidth;
+
         }
     }
 }

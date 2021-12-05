@@ -11,7 +11,7 @@ using Celwahit.InputReaders;
 
 namespace Celwahit.GameObjects
 {
-    public class Player : IGameObject, ICollisionGameObject
+    public class Player : IGameObject //, ICollisionGameObject
     {
         Animation walkingAnimationBody;
         Animation walkingAnimationLegs;

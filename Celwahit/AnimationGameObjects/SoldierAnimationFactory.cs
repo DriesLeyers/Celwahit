@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Celwahit.AnimationGameObjects
 {
-    class SoldierAnimationFactory : IAnimationFactory
+    class SoldierAnimationFactory //: IAnimationFactory
     {
         #region Soldier
 

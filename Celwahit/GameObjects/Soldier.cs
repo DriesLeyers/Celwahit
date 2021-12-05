@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Celwahit.GameObjects
 {
-    class Soldier : ICollisionGameObject, IGameObject
+    class Soldier : IGameObject //, ICollisionGameObject
     {
         public Rectangle CollisionRect { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 

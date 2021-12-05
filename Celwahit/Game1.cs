@@ -3,6 +3,7 @@ using Celwahit.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections;
 using System.Diagnostics;
 using System.Threading;
 
@@ -29,6 +30,8 @@ namespace Celwahit
         Texture2D idleSoldier;
         #endregion soldier
 
+        private ArrayList tileList = new ArrayList();
+
         private Texture2D startButton;
         private Vector2 startButtonPosition;
 
@@ -48,7 +51,6 @@ namespace Celwahit
 
         public Game1()
         {
-
             gameSettings = new GameSettings(new GraphicsDeviceManager(this));
 
             _groundRect = new Rectangle(0,300,1280,50);

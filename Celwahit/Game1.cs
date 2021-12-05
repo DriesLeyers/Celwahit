@@ -98,6 +98,7 @@ namespace Celwahit
         {
             player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody, idlePlayerLegs);
             soldier = new Soldier(idleSoldier, walkingSoldier);
+
         }
 
         protected override void Update(GameTime gameTime)

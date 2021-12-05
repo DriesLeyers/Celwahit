@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 
@@ -30,7 +31,8 @@ namespace Celwahit
         Texture2D idleSoldier;
         #endregion soldier
 
-        private ArrayList tileList = new ArrayList();
+        private List<Rectangle> tileList = new List<Rectangle>();
+        Texture2D tile;
 
         private Texture2D startButton;
         private Vector2 startButtonPosition;
@@ -91,16 +93,25 @@ namespace Celwahit
             idleSoldier = Content.Load<Texture2D>("Soldier_Idle");
             walkingSoldier = Content.Load<Texture2D>("Soldier_Walking");
 
-
+            tile = Content.Load<Texture2D>("Tile");
 
             InitializeGameObjects();
+            InitializeTiles();
         }
 
         private void InitializeGameObjects()
         {
             player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody, idlePlayerLegs);
             soldier = new Soldier(idleSoldier, walkingSoldier);
+        }
 
+        private void InitializeTiles()
+        {
+            
+            for (int i = 0; i < 50; i++)
+            {
+                tileList.Add(new Rectangle(i*55,300,55,55));
+            }
         }
 
         protected override void Update(GameTime gameTime)
@@ -154,6 +165,11 @@ namespace Celwahit
             {
                 player.Draw(_spriteBatch, gameTime);
                 soldier.Draw(_spriteBatch, gameTime);
+                foreach(Rectangle rectangle in tileList)
+                {
+                    _spriteBatch.Draw(tile, startButtonPosition, rectangle, Color.White);
+                    startButtonPosition.X += 20;
+                }
             }
 
             _spriteBatch.End();

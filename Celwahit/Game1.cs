@@ -130,7 +130,7 @@ namespace Celwahit
                 player.Update(gameTime);
                 soldier.Update(gameTime);
             }
-            //FollowPlayer();
+            
             previousMouseState = mouseState;
 
             base.Update(gameTime);
@@ -139,7 +139,8 @@ namespace Celwahit
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            _spriteBatch.Begin();
+            FollowPlayer();
+            //_spriteBatch.Begin();
 
             if (gameState == GameState.StartMenu)
             {
@@ -172,15 +173,6 @@ namespace Celwahit
             }
         }
 
-
-        public void FollowPlayer()
-        {
-            Rectangle rectangle = GraphicsDevice.Viewport.Bounds;
-            rectangle.X = (int)((_graphics.PreferredBackBufferWidth / 2) - player.Positition.X - 17 * 2);
-            rectangle.Y = (int)((_graphics.PreferredBackBufferHeight / 2) - player.Positition.Y - 27 * 2);
-            GraphicsDevice.Viewport = new Viewport(rectangle);
-        }
-
         void LoadGame()
         {
 
@@ -188,8 +180,7 @@ namespace Celwahit
 
         private void FollowPlayer()
         {
-            var position = Matrix.CreateTranslation(-player.CollisionRect.X - (gameSettings.WindowWidth / 2), -player.CollisionRect.Y - (gameSettings.WindowHeight/ 2),
-0);
+            var position = Matrix.CreateTranslation(-player.CollisionRect.X - (player.CollisionRect.Width / 2), -player.CollisionRect.Y - (player.CollisionRect.Height / 2), 0);
 
             var offset = Matrix.CreateTranslation(
                 gameSettings.WindowWidth/ 2,
@@ -198,6 +189,7 @@ namespace Celwahit
             var Transform = position * offset;
 
             _spriteBatch.Begin(transformMatrix: Transform);
+            
         }
     }
 }

@@ -153,16 +153,18 @@ namespace Celwahit
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            FollowPlayer();
-            //_spriteBatch.Begin();
+            Matrix matrix = FollowPlayer();
 
             if (gameState == GameState.StartMenu)
             {
+                _spriteBatch.Begin();
                 _spriteBatch.Draw(startButton, new Vector2(0, 0), Color.White);
             }
 
             if (gameState == GameState.Playing)
             {
+                _spriteBatch.Begin(transformMatrix: matrix);
+
                 player.Draw(_spriteBatch, gameTime);
                 soldier.Draw(_spriteBatch, gameTime);
                 foreach(Rectangle rectangle in tileList)
@@ -197,7 +199,7 @@ namespace Celwahit
 
         }
 
-        private void FollowPlayer()
+        private Matrix FollowPlayer()
         {
             var position = Matrix.CreateTranslation(-player.CollisionRect.X - (player.CollisionRect.Width / 2), -player.CollisionRect.Y - (player.CollisionRect.Height / 2), 0);
 
@@ -207,7 +209,7 @@ namespace Celwahit
 
             var Transform = position * offset;
 
-            _spriteBatch.Begin(transformMatrix: Transform);
+            return Transform;
             
         }
     }

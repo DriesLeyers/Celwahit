@@ -25,6 +25,18 @@
 /processorParam:TextureFormat=Color
 /build:jungle_tileset.png
 
+#begin Mission1_Background3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Mission1_Background3.png
+
 #begin Player/Fiolina_Bot_Idle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -107,7 +119,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:plx-5.png;
+/build:plx-5.png
 
 #begin Soldier_Dead.png
 /importer:TextureImporter

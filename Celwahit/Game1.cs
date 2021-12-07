@@ -74,7 +74,6 @@ namespace Celwahit
             gameSettings.Graphics.ApplyChanges();
 
             IsMouseVisible = true;
-            LoadGame();
 
             startButtonPosition = new Vector2(450, 554);
             gameState = GameState.StartMenu;
@@ -122,7 +121,6 @@ namespace Celwahit
 
         protected override void Update(GameTime gameTime)
         {
-            //TODO: start screen apart in class zettten.
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -199,12 +197,7 @@ namespace Celwahit
                 }
             }
         }
-
-        void LoadGame()
-        {
-
-        }
-
+   
         private Matrix FollowPlayer()
         {
             var position = Matrix.CreateTranslation(-player.CollisionRect.X - (player.CollisionRect.Width / 2), -player.CollisionRect.Y - (player.CollisionRect.Height / 2), 0);

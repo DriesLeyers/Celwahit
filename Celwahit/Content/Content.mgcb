@@ -13,7 +13,7 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin jungle tileset.png
+#begin jungle_tileset.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -23,7 +23,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:jungle tileset.png;tiles.png
+/build:jungle_tileset.png
 
 #begin Player/Fiolina_Bot_Idle.png
 /importer:TextureImporter
@@ -107,7 +107,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:plx-5.png;background-lvl1.png
+/build:plx-5.png;
 
 #begin Soldier_Dead.png
 /importer:TextureImporter

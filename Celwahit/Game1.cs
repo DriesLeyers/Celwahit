@@ -94,11 +94,11 @@ namespace Celwahit
             idleSoldier = Content.Load<Texture2D>("Soldier_Idle");
             walkingSoldier = Content.Load<Texture2D>("Soldier_Walking");
 
-            backgroundGround = Content.Load<Texture2D>("Mission1_Background2");
+            backgroundGround = Content.Load<Texture2D>("plx-5");
 
 
 
-            tile = Content.Load<Texture2D>("Tile");
+            tile = Content.Load<Texture2D>("jungle_tileset");
 
             InitializeGameObjects();
             InitializeTiles();

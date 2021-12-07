@@ -113,6 +113,9 @@ namespace Celwahit
             skybox = new Skybox(skyboxTexture);
             _groundRect.Y = (int)(background.height * gameSettings.GetWindowScale()[0]) - 50;
 
+            background = new Background(backgroundTexture);
+            _groundRect.Y = (int)(background.height * gameSettings.GetWindowScale()[0]) - 50;
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -122,8 +125,8 @@ namespace Celwahit
 
             mouseState = Mouse.GetState();
 
-            Debug.Write("Mousepos.X: " + mouseState.X + "\n"
-            + "Mousepos.Y: " + mouseState.Y + "\n");
+            //Debug.Write("Mousepos.X: " + mouseState.X + "\n"
+            //+ "Mousepos.Y: " + mouseState.Y + "\n");
 
             if (gameState == GameState.StartMenu)
             {
@@ -133,14 +136,22 @@ namespace Celwahit
 
             if (gameState == GameState.Playing)
             {
-                Debug.Write("\n" + player.CollisionRect.Y + "\n");
+                //Debug.Write("\n" + player.CollisionRect.Y + "\n");
                 if (CollisionManager.CheckCollision(_groundRect, player.CollisionRect))
                 {
-                    Debug.Write("hit ground");
+                    Debug.WriteLine("hit ground");
                     player.StopJump();
                 }
 
                 player.Update(gameTime);
+                foreach (CollisionTiles tile in map.CollisionTiles)
+                    if (CollisionManager.CheckCollision(tile.Rectangle, player.CollisionRect))
+                    {
+
+                        player.Collision(tile.Rectangle, map.Width, map.Height);
+
+                    }
+
                 soldier.Update(gameTime);
             }
 
@@ -164,7 +175,7 @@ namespace Celwahit
                 _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, transformMatrix: matrix);
                 //_spriteBatch.Draw(backgroundTexture, new Vector2(0, 0), Color.White);
                 float[] tmep = gameSettings.GetWindowScale();
-                Debug.Write(tmep);
+                //Debug.WriteLine(tmep);
                 skybox.Draw(_spriteBatch, tmep[0]);
                 background.Draw(_spriteBatch, tmep[0]);
                 player.Draw(_spriteBatch, gameTime);
@@ -196,8 +207,21 @@ namespace Celwahit
         {
             int[,] mapArray = new int[,]
             {
-                { 0,0,0,0,0,0,0,0,0,0,0,0,},
-                { 1,1,1,1,1,1,1,1,1,1,1,1,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
             };
 
             return mapArray;

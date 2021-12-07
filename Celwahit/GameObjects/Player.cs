@@ -8,6 +8,7 @@ using Celwahit.AnimationGameObjects;
 using Microsoft.Xna.Framework.Input;
 using Celwahit.Collisions;
 using Celwahit.InputReaders;
+using System.Diagnostics;
 
 namespace Celwahit.GameObjects
 {
@@ -27,7 +28,9 @@ namespace Celwahit.GameObjects
         //in da filmpje van collision heeft die en _collisionRect en CollisionRect
         public Rectangle CollisionRect { get; set; }
 
-        private Vector2 position;
+        private Rectangle rectangle;
+
+        private Vector2 position = new Vector2(64, 384);
 
         public Vector2 Positition
         {
@@ -72,6 +75,11 @@ namespace Celwahit.GameObjects
             bodyOffset = new Vector2(0,10);
 
             CollisionRect = new Rectangle((int)position.X, (int)position.Y, 32, 80);
+
+            rectangle = new Rectangle((int)position.X, (int)position.Y, 32, 38);
+
+            if (velocity.Y < 10)
+                velocity.Y += 0.4f;
         }
 
         public void Update(GameTime gameTime)
@@ -109,6 +117,7 @@ namespace Celwahit.GameObjects
 
         private void Jump()
         {
+            Debug.WriteLine("Jump");
             if (!hasJumped)
             {
                 position.Y -= 10f;
@@ -221,6 +230,49 @@ namespace Celwahit.GameObjects
                 }
             }
 
+        }
+
+        public void Collision(Rectangle newRectangle, int xOffset, int yOffset)
+        {
+            rectangle.X = (int)position.X;
+            rectangle.Y = (int)position.Y;
+
+            if (rectangle.TouchLeftOf(newRectangle))
+            {
+                Debug.WriteLine("left");
+
+                position.X = newRectangle.X - rectangle.Width - 10;
+            } else
+
+            if (rectangle.TouchTopOf(newRectangle))
+            {
+                Debug.WriteLine("top");
+
+                position.Y = newRectangle.Y - 38;
+                velocity.Y = 0f;
+                hasJumped = false;
+            }
+
+            
+
+            if (rectangle.TouchRightOf(newRectangle))
+            {
+                Debug.WriteLine("right");
+
+                //position.X = newRectangle.X + newRectangle.Width + 2;
+            }
+
+            if (rectangle.TouchBottomOf(newRectangle))
+            {
+                Debug.WriteLine("bottom");
+
+                velocity.Y = 1f;
+            }
+
+            if (position.X < 0) position.X = 0;
+            if (position.X > xOffset - rectangle.Width) position.X = xOffset - rectangle.Width;
+            if (position.Y < 0) velocity.Y = 1f;
+            if (position.Y > yOffset - rectangle.Height) position.Y = yOffset - rectangle.Height;
         }
     }
 }

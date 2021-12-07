@@ -22,7 +22,7 @@ namespace Celwahit
 
         public int Height
         {
-            get { return Height; }
+            get { return height; }
         }
 
         public Map()

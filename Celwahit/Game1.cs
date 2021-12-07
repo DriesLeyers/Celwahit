@@ -32,7 +32,9 @@ namespace Celwahit
         #endregion soldier
 
         private List<Rectangle> tileList = new List<Rectangle>();
+        
         Texture2D tile;
+        Texture2D backgroundGround;
 
         private Texture2D startButton;
         private Vector2 startButtonPosition;
@@ -92,6 +94,10 @@ namespace Celwahit
 
             idleSoldier = Content.Load<Texture2D>("Soldier_Idle");
             walkingSoldier = Content.Load<Texture2D>("Soldier_Walking");
+
+            backgroundGround = Content.Load<Texture2D>("Mission1_Background2");
+
+
 
             tile = Content.Load<Texture2D>("Tile");
 
@@ -164,7 +170,7 @@ namespace Celwahit
             if (gameState == GameState.Playing)
             {
                 _spriteBatch.Begin(transformMatrix: matrix);
-
+                _spriteBatch.Draw(backgroundGround, new Vector2(0, 0), Color.White);
                 player.Draw(_spriteBatch, gameTime);
                 soldier.Draw(_spriteBatch, gameTime);
                 foreach(Rectangle rectangle in tileList)

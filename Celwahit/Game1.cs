@@ -17,7 +17,6 @@ namespace Celwahit
 
         GameSettings gameSettings;
         Background background;
-        Skybox skybox;
 
         #region player
         Player player;
@@ -34,7 +33,6 @@ namespace Celwahit
         #endregion soldier
 
         Texture2D backgroundTexture;
-        Texture2D skyboxTexture;
 
         private Texture2D startButton;
 
@@ -57,7 +55,7 @@ namespace Celwahit
         {
             gameSettings = new GameSettings(new GraphicsDeviceManager(this));
 
-            _groundRect = new Rectangle(0, 0, 1280, 50);
+            _groundRect = new Rectangle(0, 0, 1280, 100);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -100,7 +98,6 @@ namespace Celwahit
             walkingSoldier = Content.Load<Texture2D>("Soldier_Walking");
 
             backgroundTexture = Content.Load<Texture2D>("plx-5");
-            skyboxTexture = Content.Load<Texture2D>("Mission1_Background3");
 
             InitializeGameObjects();
         }
@@ -109,11 +106,8 @@ namespace Celwahit
         {
             player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody, idlePlayerLegs);
             soldier = new Soldier(idleSoldier, walkingSoldier);
-
             background = new Background(backgroundTexture);
-            skybox = new Skybox(skyboxTexture);
-            _groundRect.Y = (int)(background.height*gameSettings.GetWindowScale()[0])-50;
-
+            _groundRect.Y = (int)(background.height * gameSettings.GetWindowScale()[0]) - 50;
 
         }
 
@@ -126,8 +120,8 @@ namespace Celwahit
 
             Debug.Write("Mousepos.X: " + mouseState.X + "\n"
             + "Mousepos.Y: " + mouseState.Y + "\n");
-            
-            if(gameState == GameState.StartMenu)
+
+            if (gameState == GameState.StartMenu)
             {
                 if (startScreen.CheckIfWantToPlay(previousMouseState))
                     gameState = GameState.Playing;
@@ -158,16 +152,16 @@ namespace Celwahit
 
             if (gameState == GameState.StartMenu)
             {
-                startScreen.DrawVectorStartButton(startButton, _spriteBatch);                
+                startScreen.DrawVectorStartButton(startButton, _spriteBatch);
             }
 
             if (gameState == GameState.Playing)
             {
-                _spriteBatch.Begin(SpriteSortMode.Deferred,null, SamplerState.PointClamp, transformMatrix: matrix);
+                _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, transformMatrix: matrix);
                 //_spriteBatch.Draw(backgroundTexture, new Vector2(0, 0), Color.White);
                 float[] tmep = gameSettings.GetWindowScale();
                 Debug.Write(tmep);
-                skybox.Draw(_spriteBatch, tmep[0]);
+
                 background.Draw(_spriteBatch, tmep[0]);
                 player.Draw(_spriteBatch, gameTime);
                 soldier.Draw(_spriteBatch, gameTime);
@@ -179,19 +173,19 @@ namespace Celwahit
 
             base.Draw(gameTime);
         }
-   
+
         private Matrix FollowPlayer()
         {
             var position = Matrix.CreateTranslation(-player.CollisionRect.X - (player.CollisionRect.Width / 2),/* -player.CollisionRect.Y - (player.CollisionRect.Height / 2)*/ 0, 0);
 
             var offset = Matrix.CreateTranslation(
-                gameSettings.WindowWidth/ 2,
-                gameSettings.WindowHeight/ 2, 0);
+                gameSettings.WindowWidth / 2,
+                gameSettings.WindowHeight / 2, 0);
 
             var Transform = position * offset;
 
             return Transform;
-            
+
         }
 
         private int[,] makeMap()

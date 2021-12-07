@@ -52,6 +52,7 @@ namespace Celwahit
             gameSettings = new GameSettings(new GraphicsDeviceManager(this));
 
             _groundRect = new Rectangle(0,300,1280,50);
+
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -98,6 +99,11 @@ namespace Celwahit
         {
             player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody, idlePlayerLegs);
             soldier = new Soldier(idleSoldier, walkingSoldier);
+
+
+            background = new Background(backgroundTexture);
+            _groundRect.Y = (int)(background.height * gameSettings.GetWindowScale()[0]) - 50;
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -121,11 +127,19 @@ namespace Celwahit
                 MouseClicked(mouseState.X, mouseState.Y);
             }
 
+
             Debug.Write(" " + player.CollisionRect.Y);
             if (CollisionManager.CheckCollision(_groundRect, player.CollisionRect))
             {
                 Debug.Write("yeet");
                 player.StopJump();
+
+                player.Update(gameTime);
+                foreach (CollisionTiles tile in map.CollisionTiles)
+                    player.Collision(tile.Rectangle, map.Width, map.Height);
+
+                soldier.Update(gameTime);
+
             }
 
             player.Update(gameTime);
@@ -178,6 +192,7 @@ namespace Celwahit
 
         private void FollowPlayer()
         {
+
             var position = Matrix.CreateTranslation(-player.CollisionRect.X - (gameSettings.WindowWidth / 2), -player.CollisionRect.Y - (gameSettings.WindowHeight/ 2),
 0);
 
@@ -186,6 +201,26 @@ namespace Celwahit
                 gameSettings.WindowHeight/ 2, 0);
 
             var Transform = position * offset;
+
+            int[,] mapArray = new int[,]
+            {
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
+            };
+
 
             _spriteBatch.Begin(transformMatrix: Transform);
         }

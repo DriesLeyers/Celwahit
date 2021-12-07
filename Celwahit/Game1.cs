@@ -17,6 +17,7 @@ namespace Celwahit
 
         GameSettings gameSettings;
         Background background;
+        Skybox skybox;
 
         #region player
         Player player;
@@ -33,6 +34,7 @@ namespace Celwahit
         #endregion soldier
 
         Texture2D backgroundTexture;
+        Texture2D skyboxTexture;
 
         private Texture2D startButton;
 
@@ -98,6 +100,7 @@ namespace Celwahit
             walkingSoldier = Content.Load<Texture2D>("Soldier_Walking");
 
             backgroundTexture = Content.Load<Texture2D>("plx-5");
+            skyboxTexture = Content.Load<Texture2D>("Mission1_Background3");
 
             InitializeGameObjects();
         }
@@ -106,8 +109,11 @@ namespace Celwahit
         {
             player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody, idlePlayerLegs);
             soldier = new Soldier(idleSoldier, walkingSoldier);
-            background = new Background(backgroundTexture, 384, 216);
+
+            background = new Background(backgroundTexture);
+            skybox = new Skybox(skyboxTexture);
             _groundRect.Y = (int)(background.height*gameSettings.GetWindowScale()[0])-50;
+
 
         }
 
@@ -161,7 +167,7 @@ namespace Celwahit
                 //_spriteBatch.Draw(backgroundTexture, new Vector2(0, 0), Color.White);
                 float[] tmep = gameSettings.GetWindowScale();
                 Debug.Write(tmep);
-
+                skybox.Draw(_spriteBatch, tmep[0]);
                 background.Draw(_spriteBatch, tmep[0]);
                 player.Draw(_spriteBatch, gameTime);
                 soldier.Draw(_spriteBatch, gameTime);

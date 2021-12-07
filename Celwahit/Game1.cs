@@ -110,7 +110,7 @@ namespace Celwahit
             player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody, idlePlayerLegs);
             soldier = new Soldier(idleSoldier, walkingSoldier);
             background = new Background(backgroundTexture, 384, 216);
-            _groundRect.Y = (int)(background.height*gameSettings.GetWindowScale()[0])-50;
+            _groundRect.Y = (int)(background.height*gameSettings.GetWindowScale()[0]);
 
         }
 

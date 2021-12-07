@@ -66,7 +66,7 @@ namespace Celwahit.GameObjects
 
             hasJumped = true;
 
-            position = new Vector2(150,150);
+            position = new Vector2(0,0);
             velocity = new Vector2(1.5f,0);
             acceleration = new Vector2(0.0f, 0.0f);
             bodyOffset = new Vector2(0,10);
@@ -84,18 +84,10 @@ namespace Celwahit.GameObjects
             idleAnimationLegs.Update(gameTime, 12);
             Move();
 
-            //Jump();
-
             if (hasJumped)
             {
-                //float i = 1;
                 velocity.Y += 0.15f * 1.0f;
             }
-
-            //if(position.Y >= 300)
-            //{
-            //    hasJumped = false;
-            //}
 
             if (!hasJumped)
             {

@@ -16,6 +16,7 @@ namespace Celwahit
         private SpriteBatch _spriteBatch;
 
         GameSettings gameSettings;
+        Background background;
 
         #region player
         Player player;
@@ -34,7 +35,7 @@ namespace Celwahit
         private List<Rectangle> tileList = new List<Rectangle>();
         
         Texture2D tile;
-        Texture2D backgroundGround;
+        Texture2D backgroundTexture;
 
         private Texture2D startButton;
         private Vector2 startButtonPosition;
@@ -57,7 +58,7 @@ namespace Celwahit
         {
             gameSettings = new GameSettings(new GraphicsDeviceManager(this));
 
-            _groundRect = new Rectangle(0,300,1280,50);
+            _groundRect = new Rectangle(0, 0, 1280, 50);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -94,7 +95,7 @@ namespace Celwahit
             idleSoldier = Content.Load<Texture2D>("Soldier_Idle");
             walkingSoldier = Content.Load<Texture2D>("Soldier_Walking");
 
-            backgroundGround = Content.Load<Texture2D>("plx-5");
+            backgroundTexture = Content.Load<Texture2D>("plx-5");
 
 
 
@@ -108,6 +109,9 @@ namespace Celwahit
         {
             player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody, idlePlayerLegs);
             soldier = new Soldier(idleSoldier, walkingSoldier);
+            background = new Background(backgroundTexture, 384, 216);
+            _groundRect.Y = (int)(background.height*gameSettings.GetWindowScale()[0])-50;
+
         }
 
         private void InitializeTiles()
@@ -136,9 +140,12 @@ namespace Celwahit
                 MouseClicked(mouseState.X, mouseState.Y);
             }
 
+            Debug.Write("Mousepos.X: " + mouseState.X + "\n"
+                + "Mousepos.Y: " + mouseState.Y + "\n");
+
             if(gameState == GameState.Playing)
             {
-                Debug.Write(" " + player.CollisionRect.Y);
+                Debug.Write("\n" + player.CollisionRect.Y + "\n");
                 if (CollisionManager.CheckCollision(_groundRect, player.CollisionRect))
                 {
                     Debug.Write("hit ground");
@@ -167,8 +174,11 @@ namespace Celwahit
 
             if (gameState == GameState.Playing)
             {
-                _spriteBatch.Begin(transformMatrix: matrix);
-                _spriteBatch.Draw(backgroundGround, new Vector2(0, 0), Color.White);
+                _spriteBatch.Begin(SpriteSortMode.Deferred,null, SamplerState.PointClamp, transformMatrix: matrix);
+                //_spriteBatch.Draw(backgroundTexture, new Vector2(0, 0), Color.White);
+                float[] tmep = gameSettings.GetWindowScale();
+                Debug.Write(tmep);
+                background.Draw(_spriteBatch, tmep[0]);
                 player.Draw(_spriteBatch, gameTime);
                 soldier.Draw(_spriteBatch, gameTime);
                 foreach(Rectangle rectangle in tileList)
@@ -200,7 +210,7 @@ namespace Celwahit
    
         private Matrix FollowPlayer()
         {
-            var position = Matrix.CreateTranslation(-player.CollisionRect.X - (player.CollisionRect.Width / 2), -player.CollisionRect.Y - (player.CollisionRect.Height / 2), 0);
+            var position = Matrix.CreateTranslation(-player.CollisionRect.X - (player.CollisionRect.Width / 2),/* -player.CollisionRect.Y - (player.CollisionRect.Height / 2)*/ 0, 0);
 
             var offset = Matrix.CreateTranslation(
                 gameSettings.WindowWidth/ 2,

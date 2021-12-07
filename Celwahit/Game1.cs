@@ -107,14 +107,11 @@ namespace Celwahit
         {
             player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody, idlePlayerLegs);
             soldier = new Soldier(idleSoldier, walkingSoldier);
-<<<<<<< Updated upstream
-            background = new Background(backgroundTexture, 384, 216);
-            _groundRect.Y = (int)(background.height*gameSettings.GetWindowScale()[0]);
-=======
+
             background = new Background(backgroundTexture);
             skybox = new Skybox(skyboxTexture);
             _groundRect.Y = (int)(background.height*gameSettings.GetWindowScale()[0])-50;
->>>>>>> Stashed changes
+
 
         }
 

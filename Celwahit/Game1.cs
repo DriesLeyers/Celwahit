@@ -3,8 +3,6 @@ using Celwahit.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 
@@ -14,6 +12,8 @@ namespace Celwahit
     {
         //private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
+        Map map;
 
         GameSettings gameSettings;
         Background background;
@@ -32,14 +32,10 @@ namespace Celwahit
         Texture2D idleSoldier;
         #endregion soldier
 
-        private List<Rectangle> tileList = new List<Rectangle>();
-        
-        Texture2D tile;
         Texture2D backgroundTexture;
 
         private Texture2D startButton;
 
-        private Thread backgroundThread;
         MouseState mouseState;
         MouseState previousMouseState;
 
@@ -66,6 +62,8 @@ namespace Celwahit
 
         protected override void Initialize()
         {
+            map = new Map();
+
             mouseState = Mouse.GetState();
             previousMouseState = mouseState;
 
@@ -82,6 +80,12 @@ namespace Celwahit
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            Tiles.Content = Content;
+
+            int[,] mapArray = makeMap();
+
+            map.Generate(mapArray, 32);
+
             startButton = Content.Load<Texture2D>("startscherm");
 
             walkingPlayerLegs = Content.Load<Texture2D>("Player/Fiolina_Bot_Walking");
@@ -94,8 +98,6 @@ namespace Celwahit
             walkingSoldier = Content.Load<Texture2D>("Soldier_Walking");
 
             backgroundTexture = Content.Load<Texture2D>("plx-5");
-
-            tile = Content.Load<Texture2D>("jungle_tileset");
 
             InitializeGameObjects();
         }
@@ -163,6 +165,8 @@ namespace Celwahit
                 background.Draw(_spriteBatch, tmep[0]);
                 player.Draw(_spriteBatch, gameTime);
                 soldier.Draw(_spriteBatch, gameTime);
+
+                map.Draw(_spriteBatch);
             }
 
             _spriteBatch.End();
@@ -182,6 +186,17 @@ namespace Celwahit
 
             return Transform;
             
+        }
+
+        private int[,] makeMap()
+        {
+            int[,] mapArray = new int[,]
+            {
+                { 0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 1,1,1,1,1,1,1,1,1,1,1,1,},
+            };
+
+            return mapArray;
         }
     }
 }

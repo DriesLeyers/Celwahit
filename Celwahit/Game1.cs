@@ -38,7 +38,6 @@ namespace Celwahit
         Texture2D backgroundTexture;
 
         private Texture2D startButton;
-        private Vector2 startButtonPosition;
 
         private Thread backgroundThread;
         MouseState mouseState;
@@ -53,6 +52,8 @@ namespace Celwahit
             Playing,
             Paused
         }
+
+        StartScreen startScreen;
 
         public Game1()
         {
@@ -70,13 +71,10 @@ namespace Celwahit
 
             base.Initialize();
 
-            gameSettings.Graphics.PreferredBackBufferWidth = 1280;
-            gameSettings.Graphics.PreferredBackBufferHeight = 720;
-            gameSettings.Graphics.ApplyChanges();
+            startScreen = new StartScreen(gameSettings);
 
             IsMouseVisible = true;
 
-            startButtonPosition = new Vector2(450, 554);
             gameState = GameState.StartMenu;
         }
 
@@ -97,12 +95,9 @@ namespace Celwahit
 
             backgroundTexture = Content.Load<Texture2D>("plx-5");
 
-
-
             tile = Content.Load<Texture2D>("jungle_tileset");
 
             InitializeGameObjects();
-            InitializeTiles();
         }
 
         private void InitializeGameObjects()
@@ -114,36 +109,23 @@ namespace Celwahit
 
         }
 
-        private void InitializeTiles()
-        {
-            
-            for (int i = 0; i < 50; i++)
-            {
-                tileList.Add(new Rectangle(i*55,300,55,55));
-            }
-        }
-
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             mouseState = Mouse.GetState();
-            KeyboardState keyboardState = Keyboard.GetState();
-
-            if (gameState == GameState.StartMenu && keyboardState.IsKeyDown(Keys.Enter))
-            {
-                gameState = GameState.Playing;
-            }
-            if (gameState == GameState.StartMenu && previousMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
-            {
-                MouseClicked(mouseState.X, mouseState.Y);
-            }
 
             Debug.Write("Mousepos.X: " + mouseState.X + "\n"
-                + "Mousepos.Y: " + mouseState.Y + "\n");
+            + "Mousepos.Y: " + mouseState.Y + "\n");
+            
+            if(gameState == GameState.StartMenu)
+            {
+                if (startScreen.CheckIfWantToPlay(previousMouseState))
+                    gameState = GameState.Playing;
+            }
 
-            if(gameState == GameState.Playing)
+            if (gameState == GameState.Playing)
             {
                 Debug.Write("\n" + player.CollisionRect.Y + "\n");
                 if (CollisionManager.CheckCollision(_groundRect, player.CollisionRect))
@@ -155,7 +137,7 @@ namespace Celwahit
                 player.Update(gameTime);
                 soldier.Update(gameTime);
             }
-            
+
             previousMouseState = mouseState;
 
             base.Update(gameTime);
@@ -168,8 +150,7 @@ namespace Celwahit
 
             if (gameState == GameState.StartMenu)
             {
-                _spriteBatch.Begin();
-                _spriteBatch.Draw(startButton, new Vector2(0, 0), Color.White);
+                startScreen.DrawVectorStartButton(startButton, _spriteBatch);                
             }
 
             if (gameState == GameState.Playing)
@@ -178,34 +159,15 @@ namespace Celwahit
                 //_spriteBatch.Draw(backgroundTexture, new Vector2(0, 0), Color.White);
                 float[] tmep = gameSettings.GetWindowScale();
                 Debug.Write(tmep);
+
                 background.Draw(_spriteBatch, tmep[0]);
                 player.Draw(_spriteBatch, gameTime);
                 soldier.Draw(_spriteBatch, gameTime);
-                foreach(Rectangle rectangle in tileList)
-                {
-                    _spriteBatch.Draw(tile, startButtonPosition, rectangle, Color.White);
-                    startButtonPosition.X += 20;
-                }
             }
 
             _spriteBatch.End();
 
             base.Draw(gameTime);
-        }
-
-        void MouseClicked(int x, int y)
-        {
-            Rectangle mouseClickRect = new Rectangle(x, y, 10, 10);
-
-            if (gameState == GameState.StartMenu)
-            {
-                Rectangle startButtonRect = new Rectangle((int)startButtonPosition.X, (int)startButtonPosition.Y, 375, 100);
-
-                if (mouseClickRect.Intersects(startButtonRect))
-                {
-                    gameState = GameState.Playing;
-                }
-            }
         }
    
         private Matrix FollowPlayer()

@@ -267,5 +267,6 @@ namespace Celwahit.GameObjects
             if (position.Y < 0) velocity.Y = 1f;
             if (position.Y > yOffset - rectangle.Height) position.Y = yOffset - rectangle.Height;
         }
+
     }
 }

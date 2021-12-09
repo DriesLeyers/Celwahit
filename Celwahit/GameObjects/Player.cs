@@ -69,10 +69,10 @@ namespace Celwahit.GameObjects
 
             hasJumped = true;
 
-            position = new Vector2(0,0);
-            velocity = new Vector2(1.5f,0);
+            position = new Vector2(0, 0);
+            velocity = new Vector2(1.5f, 0);
             acceleration = new Vector2(0.0f, 0.0f);
-            bodyOffset = new Vector2(0,10);
+            bodyOffset = new Vector2(0, 10);
 
             CollisionRect = new Rectangle((int)position.X, (int)position.Y, 32, 80);
 
@@ -121,13 +121,11 @@ namespace Celwahit.GameObjects
             if (!hasJumped)
             {
                 position.Y -= 10f;
-                velocity.Y = -5f;
+                velocity.Y = -2.5f;
             }
             hasJumped = true;
             position += velocity;
         }
-
-
 
         private void Move()
         {
@@ -135,7 +133,7 @@ namespace Celwahit.GameObjects
 
             if (!(pressedKeys.Length == 0))
             {
-                for(int i = 0; i < pressedKeys.Length; i++)
+                for (int i = 0; i < pressedKeys.Length; i++)
                 {
                     switch (pressedKeys[i])
                     {
@@ -182,7 +180,7 @@ namespace Celwahit.GameObjects
         {
             velocity += acceleration;
             velocity = Limit(velocity, 1.5f);
-            
+
         }
 
         /// <summary>
@@ -208,15 +206,15 @@ namespace Celwahit.GameObjects
         {
             if (direction == Direction.Left)
             {
-                spriteBatch.Draw(walkingPlayerLegs,position + bodyOffset, walkingAnimationLegs.CurrentFrame.SourceRect, Color.White,0f,new Vector2(0,0),1, SpriteEffects.FlipHorizontally,1f);
+                spriteBatch.Draw(walkingPlayerLegs, position + bodyOffset, walkingAnimationLegs.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
                 spriteBatch.Draw(walkingPlayerBody, position, walkingAnimationBody.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
             }
-            else if(direction == Direction.Right)
+            else if (direction == Direction.Right)
             {
                 spriteBatch.Draw(walkingPlayerLegs, position + bodyOffset, walkingAnimationLegs.CurrentFrame.SourceRect, Color.White);
                 spriteBatch.Draw(walkingPlayerBody, position, walkingAnimationBody.CurrentFrame.SourceRect, Color.White);
             }
-            else 
+            else
             {
                 if (playerFlipped)
                 {
@@ -237,34 +235,29 @@ namespace Celwahit.GameObjects
             rectangle.X = (int)position.X;
             rectangle.Y = (int)position.Y;
 
-            if (rectangle.TouchLeftOf(newRectangle))
+            if (rectangle.TouchRightOf(newRectangle, velocity))
+            {
+                Debug.WriteLine("right");
+
+                position.X = newRectangle.X - rectangle.Width;
+            }
+            else if (rectangle.TouchLeftOf(newRectangle, velocity) && velocity.X < 0)
             {
                 Debug.WriteLine("left");
+                position.X = newRectangle.X + newRectangle.Width;
 
-                position.X = newRectangle.X - rectangle.Width - 10;
             } else
-
-            if (rectangle.TouchTopOf(newRectangle))
+            if (rectangle.TouchBottomOf(newRectangle))
             {
-                Debug.WriteLine("top");
+                Debug.WriteLine("bottom");
 
                 position.Y = newRectangle.Y - 38;
                 velocity.Y = 0f;
                 hasJumped = false;
             }
-
-            
-
-            if (rectangle.TouchRightOf(newRectangle))
+            else if(rectangle.TouchTopOf(newRectangle))
             {
-                Debug.WriteLine("right");
-
-                //position.X = newRectangle.X + newRectangle.Width + 2;
-            }
-
-            if (rectangle.TouchBottomOf(newRectangle))
-            {
-                Debug.WriteLine("bottom");
+                Debug.WriteLine("top");
 
                 velocity.Y = 1f;
             }

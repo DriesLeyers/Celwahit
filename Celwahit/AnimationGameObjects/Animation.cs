@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +9,6 @@ namespace Celwahit.AnimationGameObjects
     {
         public AnimationFrame CurrentFrame { get; set; }
         private List<AnimationFrame> frames;
-        public Texture2D Texture{ get; set; }
 
         private double frameMovement = 0;
         private int counter;

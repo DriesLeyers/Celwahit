@@ -35,9 +35,7 @@ namespace Celwahit
     {
         public CollisionTiles(int i, Rectangle newRectangle)
         {
-
             if (i == 1)
-
                 texture = Content.Load<Texture2D>("floorTile");
             else
                 texture = Content.Load<Texture2D>("blockTile");

@@ -32,18 +32,19 @@ namespace Celwahit.GameObjects
         //in da filmpje van collision heeft die en _collisionRect en CollisionRect
         public Rectangle CollisionRect { get; set; }
 
+
         Vector2 position;
 
         private Rectangle rectangle;
 
         private Vector2 position = new Vector2(64,384);
 
-
         public Vector2 Positition
         {
             get { return position; }
             set { position = value; }
         }
+
         //Vector2 position;
 
         Vector2 velocity;
@@ -64,16 +65,15 @@ namespace Celwahit.GameObjects
             this.idlePlayerBody = idlePlayerBody;
             this.idlePlayerLegs = idlePlayerLegs;
 
-            walkingAnimationBody = PlayerAnimationBuilder.WalkingAnimationBody(walkingPlayerBody);
-            walkingAnimationLegs = PlayerAnimationBuilder.WalkingAnimationLegs(walkingPlayerLegs);
+            walkingAnimationBody = AnimationFactory.WalkingAnimationPlayerBody(walkingPlayerBody);
+            walkingAnimationLegs = AnimationFactory.WalkingAnimationPlayerLegs(walkingPlayerLegs);
 
-            idleAnimationBody = PlayerAnimationBuilder.IdleAnimationBody(idlePlayerBody);
-            idleAnimationLegs = PlayerAnimationBuilder.IdleAnimationLegs(idlePlayerLegs);
+            idleAnimationBody = AnimationFactory.IdleAnimationPlayerBody(idlePlayerBody);
+            idleAnimationLegs = AnimationFactory.IdleAnimationPlayerLegs(idlePlayerLegs);
 
             direction = Direction.Idle;
 
             hasJumped = true;
-
 
             position = new Vector2(150,150);
 
@@ -82,19 +82,8 @@ namespace Celwahit.GameObjects
             velocity = new Vector2(1.5f,0);
             acceleration = new Vector2(0.1f, 0.1f);
             bodyOffset = new Vector2(0,10);
-/*
-            position = new Vector2(0, 0);
-            velocity = new Vector2(1.5f, 0);
-            acceleration = new Vector2(0.0f, 0.0f);
-            bodyOffset = new Vector2(0, 10);
-*/
 
             CollisionRect = new Rectangle((int)position.X, (int)position.Y, 32, 80);
-
-            rectangle = new Rectangle((int)position.X, (int)position.Y, 32, 38);
-
-            if (velocity.Y < 10)
-                velocity.Y += 0.4f;
         }
 
         public void Update(GameTime gameTime, List<Sprite> sprites)
@@ -107,10 +96,18 @@ namespace Celwahit.GameObjects
             idleAnimationLegs.Update(gameTime, 12);
             Move();
 
+            //Jump();
+
             if (hasJumped)
             {
-                velocity.Y += 0.15f * 1.0f;
+                float i = 1;
+                velocity.Y += 0.15f * i;
             }
+
+            //if(position.Y >= 300)
+            //{
+            //    hasJumped = false;
+            //}
 
             if (!hasJumped)
             {
@@ -137,15 +134,15 @@ namespace Celwahit.GameObjects
 
         private void Jump()
         {
-            Debug.WriteLine("Jump");
             if (!hasJumped)
             {
                 position.Y -= 10f;
-                velocity.Y = -2.5f;
+                velocity.Y = -5f;
             }
             hasJumped = true;
             position += velocity;
         }
+
 
         private void Move()
         {
@@ -153,8 +150,38 @@ namespace Celwahit.GameObjects
 
             if (!(pressedKeys.Length == 0))
             {
-                for (int i = 0; i < pressedKeys.Length; i++)
+                switch (pressedKeys[pressedKeys.Length - 1])
                 {
+<<<<<<< Updated upstream
+                    case Keys.Right:
+                        direction = Direction.Right;
+                        //velocity.X *= -1;
+                        acceleration.X = 0.25f;
+                        playerFlipped = false;
+                        Accelerate();
+                        break;
+                    case Keys.Left:
+                        direction = Direction.Left;
+                        //velocity.X *= -1;
+                        //Check tutorial 
+                        acceleration.X = -0.25f;
+                        playerFlipped = true;
+                        Accelerate();
+                        break;
+                    case Keys.Up:
+                        direction = Direction.Jumping;
+                        if (!hasJumped)
+                            Jump();
+                        Accelerate();
+                        break;
+                    case Keys.Down:
+                        direction = Direction.Crouching;
+                        break;
+                    default:
+                        velocity = new Vector2(0, 0);
+                        acceleration = new Vector2(0, 0);
+                        break;
+=======
                     switch (pressedKeys[i])
                     {
                         case Keys.Right:
@@ -185,16 +212,16 @@ namespace Celwahit.GameObjects
                             AddBullet();
                             break;
                     }
+
                     position += velocity;
+>>>>>>> Stashed changes
                 }
+                position += velocity;
             }
             else
             {
                 direction = Direction.Idle;
-                velocity.X = 0;
-                acceleration = new Vector2(0, 0);
-                //Accelerate();
-                position += velocity;
+                Accelerate();
             }
         }
 
@@ -214,7 +241,7 @@ namespace Celwahit.GameObjects
         {
             velocity += acceleration;
             velocity = Limit(velocity, 1.5f);
-
+            
         }
 
         /// <summary>
@@ -240,15 +267,15 @@ namespace Celwahit.GameObjects
         {
             if (direction == Direction.Left)
             {
-                spriteBatch.Draw(walkingPlayerLegs, position + bodyOffset, walkingAnimationLegs.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
+                spriteBatch.Draw(walkingPlayerLegs,position + bodyOffset, walkingAnimationLegs.CurrentFrame.SourceRect, Color.White,0f,new Vector2(0,0),1, SpriteEffects.FlipHorizontally,1f);
                 spriteBatch.Draw(walkingPlayerBody, position, walkingAnimationBody.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
             }
-            else if (direction == Direction.Right)
+            else if(direction == Direction.Right)
             {
                 spriteBatch.Draw(walkingPlayerLegs, position + bodyOffset, walkingAnimationLegs.CurrentFrame.SourceRect, Color.White);
                 spriteBatch.Draw(walkingPlayerBody, position, walkingAnimationBody.CurrentFrame.SourceRect, Color.White);
             }
-            else
+            else 
             {
                 if (playerFlipped)
                 {
@@ -266,7 +293,6 @@ namespace Celwahit.GameObjects
 
         public void Collision(Rectangle newRectangle, int xOffset, int yOffset)
         {
-            /*
             if (rectangle.TouchTopOf(newRectangle))
             {
                 rectangle.Y = newRectangle.Y - rectangle.Height;
@@ -287,34 +313,7 @@ namespace Celwahit.GameObjects
             }
 
             if (rectangle.TouchBottomOf(newRectangle))
-            {*/
-
-            rectangle.X = (int)position.X;
-            rectangle.Y = (int)position.Y;
-
-            if (rectangle.TouchRightOf(newRectangle, velocity))
             {
-                Debug.WriteLine("right");
-
-                position.X = newRectangle.X - rectangle.Width;
-            }
-            else if (rectangle.TouchLeftOf(newRectangle, velocity) && velocity.X < 0)
-            {
-                Debug.WriteLine("left");
-                position.X = newRectangle.X + newRectangle.Width;
-
-            } else
-            if (rectangle.TouchBottomOf(newRectangle))
-            {
-                Debug.WriteLine("bottom");
-
-                position.Y = newRectangle.Y - 38;
-                velocity.Y = 0f;
-                hasJumped = false;
-            }
-            else if(rectangle.TouchTopOf(newRectangle))
-            {
-                Debug.WriteLine("top");
                 velocity.Y = 1f;
             }
 

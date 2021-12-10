@@ -39,5 +39,6 @@ namespace Celwahit.GameObjects
         {
             return this.MemberwiseClone();
         }
+
     }
 }

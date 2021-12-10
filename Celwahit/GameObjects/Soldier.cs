@@ -13,6 +13,9 @@ namespace Celwahit.GameObjects
     {
         public Rectangle CollisionRect { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
+        Texture2D idleSoldier;
+        Texture2D walkingSoldier;
+
         Animation walkingAnimation;
         Animation idleAnimation;
 
@@ -27,9 +30,11 @@ namespace Celwahit.GameObjects
 
         public Soldier(Texture2D idleSoldier, Texture2D walkingSoldier)
         {
+            this.idleSoldier = idleSoldier;
+            this.walkingSoldier = walkingSoldier;
 
-            walkingAnimation = SoldierAnimationBuilder.WalkingAnimation(walkingSoldier);
-            idleAnimation = SoldierAnimationBuilder.IdleAnimation(idleSoldier);
+            walkingAnimation = AnimationFactory.WalkingAnimationSoldier(walkingSoldier);
+            idleAnimation = AnimationFactory.IdleAnimationSoldier(idleSoldier);
 
             direction = Direction.Idle;
 
@@ -53,19 +58,19 @@ namespace Celwahit.GameObjects
         {
             if (direction == Direction.Right)
             {
-                spriteBatch.Draw(walkingAnimation.Texture, position ,walkingAnimation.CurrentFrame.SourceRect, Color.White);
+                spriteBatch.Draw(walkingSoldier, position ,walkingAnimation.CurrentFrame.SourceRect, Color.White);
             }
             else if(direction == Direction.Left)
             {
-                spriteBatch.Draw(walkingAnimation.Texture, position , walkingAnimation.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
+                spriteBatch.Draw(walkingSoldier, position , walkingAnimation.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
             }
             else if (direction == Direction.Idle && !playerFlipped)
             {
-                spriteBatch.Draw(idleAnimation.Texture, position, idleAnimation.CurrentFrame.SourceRect, Color.White);
+                spriteBatch.Draw(idleSoldier, position, idleAnimation.CurrentFrame.SourceRect, Color.White);
             }
             else if (direction == Direction.Idle && playerFlipped)
             {
-                spriteBatch.Draw(idleAnimation.Texture, position, idleAnimation.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
+                spriteBatch.Draw(idleSoldier, position, idleAnimation.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
             }
         }
     }

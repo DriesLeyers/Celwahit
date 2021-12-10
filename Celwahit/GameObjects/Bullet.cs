@@ -27,7 +27,5 @@ namespace Celwahit.GameObjects
 
             position += _velocity;
         }
-
-        
     }
 }

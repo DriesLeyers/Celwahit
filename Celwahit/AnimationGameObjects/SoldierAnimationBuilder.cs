@@ -1,5 +1,4 @@
-﻿using Celwahit.Interfaces;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -7,16 +6,16 @@ using System.Text;
 
 namespace Celwahit.AnimationGameObjects
 {
-    class SoldierAnimationFactory //: IAnimationFactory
+    static class SoldierAnimationBuilder
     {
-        #region Soldier
-
-        public static Animation WalkingAnimation(Texture2D walkingTexture)
+        public static Animation WalkingAnimation(Texture2D walkingSoldier)
         {
             Animation animation = new Animation();
+            animation.Texture = walkingSoldier;
+            int numberOfFrames = 12;
 
             int moveRectangle_X = 0;
-            for (int i = 0; i < 12; i++)
+            for (int i = 0; i < numberOfFrames; i++)
             {
                 animation.AddFrame(new AnimationFrame(new Rectangle(moveRectangle_X, 0, 27, 41)));
                 moveRectangle_X += 27;
@@ -25,12 +24,14 @@ namespace Celwahit.AnimationGameObjects
             return animation;
         }
 
-        public static Animation IdleAnimation(Texture2D idleTexture)
+        public static Animation IdleAnimation(Texture2D idleSoldier)
         {
             Animation animation = new Animation();
+            animation.Texture = idleSoldier;
+            int numberOfFrames = 6;
 
             int moveRectangle_X = 0;
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < numberOfFrames; i++)
             {
                 animation.AddFrame(new AnimationFrame(new Rectangle(moveRectangle_X, 0, 27, 38)));
                 moveRectangle_X += 27;
@@ -38,9 +39,5 @@ namespace Celwahit.AnimationGameObjects
 
             return animation;
         }
-
-        #endregion Soldier
-
-
     }
 }

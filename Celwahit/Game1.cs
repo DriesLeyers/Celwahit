@@ -13,7 +13,11 @@ namespace Celwahit
         //private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        Map map;
+
         GameSettings gameSettings;
+        Background background;
+        Skybox skybox;
 
         #region player
         Player player;
@@ -29,10 +33,11 @@ namespace Celwahit
         Texture2D idleSoldier;
         #endregion soldier
 
-        private Texture2D startButton;
-        private Vector2 startButtonPosition;
+        Texture2D backgroundTexture;
+        Texture2D skyboxTexture;
 
-        private Thread backgroundThread;
+        private Texture2D startButton;
+
         MouseState mouseState;
         MouseState previousMouseState;
 
@@ -46,38 +51,42 @@ namespace Celwahit
             Paused
         }
 
+        StartScreen startScreen;
+
         public Game1()
         {
-
             gameSettings = new GameSettings(new GraphicsDeviceManager(this));
 
-            _groundRect = new Rectangle(0,300,1280,50);
-
+            _groundRect = new Rectangle(0, 0, 0, 0);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
 
         protected override void Initialize()
         {
+            map = new Map();
+
             mouseState = Mouse.GetState();
             previousMouseState = mouseState;
 
             base.Initialize();
 
-            gameSettings.Graphics.PreferredBackBufferWidth = 1280;
-            gameSettings.Graphics.PreferredBackBufferHeight = 720;
-            gameSettings.Graphics.ApplyChanges();
+            startScreen = new StartScreen(gameSettings);
 
             IsMouseVisible = true;
-            LoadGame();
 
-            startButtonPosition = new Vector2(450, 554);
             gameState = GameState.StartMenu;
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            Tiles.Content = Content;
+
+            int[,] mapArray = makeMap();
+
+            map.Generate(mapArray, 32);
 
             startButton = Content.Load<Texture2D>("startscherm");
 
@@ -90,8 +99,9 @@ namespace Celwahit
             idleSoldier = Content.Load<Texture2D>("Soldier_Idle");
             walkingSoldier = Content.Load<Texture2D>("Soldier_Walking");
 
-
-
+            backgroundTexture = Content.Load<Texture2D>("plx-5");
+            skyboxTexture = Content.Load<Texture2D>("Mission1_Background3");
+    
             InitializeGameObjects();
         }
 
@@ -100,6 +110,9 @@ namespace Celwahit
             player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody, idlePlayerLegs);
             soldier = new Soldier(idleSoldier, walkingSoldier);
 
+            background = new Background(backgroundTexture);
+            skybox = new Skybox(skyboxTexture);
+            _groundRect.Y = (int)(background.height * gameSettings.GetWindowScale()[0]) - 50;
 
             background = new Background(backgroundTexture);
             _groundRect.Y = (int)(background.height * gameSettings.GetWindowScale()[0]) - 50;
@@ -108,42 +121,42 @@ namespace Celwahit
 
         protected override void Update(GameTime gameTime)
         {
-            //TODO: start screen apart in class zettten.
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-
             mouseState = Mouse.GetState();
 
-            KeyboardState keyboardState = Keyboard.GetState();
+            //Debug.Write("Mousepos.X: " + mouseState.X + "\n"
+            //+ "Mousepos.Y: " + mouseState.Y + "\n");
 
-            if (gameState == GameState.StartMenu && keyboardState.IsKeyDown(Keys.Enter))
+            if (gameState == GameState.StartMenu)
             {
-                gameState = GameState.Playing;
-            }
-            //TODO: gamestate veranderen
-            if (previousMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released && gameState == GameState.StartMenu)
-            {
-                MouseClicked(mouseState.X, mouseState.Y);
+                if (startScreen.CheckIfWantToPlay(previousMouseState))
+                    gameState = GameState.Playing;
             }
 
-
-            Debug.Write(" " + player.CollisionRect.Y);
-            if (CollisionManager.CheckCollision(_groundRect, player.CollisionRect))
+            if (gameState == GameState.Playing)
             {
-                Debug.Write("yeet");
-                player.StopJump();
+                //Debug.Write("\n" + player.CollisionRect.Y + "\n");
+                if (CollisionManager.CheckCollision(_groundRect, player.CollisionRect))
+                {
+                    Debug.WriteLine("hit ground");
+                    player.StopJump();
+                }
 
                 player.Update(gameTime);
                 foreach (CollisionTiles tile in map.CollisionTiles)
-                    player.Collision(tile.Rectangle, map.Width, map.Height);
+                    if (CollisionManager.CheckCollision(tile.Rectangle, player.CollisionRect))
+                    {
+
+                        player.Collision(tile.Rectangle, map.Width, map.Height);
+
+                    }
 
                 soldier.Update(gameTime);
 
             }
 
-            player.Update(gameTime);
-            soldier.Update(gameTime);
             previousMouseState = mouseState;
 
             base.Update(gameTime);
@@ -152,17 +165,25 @@ namespace Celwahit
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            _spriteBatch.Begin();
+            Matrix matrix = FollowPlayer();
 
             if (gameState == GameState.StartMenu)
             {
-                _spriteBatch.Draw(startButton, new Vector2(0, 0), Color.White);
+                startScreen.DrawVectorStartButton(startButton, _spriteBatch);
             }
 
             if (gameState == GameState.Playing)
             {
+                _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, transformMatrix: matrix);
+                //_spriteBatch.Draw(backgroundTexture, new Vector2(0, 0), Color.White);
+                float[] tmep = gameSettings.GetWindowScale();
+                //Debug.WriteLine(tmep);
+                skybox.Draw(_spriteBatch, tmep[0]);
+                background.Draw(_spriteBatch, tmep[0]);
                 player.Draw(_spriteBatch, gameTime);
                 soldier.Draw(_spriteBatch, gameTime);
+
+                map.Draw(_spriteBatch);
             }
 
             _spriteBatch.End();
@@ -170,28 +191,23 @@ namespace Celwahit
             base.Draw(gameTime);
         }
 
-        void MouseClicked(int x, int y)
+        private Matrix FollowPlayer()
         {
-            Rectangle mouseClickRect = new Rectangle(x, y, 10, 10);
+            var position = Matrix.CreateTranslation(-player.CollisionRect.X - (player.CollisionRect.Width / 2),/* -player.CollisionRect.Y - (player.CollisionRect.Height / 2)*/ 0, 0);
 
-            if (gameState == GameState.StartMenu)
-            {
-                Rectangle startButtonRect = new Rectangle((int)startButtonPosition.X, (int)startButtonPosition.Y, 375, 100);
+            var offset = Matrix.CreateTranslation(
+                gameSettings.WindowWidth / 2,
+                gameSettings.WindowHeight / 2, 0);
 
-                if (mouseClickRect.Intersects(startButtonRect))
-                {
-                    gameState = GameState.Playing;
-                }
-            }
-        }
+            var Transform = position * offset;
 
-        void LoadGame()
-        {
+            return Transform;
 
         }
 
-        private void FollowPlayer()
+        private int[,] makeMap()
         {
+/*
 
             var position = Matrix.CreateTranslation(-player.CollisionRect.X - (gameSettings.WindowWidth / 2), -player.CollisionRect.Y - (gameSettings.WindowHeight/ 2),
 0);
@@ -201,6 +217,7 @@ namespace Celwahit
                 gameSettings.WindowHeight/ 2, 0);
 
             var Transform = position * offset;
+*/
 
             int[,] mapArray = new int[,]
             {
@@ -215,6 +232,7 @@ namespace Celwahit
                 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
                 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
                 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+
                 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
                 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
                 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
@@ -223,6 +241,15 @@ namespace Celwahit
 
 
             _spriteBatch.Begin(transformMatrix: Transform);
+
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
+            };
+
+            return mapArray;
+
         }
     }
 }

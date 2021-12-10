@@ -25,6 +25,10 @@ namespace Celwahit.GameObjects
         Texture2D idlePlayerBody;
         Texture2D idlePlayerLegs;
 
+        public List<Sprite> sprites;
+
+        //public Bullet _bullet;
+
         //in da filmpje van collision heeft die en _collisionRect en CollisionRect
         public Rectangle CollisionRect { get; set; }
 
@@ -82,7 +86,7 @@ namespace Celwahit.GameObjects
             CollisionRect = new Rectangle((int)position.X, (int)position.Y, 32, 80);
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, List<Sprite> sprites)
         {
             Rectangle _collisionRect = CollisionRect;
             //8, 12 MN for making sprite move normally
@@ -148,6 +152,7 @@ namespace Celwahit.GameObjects
             {
                 switch (pressedKeys[pressedKeys.Length - 1])
                 {
+<<<<<<< Updated upstream
                     case Keys.Right:
                         direction = Direction.Right;
                         //velocity.X *= -1;
@@ -176,6 +181,40 @@ namespace Celwahit.GameObjects
                         velocity = new Vector2(0, 0);
                         acceleration = new Vector2(0, 0);
                         break;
+=======
+                    switch (pressedKeys[i])
+                    {
+                        case Keys.Right:
+                            direction = Direction.Right;
+                            velocity.X = 1.5f;
+                            //acceleration.X = 0.25f;
+                            playerFlipped = false;
+                            //Accelerate();
+                            break;
+                        case Keys.Left:
+                            direction = Direction.Left;
+                            velocity.X = -1.5f;
+                            //Check tutorial 
+                            //acceleration.X = -0.25f;
+                            playerFlipped = true;
+                            //Accelerate();
+                            break;
+                        case Keys.Up:
+                            direction = Direction.Jumping;
+                            if (!hasJumped)
+                                Jump();
+                            //Accelerate();
+                            break;
+                        case Keys.Down:
+                            direction = Direction.Crouching;
+                            break;
+                        case Keys.LeftControl:
+                            AddBullet();
+                            break;
+                    }
+
+                    position += velocity;
+>>>>>>> Stashed changes
                 }
                 position += velocity;
             }
@@ -185,6 +224,18 @@ namespace Celwahit.GameObjects
                 Accelerate();
             }
         }
+
+        private void AddBullet()
+        {
+            var bullet = new Bullet();
+            bullet = bullet.Clone() as Bullet;
+            bullet.position = this.position;
+            bullet._velocity = this.velocity;
+            bullet.LifeSpan = 3f;
+
+            sprites.Add(bullet);
+        }
+
         //TODO: Movement.cs maken fzoeit
         private void Accelerate()
         {

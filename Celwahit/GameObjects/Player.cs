@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 namespace Celwahit.GameObjects
 {
-    public class Player : IGameObject //, ICollisionGameObject
+    public class Player //: IGameObject //, ICollisionGameObject
     {
         Animation walkingAnimationBody;
         Animation walkingAnimationLegs;
@@ -24,6 +24,9 @@ namespace Celwahit.GameObjects
         Texture2D walkingPlayerBody;
         Texture2D idlePlayerBody;
         Texture2D idlePlayerLegs;
+
+        KeyboardState _previousKey;
+        KeyboardState _currentKey;
 
         //in da filmpje van collision heeft die en _collisionRect en CollisionRect
         public Rectangle CollisionRect { get; set; }
@@ -50,10 +53,12 @@ namespace Celwahit.GameObjects
 
         Direction direction;
 
+        Bullet bullet;
 
-        public Player(Texture2D walkingPlayerBody, Texture2D walkingPlayerLegs, Texture2D idlePlayerBody, Texture2D idlePlayerLegs)
+
+        public Player(Texture2D walkingPlayerBody, Texture2D walkingPlayerLegs, Texture2D idlePlayerBody, Texture2D idlePlayerLegs, Texture2D bullet)
         {
-
+            this.bullet = new Bullet(bullet);
             this.walkingPlayerBody = walkingPlayerBody;
             this.walkingPlayerLegs = walkingPlayerLegs;
             this.idlePlayerBody = idlePlayerBody;
@@ -82,7 +87,7 @@ namespace Celwahit.GameObjects
                 velocity.Y += 0.4f;
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, List<Bullet> bullets)
         {
             Rectangle _collisionRect = CollisionRect;
             //8, 12 MN for making sprite move normally
@@ -91,6 +96,8 @@ namespace Celwahit.GameObjects
             idleAnimationBody.Update(gameTime, 8);
             idleAnimationLegs.Update(gameTime, 12);
             Move();
+            SetBulletData();
+            Shoot(bullets);
 
             if (hasJumped)
             {
@@ -107,6 +114,24 @@ namespace Celwahit.GameObjects
             _collisionRect.Y = (int)position.Y;
 
             CollisionRect = _collisionRect;
+        }
+
+        private void Shoot(List<Bullet> bullets)
+        {
+            _previousKey = _currentKey;
+            _currentKey = Keyboard.GetState();
+
+            if(_currentKey.IsKeyDown(Keys.LeftControl) && _previousKey.IsKeyUp(Keys.LeftControl))
+            {
+                bullets.Add(AddBullet());
+            }
+        }
+
+        private void SetBulletData()
+        {
+            this.bullet.position = new Vector2(this.position.X+35, this.position.Y+walkingPlayerBody.Bounds.Height/2);
+            this.bullet._velocity = new Vector2(5f,0f);
+            this.bullet.LifeSpan = 3f;
         }
 
         public void StopJump()
@@ -161,6 +186,7 @@ namespace Celwahit.GameObjects
                         case Keys.Down:
                             direction = Direction.Crouching;
                             break;
+
                     }
 
                     position += velocity;
@@ -174,6 +200,14 @@ namespace Celwahit.GameObjects
                 //Accelerate();
                 position += velocity;
             }
+        }
+
+        public Bullet AddBullet()
+        {
+            
+            var newBullet = this.bullet.Clone() as Bullet;
+            return newBullet;
+            
         }
         //TODO: Movement.cs maken fzoeit
         private void Accelerate()

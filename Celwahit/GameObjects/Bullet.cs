@@ -9,15 +9,15 @@ namespace Celwahit.GameObjects
     public class Bullet : Sprite
     {
         private float timer;
-        private float LifeSpan = 0f;
-        private bool isRemoved;
+        public bool isRemoved;
+        public float LifeSpan = 0f;
 
-        public Bullet(Texture2D texture) : base(texture)
+        public Bullet(Texture2D texture = null) : base(texture)
         {
 
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, List<Bullet> bullets)
         {
             timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -25,6 +25,15 @@ namespace Celwahit.GameObjects
                 isRemoved = true;
 
             position += _velocity;
+
+            for(int i = 0; i < bullets.Count; i++)
+            {
+                if (bullets[i].isRemoved)
+                {
+                    bullets.RemoveAt(i);
+                    i--;
+                }
+            }
         }
     }
 }

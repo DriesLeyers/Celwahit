@@ -8,13 +8,13 @@ using System.Text;
 
 namespace Celwahit.GameObjects
 {
-    public class Sprite : IGameObject
+    public class Sprite //: IGameObject
     {
         protected Texture2D _texture;
-        protected Vector2 _velocity;
         protected float _rotation;
 
-        public Vector2 origin;
+        public Vector2 _velocity;
+        protected Vector2 origin;
         public Vector2 position;
 
 
@@ -29,7 +29,7 @@ namespace Celwahit.GameObjects
             spriteBatch.Draw(_texture, position, null, Color.White, _rotation, origin, 1, SpriteEffects.None, 0);
         }
 
-        public virtual void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime, List<Bullet> bullets)
         {
             
         }

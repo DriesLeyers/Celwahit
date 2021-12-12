@@ -3,6 +3,7 @@ using Celwahit.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 
@@ -18,6 +19,8 @@ namespace Celwahit
         GameSettings gameSettings;
         Background background;
         Skybox skybox;
+
+        List<Bullet> bullets = new List<Bullet>();
 
         #region player
         Player player;
@@ -35,6 +38,8 @@ namespace Celwahit
 
         Texture2D backgroundTexture;
         Texture2D skyboxTexture;
+
+        Texture2D bulletTexture;
 
         private Texture2D startButton;
 
@@ -90,8 +95,12 @@ namespace Celwahit
 
             startButton = Content.Load<Texture2D>("startscherm");
 
+
+
             walkingPlayerLegs = Content.Load<Texture2D>("Player/Fiolina_Bot_Walking");
             walkingPlayerBody = Content.Load<Texture2D>("Player/Fiolina_Top_Walking");
+
+            bulletTexture = Content.Load<Texture2D>("SgBullet");
 
             idlePlayerBody = Content.Load<Texture2D>("Player/Fiolina_Top_Idle");
             idlePlayerLegs = Content.Load<Texture2D>("Player/Fiolina_Bot_Idle");
@@ -107,7 +116,7 @@ namespace Celwahit
 
         private void InitializeGameObjects()
         {
-            player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody, idlePlayerLegs);
+            player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody, idlePlayerLegs, bulletTexture);
             soldier = new Soldier(idleSoldier, walkingSoldier);
             background = new Background(backgroundTexture);
             skybox = new Skybox(skyboxTexture);
@@ -143,7 +152,10 @@ namespace Celwahit
                     player.StopJump();
                 }
 
-                player.Update(gameTime);
+                foreach (Bullet bullet in bullets.ToArray())
+                    bullet.Update(gameTime,bullets);
+
+                player.Update(gameTime, bullets);
                 foreach (CollisionTiles tile in map.CollisionTiles)
                     if (CollisionManager.CheckCollision(tile.Rectangle, player.CollisionRect))
                     {
@@ -180,6 +192,9 @@ namespace Celwahit
                 background.Draw(_spriteBatch, tmep[0]);
                 player.Draw(_spriteBatch, gameTime);
                 soldier.Draw(_spriteBatch, gameTime);
+
+                foreach (Bullet bullet in bullets.ToArray())
+                    bullet.Draw(_spriteBatch,gameTime);
 
                 map.Draw(_spriteBatch);
             }

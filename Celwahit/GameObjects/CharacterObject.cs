@@ -18,8 +18,10 @@ namespace Celwahit.GameObjects
             set { position = value; }
         }
 
-        protected Vector2 velocity;
+        public Vector2 velocity;
         public bool IsFlipped;
+        public bool hasJumped;
+
 
 
 

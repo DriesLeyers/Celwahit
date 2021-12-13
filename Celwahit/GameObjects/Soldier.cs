@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace Celwahit.GameObjects
@@ -32,10 +33,13 @@ namespace Celwahit.GameObjects
 
             direction = Direction.Idle;
 
-            CollisionRect = new Rectangle((int)position.X, (int)position.Y, idleSoldier.Bounds.Width, idleSoldier.Bounds.Height);
+            _collisionRectangle = new Rectangle((int)position.X, (int)position.Y, idleSoldier.Bounds.Width, idleSoldier.Bounds.Height);
 
             position = new Vector2(150, 150);
             velocity = new Vector2(0, 0);
+
+            velocity.Y += 3f;
+
         }
 
         public void Update(GameTime gameTime)
@@ -44,10 +48,11 @@ namespace Celwahit.GameObjects
             walkingAnimation.Update(gameTime, 12);
             //Gravity();
 
-            direction = Direction.Right;
-            velocity.Y += 0.15f * 1.0f;
+            CollisionRect = new Rectangle((int)this.Positition.X,(int) this.Positition.Y, idleAnimation.CurrentFrame.SourceRect.Width, idleAnimation.CurrentFrame.SourceRect.Height);
 
-            velocity.X = 1.5f;
+            direction = Direction.Right;
+
+            //velocity.X = 1.5f;
 
             position += velocity;
 
@@ -79,5 +84,47 @@ namespace Celwahit.GameObjects
                 spriteBatch.Draw(idleAnimation.Texture, position, idleAnimation.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
             }
         }
+
+
+        public void Collision(Rectangle newRectangle, int xOffset, int yOffset)
+        {
+            _collisionRectangle.X = (int)position.X;
+            _collisionRectangle.Y = (int)position.Y;
+            //Debug.WriteLine(velocity.Y);
+
+            if (_collisionRectangle.TouchRightOf(newRectangle, velocity))
+            {
+                Debug.WriteLine("right");
+
+                position.X = newRectangle.X - _collisionRectangle.Width;
+            }
+            else if (_collisionRectangle.TouchLeftOf(newRectangle, velocity) && velocity.X < 0)
+            {
+                Debug.WriteLine("left");
+                position.X = newRectangle.X + newRectangle.Width;
+
+            }
+            else
+            if (_collisionRectangle.TouchBottomOf(newRectangle))
+            {
+                Debug.WriteLine("Soldier: bottom");
+
+                this.position.Y = newRectangle.Y - 38;
+                this.velocity.Y = 0f;
+                this.hasJumped = false;
+            }
+            else if (_collisionRectangle.TouchTopOf(newRectangle))
+            {
+                Debug.WriteLine("top");
+
+                velocity.Y = 1f;
+            }
+
+            if (position.X < 0) position.X = 0;
+            if (position.X > xOffset - _collisionRectangle.Width) position.X = xOffset - _collisionRectangle.Width;
+            if (position.Y < 0) velocity.Y = 1f;
+            if (position.Y > yOffset - _collisionRectangle.Height) position.Y = yOffset - _collisionRectangle.Height;
+        }
+
     }
 }

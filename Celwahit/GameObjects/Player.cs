@@ -34,14 +34,13 @@ namespace Celwahit.GameObjects
         public Rectangle rectangle;
 
         //Vector2 position;
-        public Vector2 velocity;
+        //public Vector2 velocity;
         
         Vector2 acceleration;
         //To get the sprites properly aligned
         Vector2 bodyOffset;
 
         public bool playerFlipped;
-        public bool hasJumped;
         Direction direction;
 
         Bullet bullet;
@@ -281,7 +280,7 @@ namespace Celwahit.GameObjects
             } else
             if (_collisionRectangle.TouchBottomOf(newRectangle))
             {
-                Debug.WriteLine("bottom");
+                //Debug.WriteLine("bottom");
 
                 position.Y = newRectangle.Y - 38;
                 velocity.Y = 0f;

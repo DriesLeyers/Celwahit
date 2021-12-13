@@ -163,9 +163,14 @@ namespace Celwahit
 
                         player.Collision(tile.Rectangle, map.Width, map.Height);
                     }
-                //if (tempBool)
-                //{
-                //}
+
+                foreach (CollisionTiles tile in map.CollisionTiles)
+                    if (CollisionManager.CheckCollision(tile.Rectangle, soldier.CollisionRect))
+                    {
+                        soldier.Collision(tile.Rectangle, map.Width, map.Height);
+                        //Debug.WriteLine("valt: " + soldier.CollisionRect);
+                    }
+
 
                 var temp = player.rectangle;
                 temp.Height += 6;
@@ -175,11 +180,6 @@ namespace Celwahit
                     player.velocity.Y += 1f;
                 }
 
-                foreach (CollisionTiles tile in map.CollisionTiles)
-                    if (CollisionManager.CheckCollision(tile.Rectangle, soldier.CollisionRect))
-                    {
-                        Debug.WriteLine("Solder: hit ground");
-                    }
 
                 soldier.Update(gameTime);
             }

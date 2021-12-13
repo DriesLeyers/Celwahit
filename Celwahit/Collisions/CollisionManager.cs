@@ -16,6 +16,5 @@ namespace Celwahit.Collisions
             return false;
         }
 
-
     }
 }

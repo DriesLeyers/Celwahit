@@ -44,10 +44,6 @@ namespace Celwahit.GameObjects
         public bool hasJumped;
         Direction direction;
 
-        bool hasJumped;
-
-        
-
         Bullet bullet;
 
 

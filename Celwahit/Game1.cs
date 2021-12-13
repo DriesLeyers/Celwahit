@@ -111,7 +111,7 @@ namespace Celwahit
 
             backgroundTexture = Content.Load<Texture2D>("plx-5");
             skyboxTexture = Content.Load<Texture2D>("Mission1_Background3");
-    
+
             InitializeGameObjects();
         }
 
@@ -155,7 +155,7 @@ namespace Celwahit
                 player.Update(gameTime, bullets);
 
                 foreach (Bullet bullet in bullets.ToArray())
-                    bullet.Update(gameTime,bullets);
+                    bullet.Update(gameTime, bullets);
 
                 foreach (CollisionTiles tile in map.CollisionTiles)
                     if (CollisionManager.CheckCollision(tile.Rectangle, player.CollisionRect))
@@ -170,26 +170,13 @@ namespace Celwahit
                 var temp = player.rectangle;
                 temp.Height += 6;
 
-                //var onGround = false;
-
-                //foreach (CollisionTiles tile in map.CollisionTiles)
-                //{
-                //    if (CollisionManager.CheckCollision(tile.Rectangle, temp))
-                //    {
-                //        onGround = true;
-                //    }
-                //}
-
-                //if (!onGround && !player.hasJumped)
-                //{
-                //    player.velocity.Y += 5f;
-                //}
                 if (map.CollisionTiles.Any(x => !CollisionManager.CheckCollision(x.Rectangle, temp)) && !player.hasJumped)
                 {
                     player.velocity.Y += 1f;
                 }
-                foreach(CollisionTiles tile in map.CollisionTiles)
-                    if(CollisionManager.CheckCollision(tile.Rectangle, soldier.CollisionRect))
+
+                foreach (CollisionTiles tile in map.CollisionTiles)
+                    if (CollisionManager.CheckCollision(tile.Rectangle, soldier.CollisionRect))
                     {
                         Debug.WriteLine("Solder: hit ground");
                     }
@@ -224,7 +211,7 @@ namespace Celwahit
                 soldier.Draw(_spriteBatch, gameTime);
 
                 foreach (Bullet bullet in bullets.ToArray())
-                    bullet.Draw(_spriteBatch,gameTime);
+                    bullet.Draw(_spriteBatch, gameTime);
 
                 map.Draw(_spriteBatch);
             }

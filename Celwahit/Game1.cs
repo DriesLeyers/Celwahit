@@ -151,11 +151,11 @@ namespace Celwahit
                     Debug.WriteLine("hit ground");
                     player.StopJump();
                 }
+                player.Update(gameTime, bullets);
 
                 foreach (Bullet bullet in bullets.ToArray())
                     bullet.Update(gameTime,bullets);
 
-                player.Update(gameTime, bullets);
                 foreach (CollisionTiles tile in map.CollisionTiles)
                     if (CollisionManager.CheckCollision(tile.Rectangle, player.CollisionRect))
                     {

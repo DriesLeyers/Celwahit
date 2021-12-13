@@ -11,6 +11,7 @@ namespace Celwahit.GameObjects
         private float timer;
         public bool isRemoved;
         public float LifeSpan = 0f;
+        public bool isFlipped = false;
 
         public Bullet(Texture2D texture = null) : base(texture)
         {
@@ -23,10 +24,12 @@ namespace Celwahit.GameObjects
 
             if (timer > LifeSpan)
                 isRemoved = true;
+            if(isFlipped)
+                position -= _velocity;
+            else
+                position += _velocity;
 
-            position += _velocity;
-
-            for(int i = 0; i < bullets.Count; i++)
+            for (int i = 0; i < bullets.Count; i++)
             {
                 if (bullets[i].isRemoved)
                 {

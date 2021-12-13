@@ -48,7 +48,7 @@ namespace Celwahit.GameObjects
         //To get the sprites properly aligned
         Vector2 bodyOffset;
 
-        bool playerFlipped;
+        public bool playerFlipped;
         bool hasJumped;
 
         Direction direction;
@@ -129,6 +129,7 @@ namespace Celwahit.GameObjects
 
         private void SetBulletData()
         {
+            this.bullet.isFlipped = playerFlipped;
             this.bullet.position = new Vector2(this.position.X+35, this.position.Y+walkingPlayerBody.Bounds.Height/2);
             this.bullet._velocity = new Vector2(5f,0f);
             this.bullet.LifeSpan = 3f;

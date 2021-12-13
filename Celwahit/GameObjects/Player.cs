@@ -31,7 +31,7 @@ namespace Celwahit.GameObjects
         //in da filmpje van collision heeft die en _collisionRect en CollisionRect
         public Rectangle CollisionRect { get; set; }
 
-        private Rectangle rectangle;
+        public Rectangle rectangle;
 
         private Vector2 position = new Vector2(64, 384);
 
@@ -43,13 +43,13 @@ namespace Celwahit.GameObjects
 
 
         //Vector2 position;
-        Vector2 velocity;
+        public Vector2 velocity;
         Vector2 acceleration;
         //To get the sprites properly aligned
         Vector2 bodyOffset;
 
         public bool playerFlipped;
-        bool hasJumped;
+        public bool hasJumped;
 
         Direction direction;
 

@@ -38,5 +38,15 @@ namespace Celwahit.GameObjects
                 }
             }
         }
+
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        {
+            if (isFlipped)
+            {
+                spriteBatch.Draw(_texture, position,null, Color.White, _rotation, origin, 1, SpriteEffects.None, 0);
+            }
+            spriteBatch.Draw(_texture, position, null, Color.White, _rotation, origin, 1, SpriteEffects.None, 0);
+        }
+
     }
 }

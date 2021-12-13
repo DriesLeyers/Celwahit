@@ -47,7 +47,7 @@ namespace Celwahit
         MouseState mouseState;
         MouseState previousMouseState;
 
-        Rectangle _groundRect;
+        //Rectangle _groundRect;
 
         GameState gameState;
         enum GameState
@@ -63,7 +63,7 @@ namespace Celwahit
         {
             gameSettings = new GameSettings(new GraphicsDeviceManager(this));
 
-            _groundRect = new Rectangle(0, 0, 0, 0);
+            //_groundRect = new Rectangle(0, 0, 0, 0);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -121,10 +121,10 @@ namespace Celwahit
             soldier = new Soldier(idleSoldier, walkingSoldier);
             background = new Background(backgroundTexture);
             skybox = new Skybox(skyboxTexture);
-            _groundRect.Y = (int)(background.height * gameSettings.GetWindowScale()[0]) - 50;
+            //_groundRect.Y = (int)(background.height * gameSettings.GetWindowScale()[0]) - 50;
 
             background = new Background(backgroundTexture);
-            _groundRect.Y = (int)(background.height * gameSettings.GetWindowScale()[0]) - 50;
+            //_groundRect.Y = (int)(background.height * gameSettings.GetWindowScale()[0]) - 50;
 
         }
 
@@ -147,11 +147,11 @@ namespace Celwahit
             if (gameState == GameState.Playing)
             {
                 //Debug.Write("\n" + player.CollisionRect.Y + "\n");
-                if (CollisionManager.CheckCollision(_groundRect, player.CollisionRect))
-                {
-                    Debug.WriteLine("hit ground");
-                    player.StopJump();
-                }
+                //if (CollisionManager.CheckCollision(_groundRect, player.CollisionRect))
+                //{
+                //    Debug.WriteLine("hit ground");
+                //    player.StopJump();
+                //}
                 player.Update(gameTime, bullets);
 
                 foreach (Bullet bullet in bullets.ToArray())
@@ -163,7 +163,6 @@ namespace Celwahit
 
                         player.Collision(tile.Rectangle, map.Width, map.Height);
                     }
-
                 //if (tempBool)
                 //{
                 //}
@@ -189,6 +188,11 @@ namespace Celwahit
                 {
                     player.velocity.Y += 1f;
                 }
+                foreach(CollisionTiles tile in map.CollisionTiles)
+                    if(CollisionManager.CheckCollision(tile.Rectangle, soldier.CollisionRect))
+                    {
+                        Debug.WriteLine("Solder: hit ground");
+                    }
 
                 soldier.Update(gameTime);
             }

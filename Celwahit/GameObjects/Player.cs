@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 namespace Celwahit.GameObjects
 {
-    public class Player //: IGameObject //, ICollisionGameObject
+    public class Player :CharacterObject //: IGameObject //, ICollisionGameObject
     {
         Animation walkingAnimationBody;
         Animation walkingAnimationLegs;
@@ -29,29 +29,24 @@ namespace Celwahit.GameObjects
         KeyboardState _currentKey;
 
         //in da filmpje van collision heeft die en _collisionRect en CollisionRect
-        public Rectangle CollisionRect { get; set; }
+
 
         public Rectangle rectangle;
 
-        private Vector2 position = new Vector2(64, 384);
-
-        public Vector2 Positition
-        {
-            get { return position; }
-            set { position = value; }
-        }
-
-
         //Vector2 position;
         public Vector2 velocity;
+        
         Vector2 acceleration;
         //To get the sprites properly aligned
         Vector2 bodyOffset;
 
         public bool playerFlipped;
         public bool hasJumped;
-
         Direction direction;
+
+        bool hasJumped;
+
+        
 
         Bullet bullet;
 
@@ -81,7 +76,7 @@ namespace Celwahit.GameObjects
 
             CollisionRect = new Rectangle((int)position.X, (int)position.Y, 32, 80);
 
-            rectangle = new Rectangle((int)position.X, (int)position.Y, 32, 38);
+            _collisionRectangle = new Rectangle((int)position.X, (int)position.Y, 32, 38);
 
             if (velocity.Y < 10)
                 velocity.Y += 0.4f;
@@ -129,9 +124,9 @@ namespace Celwahit.GameObjects
 
         private void SetBulletData()
         {
-            this.bullet.isFlipped = playerFlipped;
+            this.bullet.isFlipped = IsFlipped;
             this.bullet.position = new Vector2(this.position.X+35, this.position.Y+walkingPlayerBody.Bounds.Height/2);
-            this.bullet._velocity = new Vector2(5f,0f);
+            this.bullet._velocity = new Vector2(7f,0f);
             this.bullet.LifeSpan = 3f;
         }
 
@@ -171,7 +166,7 @@ namespace Celwahit.GameObjects
                             direction = Direction.Right;
                             velocity.X = 1.5f;
                             //acceleration.X = 0.25f;
-                            playerFlipped = false;
+                            IsFlipped = false;
                             //Accelerate();
                             break;
                         case Keys.Left:
@@ -179,7 +174,7 @@ namespace Celwahit.GameObjects
                             velocity.X = -1.5f;
                             //Check tutorial 
                             //acceleration.X = -0.25f;
-                            playerFlipped = true;
+                            IsFlipped = true;
                             //Accelerate();
                             break;
                         case Keys.Up:
@@ -257,7 +252,7 @@ namespace Celwahit.GameObjects
             }
             else
             {
-                if (playerFlipped)
+                if (IsFlipped)
                 {
                     spriteBatch.Draw(idlePlayerLegs, position + bodyOffset, idleAnimationLegs.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
                     spriteBatch.Draw(idlePlayerBody, position, idleAnimationBody.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
@@ -273,22 +268,22 @@ namespace Celwahit.GameObjects
 
         public void Collision(Rectangle newRectangle, int xOffset, int yOffset)
         {
-            rectangle.X = (int)position.X;
-            rectangle.Y = (int)position.Y;
+            _collisionRectangle.X = (int)position.X;
+            _collisionRectangle.Y = (int)position.Y;
 
-            if (rectangle.TouchRightOf(newRectangle, velocity))
+            if (_collisionRectangle.TouchRightOf(newRectangle, velocity))
             {
                 Debug.WriteLine("right");
 
-                position.X = newRectangle.X - rectangle.Width;
+                position.X = newRectangle.X - _collisionRectangle.Width;
             }
-            else if (rectangle.TouchLeftOf(newRectangle, velocity) && velocity.X < 0)
+            else if (_collisionRectangle.TouchLeftOf(newRectangle, velocity) && velocity.X < 0)
             {
                 Debug.WriteLine("left");
                 position.X = newRectangle.X + newRectangle.Width;
 
             } else
-            if (rectangle.TouchBottomOf(newRectangle))
+            if (_collisionRectangle.TouchBottomOf(newRectangle))
             {
                 Debug.WriteLine("bottom");
 
@@ -296,7 +291,7 @@ namespace Celwahit.GameObjects
                 velocity.Y = 0f;
                 hasJumped = false;
             }
-            else if(rectangle.TouchTopOf(newRectangle))
+            else if(_collisionRectangle.TouchTopOf(newRectangle))
             {
                 Debug.WriteLine("top");
 
@@ -304,9 +299,9 @@ namespace Celwahit.GameObjects
             }
 
             if (position.X < 0) position.X = 0;
-            if (position.X > xOffset - rectangle.Width) position.X = xOffset - rectangle.Width;
+            if (position.X > xOffset - _collisionRectangle.Width) position.X = xOffset - _collisionRectangle.Width;
             if (position.Y < 0) velocity.Y = 1f;
-            if (position.Y > yOffset - rectangle.Height) position.Y = yOffset - rectangle.Height;
+            if (position.Y > yOffset - _collisionRectangle.Height) position.Y = yOffset - _collisionRectangle.Height;
         }
 
     }

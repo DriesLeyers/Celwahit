@@ -9,9 +9,9 @@ using System.Text;
 
 namespace Celwahit.GameObjects
 {
-    class Soldier : IGameObject //, ICollisionGameObject
+    class Soldier : CharacterObject, IGameObject//, ICollisionGameObject
     {
-        public Rectangle CollisionRect { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        //public Rectangle CollisionRect { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         Animation walkingAnimation;
         Animation idleAnimation;
@@ -19,9 +19,8 @@ namespace Celwahit.GameObjects
         Direction direction;
 
 
-        Vector2 position;
-        Vector2 velocity;
-        Vector2 acceleration;
+        //Vector2 position;
+        //Vector2 velocity;
 
         bool playerFlipped = false;
 
@@ -33,20 +32,32 @@ namespace Celwahit.GameObjects
 
             direction = Direction.Idle;
 
+            CollisionRect = new Rectangle((int)position.X, (int)position.Y, idleSoldier.Bounds.Width, idleSoldier.Bounds.Height);
 
             position = new Vector2(150, 150);
-            velocity = new Vector2(1.5f, 0);
-            acceleration = new Vector2(0.1f, 0.1f);
+            velocity = new Vector2(0, 0);
         }
 
         public void Update(GameTime gameTime)
         {
             idleAnimation.Update(gameTime, 7);
             walkingAnimation.Update(gameTime, 12);
+            //Gravity();
 
-            direction = Direction.Left;
+            direction = Direction.Right;
+            velocity.Y += 0.15f * 1.0f;
+
+            velocity.X = 1.5f;
+
             position += velocity;
 
+        }
+
+        private void Gravity()
+        {
+            //throw new NotImplementedException();
+            velocity.Y += 0.15f * 1.0f;
+            position.Y += velocity.Y;
         }
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)

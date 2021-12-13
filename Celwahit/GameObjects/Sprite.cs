@@ -24,9 +24,9 @@ namespace Celwahit.GameObjects
             origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
         }
 
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            spriteBatch.Draw(_texture, position, null, Color.White, _rotation, origin, 1, SpriteEffects.None, 0);
+            
         }
 
         public virtual void Update(GameTime gameTime, List<Bullet> bullets)

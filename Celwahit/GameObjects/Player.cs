@@ -137,6 +137,9 @@ namespace Celwahit.GameObjects
 
         private void Jump()
         {
+            velocity.X = 0;
+            acceleration = new Vector2(0, 0);
+
             Debug.WriteLine("Jump");
             if (!hasJumped)
             {
@@ -144,6 +147,7 @@ namespace Celwahit.GameObjects
                 velocity.Y = -2.5f;
             }
             hasJumped = true;
+
             position += velocity;
         }
 
@@ -179,6 +183,8 @@ namespace Celwahit.GameObjects
                             //Accelerate();
                             break;
                         case Keys.Down:
+                            velocity.X = 0;
+                            acceleration = new Vector2(0, 0);
                             direction = Direction.Crouching;
                             break;
 

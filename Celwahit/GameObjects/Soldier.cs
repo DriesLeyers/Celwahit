@@ -52,7 +52,7 @@ namespace Celwahit.GameObjects
 
             direction = Direction.Right;
 
-            //velocity.X = 1.5f;
+            velocity.X = 1.5f;
 
             position += velocity;
 

@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 namespace Celwahit.GameObjects
 {
-    public class Player :CharacterObject //: IGameObject //, ICollisionGameObject
+    public class Player : CharacterObject //: IGameObject //, ICollisionGameObject
     {
         Animation walkingAnimationBody;
         Animation walkingAnimationLegs;
@@ -133,8 +133,8 @@ namespace Celwahit.GameObjects
 
         private void Jump()
         {
-            velocity.X = 0;
-            acceleration = new Vector2(0, 0);
+            //velocity.X = 0;
+            //acceleration = new Vector2(0, 0);
 
             Debug.WriteLine("Jump");
             if (!hasJumped)
@@ -144,7 +144,7 @@ namespace Celwahit.GameObjects
             }
             hasJumped = true;
 
-            position += velocity;
+            //position += velocity;
         }
 
         private void Move()

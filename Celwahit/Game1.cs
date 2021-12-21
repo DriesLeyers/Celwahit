@@ -160,7 +160,6 @@ namespace Celwahit
                 foreach (CollisionTiles tile in map.CollisionTiles)
                     if (CollisionManager.CheckCollision(tile.Rectangle, player.CollisionRect))
                     {
-
                         player.Collision(tile.Rectangle, map.Width, map.Height);
                     }
 
@@ -168,9 +167,13 @@ namespace Celwahit
                     if (CollisionManager.CheckCollision(tile.Rectangle, soldier.CollisionRect))
                     {
                         soldier.Collision(tile.Rectangle, map.Width, map.Height);
-                        //Debug.WriteLine("valt: " + soldier.CollisionRect);
                     }
 
+
+                foreach (CollisionTiles tile in map.CollisionTiles)
+                    foreach (Bullet bullet in bullets.ToArray())
+                        if (CollisionManager.CheckCollision(tile.Rectangle, bullet.collisionRectangle))
+                            bullet.Collision(tile.Rectangle, map.Width, map.Height);
 
                 var temp = player.rectangle;
                 temp.Height += 6;

@@ -10,6 +10,9 @@ namespace Celwahit.GameObjects
 {
     public class Sprite //: IGameObject
     {
+        public Rectangle CollisionRect { get; set; }
+        protected Rectangle _collisionRectangle;
+
         protected Texture2D _texture;
         protected float _rotation;
 
@@ -22,6 +25,7 @@ namespace Celwahit.GameObjects
         {
             _texture = texture;
             origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
+            CollisionRect = new Rectangle();
         }
 
         public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime)

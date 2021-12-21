@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace Celwahit.GameObjects
@@ -13,14 +14,20 @@ namespace Celwahit.GameObjects
         public float LifeSpan = 0f;
         public bool isFlipped = false;
 
+        public Rectangle collisionRectangle;
+
         public Bullet(Texture2D texture = null) : base(texture)
         {
-
+            this.collisionRectangle.Width = texture.Width;
+            this.collisionRectangle.Height = texture.Height;
         }
 
         public override void Update(GameTime gameTime, List<Bullet> bullets)
         {
-            timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            this.collisionRectangle.X = (int) position.X;
+            this.collisionRectangle.Y = (int) position.Y;
+            //timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            timer = 0;
 
             if (timer > LifeSpan)
                 isRemoved = true;
@@ -46,6 +53,11 @@ namespace Celwahit.GameObjects
                 spriteBatch.Draw(_texture, position,null, Color.White, _rotation, origin, 1, SpriteEffects.None, 0);
             }
             spriteBatch.Draw(_texture, position, null, Color.White, _rotation, origin, 1, SpriteEffects.None, 0);
+        }
+
+        public void Collision(Rectangle newRectangle, int xOffset, int yOffset)
+        {
+            isRemoved = true;
         }
 
     }

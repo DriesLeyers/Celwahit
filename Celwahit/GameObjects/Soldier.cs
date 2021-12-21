@@ -85,7 +85,6 @@ namespace Celwahit.GameObjects
             }
         }
 
-
         public void Collision(Rectangle newRectangle, int xOffset, int yOffset)
         {
             _collisionRectangle.X = (int)position.X;

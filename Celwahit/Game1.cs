@@ -175,12 +175,12 @@ namespace Celwahit
                         if (CollisionManager.CheckCollision(tile.Rectangle, bullet.collisionRectangle))
                             bullet.Collision(tile.Rectangle, map.Width, map.Height);
 
-                var temp = player.rectangle;
+                var temp = player.CollisionRect;
                 temp.Height += 6;
 
-                if (map.CollisionTiles.Any(x => !CollisionManager.CheckCollision(x.Rectangle, temp)) && !player.hasJumped)
+                if (!map.CollisionTiles.Any(x => CollisionManager.CheckCollision(x.Rectangle, temp)) && !player.hasJumped)
                 {
-                    player.velocity.Y += 1f;
+                    player.hasJumped = true;
                 }
 
 

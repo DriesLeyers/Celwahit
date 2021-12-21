@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Celwahit.GameObjects
 {
-    class Soldier : CharacterObject, IGameObject//, ICollisionGameObject
+    class Soldier : CharacterObject//, //IGameObject//, ICollisionGameObject
     {
         //public Rectangle CollisionRect { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
@@ -18,7 +18,6 @@ namespace Celwahit.GameObjects
         Animation idleAnimation;
 
         Direction direction;
-
 
         //Vector2 position;
         //Vector2 velocity;
@@ -34,6 +33,7 @@ namespace Celwahit.GameObjects
             direction = Direction.Idle;
 
             _collisionRectangle = new Rectangle((int)position.X, (int)position.Y, idleSoldier.Bounds.Width, idleSoldier.Bounds.Height);
+            hasJumped = true;
 
             position = new Vector2(150, 150);
             velocity = new Vector2(0, 0);
@@ -42,20 +42,67 @@ namespace Celwahit.GameObjects
 
         }
 
-        public void Update(GameTime gameTime)
+        private void Jump()
+        {
+            Debug.WriteLine("Jump");
+            if (!hasJumped)
+            {
+                position.Y -= 10f;
+                velocity.Y = -2.5f;
+            }
+            hasJumped = true;
+        }
+
+        public void Update(GameTime gameTime, Player player)
         {
             idleAnimation.Update(gameTime, 7);
             walkingAnimation.Update(gameTime, 12);
-            //Gravity();
+            if (hasJumped)
+            {
+                //Gravity();
+                velocity.Y += 0.15f * 1.0f;
+            }
 
-            CollisionRect = new Rectangle((int)this.Positition.X,(int) this.Positition.Y, idleAnimation.CurrentFrame.SourceRect.Width, idleAnimation.CurrentFrame.SourceRect.Height);
-
-            direction = Direction.Right;
-
-            velocity.X = 1.5f;
-
+            if (!hasJumped)
+            {
+                velocity.Y = 0f;
+            }
             position += velocity;
 
+            CollisionRect = new Rectangle((int)this.Positition.X,(int) this.Positition.Y, idleAnimation.CurrentFrame.SourceRect.Width, idleAnimation.CurrentFrame.SourceRect.Height);
+            direction = Direction.Right;
+            
+
+            SetDirectionToPlayer(player);
+
+        }
+
+        private void SetDirectionToPlayer(Player player)
+        {
+            float sPosX = this.position.X;
+            float pPosX = player.Positition.X;
+
+            float sPosY = this.position.Y;
+            float pPosY = player.Positition.Y;
+
+            if (pPosX > sPosX)
+            {
+                direction = Direction.Right;
+            }
+            else if(pPosX < sPosX)
+            {
+                direction = Direction.Left;
+            }
+
+            if (Math.Abs(pPosX - sPosX) >= 150)
+            {
+                if (direction == Direction.Right)
+                    velocity.X = 1.5f;
+                if (direction == Direction.Left)
+                    velocity.X = -1.5f;
+            }
+            else
+                velocity.X = 0;
         }
 
         private void Gravity()
@@ -94,13 +141,17 @@ namespace Celwahit.GameObjects
             if (_collisionRectangle.TouchRightOf(newRectangle, velocity))
             {
                 Debug.WriteLine("right");
-
-                position.X = newRectangle.X - _collisionRectangle.Width;
+                position.X = newRectangle.X-29;
+                if (!hasJumped)
+                    Jump();
             }
             else if (_collisionRectangle.TouchLeftOf(newRectangle, velocity) && velocity.X < 0)
             {
                 Debug.WriteLine("left");
                 position.X = newRectangle.X + newRectangle.Width;
+                position.X = newRectangle.X - 29;
+                if (!hasJumped)
+                    Jump();
 
             }
             else

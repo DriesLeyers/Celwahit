@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 using Celwahit.Collisions;
 using Celwahit.InputReaders;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Celwahit.GameObjects
 {

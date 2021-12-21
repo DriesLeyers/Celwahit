@@ -184,7 +184,7 @@ namespace Celwahit
                 }
 
 
-                soldier.Update(gameTime);
+                soldier.Update(gameTime, player);
             }
 
             previousMouseState = mouseState;

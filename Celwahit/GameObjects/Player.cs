@@ -284,7 +284,6 @@ namespace Celwahit.GameObjects
                 //Debug.WriteLine("bottom");
 
                 position.Y = newRectangle.Y - 38;
-                velocity.Y = 0f;
                 hasJumped = false;
             }
             else if(_collisionRectangle.TouchTopOf(newRectangle))

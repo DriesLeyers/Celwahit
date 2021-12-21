@@ -47,10 +47,12 @@ namespace Celwahit.GameObjects
             Debug.WriteLine("Jump");
             if (!hasJumped)
             {
-                position.Y -= 10f;
+                position.Y -= 10;
                 velocity.Y = -2.5f;
             }
             hasJumped = true;
+            position += velocity;
+
         }
 
         public void Update(GameTime gameTime, Player player)
@@ -59,7 +61,7 @@ namespace Celwahit.GameObjects
             walkingAnimation.Update(gameTime, 12);
             if (hasJumped)
             {
-                //Gravity();
+                Gravity();
                 velocity.Y += 0.15f * 1.0f;
             }
 
@@ -141,7 +143,7 @@ namespace Celwahit.GameObjects
             if (_collisionRectangle.TouchRightOf(newRectangle, velocity))
             {
                 Debug.WriteLine("right");
-                position.X = newRectangle.X-29;
+                position.X = newRectangle.X-32;
                 if (!hasJumped)
                     Jump();
             }
@@ -149,7 +151,7 @@ namespace Celwahit.GameObjects
             {
                 Debug.WriteLine("left");
                 position.X = newRectangle.X + newRectangle.Width;
-                position.X = newRectangle.X - 29;
+                position.X = newRectangle.X - 32;
                 if (!hasJumped)
                     Jump();
 

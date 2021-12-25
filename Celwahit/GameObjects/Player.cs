@@ -70,7 +70,7 @@ namespace Celwahit.GameObjects
             acceleration = new Vector2(0.0f, 0.0f);
             bodyOffset = new Vector2(0, 10);
 
-            CollisionRect = new Rectangle((int)position.X, (int)position.Y, 32, 80);
+            CollisionRect = new Rectangle((int)position.X, (int)position.Y, 32, 38);
 
             _collisionRectangle = new Rectangle((int)position.X, (int)position.Y, 32, 38);
 

@@ -183,6 +183,13 @@ namespace Celwahit
                     player.hasJumped = true;
                 }
 
+                var temp2 = soldier.CollisionRect;
+                temp2.Height += 6;
+
+                if (!map.CollisionTiles.Any(x => CollisionManager.CheckCollision(x.Rectangle, temp2)) && !soldier.hasJumped)
+                {
+                    soldier.hasJumped = true;
+                }
 
                 soldier.Update(gameTime, player);
             }

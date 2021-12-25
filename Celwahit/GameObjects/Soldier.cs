@@ -52,7 +52,6 @@ namespace Celwahit.GameObjects
             }
             hasJumped = true;
             position += velocity;
-
         }
 
         public void Update(GameTime gameTime, Player player)

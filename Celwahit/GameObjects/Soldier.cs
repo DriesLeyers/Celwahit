@@ -22,11 +22,12 @@ namespace Celwahit.GameObjects
         //Vector2 position;
         //Vector2 velocity;
 
+        public int Health = 100;
+
         bool playerFlipped = false;
 
         public Soldier(Texture2D idleSoldier, Texture2D walkingSoldier)
         {
-
             walkingAnimation = SoldierAnimationBuilder.WalkingAnimation(walkingSoldier);
             idleAnimation = SoldierAnimationBuilder.IdleAnimation(idleSoldier);
 
@@ -73,9 +74,7 @@ namespace Celwahit.GameObjects
             CollisionRect = new Rectangle((int)this.Positition.X,(int) this.Positition.Y, idleAnimation.CurrentFrame.SourceRect.Width, idleAnimation.CurrentFrame.SourceRect.Height);
             direction = Direction.Right;
             
-
             SetDirectionToPlayer(player);
-
         }
 
         private void SetDirectionToPlayer(Player player)

@@ -55,7 +55,7 @@ namespace Celwahit.GameObjects
             spriteBatch.Draw(_texture, position, null, Color.White, _rotation, origin, 1, SpriteEffects.None, 0);
         }
 
-        public void Collision(Rectangle newRectangle, int xOffset, int yOffset)
+        public void Collision()
         {
             isRemoved = true;
         }

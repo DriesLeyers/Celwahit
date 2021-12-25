@@ -135,9 +135,6 @@ namespace Celwahit
 
             mouseState = Mouse.GetState();
 
-            //Debug.Write("Mousepos.X: " + mouseState.X + "\n"
-            //+ "Mousepos.Y: " + mouseState.Y + "\n");
-
             if (gameState == GameState.StartMenu)
             {
                 if (startScreen.CheckIfWantToPlay(previousMouseState))
@@ -146,12 +143,6 @@ namespace Celwahit
 
             if (gameState == GameState.Playing)
             {
-                //Debug.Write("\n" + player.CollisionRect.Y + "\n");
-                //if (CollisionManager.CheckCollision(_groundRect, player.CollisionRect))
-                //{
-                //    Debug.WriteLine("hit ground");
-                //    player.StopJump();
-                //}
                 player.Update(gameTime, bullets);
 
                 foreach (Bullet bullet in bullets.ToArray())
@@ -169,11 +160,27 @@ namespace Celwahit
                         soldier.Collision(tile.Rectangle, map.Width, map.Height);
                     }
 
+                var soldierRectForBulletHit = soldier.CollisionRect;
+                soldierRectForBulletHit.Width -= 2;
+                soldierRectForBulletHit.X += 8;
+                
+                foreach (Bullet bullet in bullets.ToArray())
+                    foreach (CollisionTiles tile in map.CollisionTiles)
+                        if ((CollisionManager.CheckCollision(tile.Rectangle, bullet.collisionRectangle)))
+                        {
+                            bullet.Collision();
+                        }else if(CollisionManager.CheckCollision(soldierRectForBulletHit, bullet.collisionRectangle))
+                        {
+                            bullet.Collision();
+                            soldier.Health -= 25;
+                            if (soldier.Health == 0)
+                            {
+                                Debug.WriteLine("Soldier dead");
+                            }
 
-                foreach (CollisionTiles tile in map.CollisionTiles)
-                    foreach (Bullet bullet in bullets.ToArray())
-                        if (CollisionManager.CheckCollision(tile.Rectangle, bullet.collisionRectangle))
-                            bullet.Collision(tile.Rectangle, map.Width, map.Height);
+                            break;
+                        }
+
 
                 var temp = player.CollisionRect;
                 temp.Height += 6;
@@ -218,7 +225,9 @@ namespace Celwahit
                 skybox.Draw(_spriteBatch, tmep[0]);
                 background.Draw(_spriteBatch, tmep[0]);
                 player.Draw(_spriteBatch, gameTime);
-                soldier.Draw(_spriteBatch, gameTime);
+                if(soldier.Health != 0)
+                    soldier.Draw(_spriteBatch, gameTime);
+                
 
                 foreach (Bullet bullet in bullets.ToArray())
                     bullet.Draw(_spriteBatch, gameTime);

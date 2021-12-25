@@ -44,6 +44,8 @@ namespace Celwahit
 
         private Texture2D startButton;
 
+        bool soldierDead = false;
+
         MouseState mouseState;
         MouseState previousMouseState;
 
@@ -154,28 +156,30 @@ namespace Celwahit
                         player.Collision(tile.Rectangle, map.Width, map.Height);
                     }
 
-                foreach (CollisionTiles tile in map.CollisionTiles)
-                    if (CollisionManager.CheckCollision(tile.Rectangle, soldier.CollisionRect))
-                    {
-                        soldier.Collision(tile.Rectangle, map.Width, map.Height);
-                    }
+                if (!soldierDead)
+                    foreach (CollisionTiles tile in map.CollisionTiles)
+                        if (CollisionManager.CheckCollision(tile.Rectangle, soldier.CollisionRect))
+                            soldier.Collision(tile.Rectangle, map.Width, map.Height);
+
 
                 var soldierRectForBulletHit = soldier.CollisionRect;
                 soldierRectForBulletHit.Width -= 2;
                 soldierRectForBulletHit.X += 8;
-                
+
                 foreach (Bullet bullet in bullets.ToArray())
                     foreach (CollisionTiles tile in map.CollisionTiles)
                         if ((CollisionManager.CheckCollision(tile.Rectangle, bullet.collisionRectangle)))
                         {
                             bullet.Collision();
-                        }else if(CollisionManager.CheckCollision(soldierRectForBulletHit, bullet.collisionRectangle))
+                        }
+                        else if (CollisionManager.CheckCollision(soldierRectForBulletHit, bullet.collisionRectangle) && !soldierDead)
                         {
                             bullet.Collision();
                             soldier.Health -= 25;
                             if (soldier.Health == 0)
                             {
-                                Debug.WriteLine("Soldier dead");
+                                soldierDead = true;
+                                Debug.WriteLine("soldier died");
                             }
 
                             break;
@@ -190,15 +194,18 @@ namespace Celwahit
                     player.hasJumped = true;
                 }
 
-                var temp2 = soldier.CollisionRect;
-                temp2.Height += 6;
-
-                if (!map.CollisionTiles.Any(x => CollisionManager.CheckCollision(x.Rectangle, temp2)) && !soldier.hasJumped)
+                if (!soldierDead)
                 {
-                    soldier.hasJumped = true;
-                }
+                    var temp2 = soldier.CollisionRect;
+                    temp2.Height += 6;
 
-                soldier.Update(gameTime, player);
+                    if (!map.CollisionTiles.Any(x => CollisionManager.CheckCollision(x.Rectangle, temp2)) && !soldier.hasJumped)
+                    {
+                        soldier.hasJumped = true;
+                    }
+
+                    soldier.Update(gameTime, player);
+                }
             }
 
             previousMouseState = mouseState;
@@ -225,9 +232,10 @@ namespace Celwahit
                 skybox.Draw(_spriteBatch, tmep[0]);
                 background.Draw(_spriteBatch, tmep[0]);
                 player.Draw(_spriteBatch, gameTime);
-                if(soldier.Health != 0)
+
+                if (!soldierDead)
                     soldier.Draw(_spriteBatch, gameTime);
-                
+
 
                 foreach (Bullet bullet in bullets.ToArray())
                     bullet.Draw(_spriteBatch, gameTime);

@@ -149,7 +149,6 @@ namespace Celwahit.GameObjects
             {
                 Debug.WriteLine("left");
                 position.X = newRectangle.X + newRectangle.Width;
-                position.X = newRectangle.X - 32;
                 if (!hasJumped)
                     Jump();
 

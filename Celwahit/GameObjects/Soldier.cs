@@ -26,7 +26,7 @@ namespace Celwahit.GameObjects
 
         bool playerFlipped = false;
 
-        public Soldier(Texture2D idleSoldier, Texture2D walkingSoldier)
+        public Soldier(Texture2D idleSoldier, Texture2D walkingSoldier, int startPlaceX, int startPlaceY)
         {
             walkingAnimation = SoldierAnimationBuilder.WalkingAnimation(walkingSoldier);
             idleAnimation = SoldierAnimationBuilder.IdleAnimation(idleSoldier);
@@ -36,7 +36,7 @@ namespace Celwahit.GameObjects
             _collisionRectangle = new Rectangle((int)position.X, (int)position.Y, idleSoldier.Bounds.Width, idleSoldier.Bounds.Height);
             hasJumped = true;
 
-            position = new Vector2(150, 150);
+            position = new Vector2(startPlaceX, startPlaceY);
             velocity = new Vector2(0, 0);
 
             velocity.Y += 3f;

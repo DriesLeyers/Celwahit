@@ -202,10 +202,8 @@ namespace Celwahit.GameObjects
 
         public Bullet AddBullet()
         {
-            
             var newBullet = this.bullet.Clone() as Bullet;
             return newBullet;
-            
         }
         //TODO: Movement.cs maken fzoeit
         private void Accelerate()

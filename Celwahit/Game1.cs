@@ -98,8 +98,6 @@ namespace Celwahit
 
             startButton = Content.Load<Texture2D>("startscherm");
 
-
-
             walkingPlayerLegs = Content.Load<Texture2D>("Player/Fiolina_Bot_Walking");
             walkingPlayerBody = Content.Load<Texture2D>("Player/Fiolina_Top_Walking");
 
@@ -120,14 +118,12 @@ namespace Celwahit
         private void InitializeGameObjects()
         {
             player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody, idlePlayerLegs, bulletTexture);
-            soldier = new Soldier(idleSoldier, walkingSoldier);
+            soldier = new Soldier(idleSoldier, walkingSoldier, 150, 0);
+            
             background = new Background(backgroundTexture);
             skybox = new Skybox(skyboxTexture);
-            //_groundRect.Y = (int)(background.height * gameSettings.GetWindowScale()[0]) - 50;
 
             background = new Background(backgroundTexture);
-            //_groundRect.Y = (int)(background.height * gameSettings.GetWindowScale()[0]) - 50;
-
         }
 
         protected override void Update(GameTime gameTime)
@@ -226,9 +222,9 @@ namespace Celwahit
             if (gameState == GameState.Playing)
             {
                 _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, transformMatrix: matrix);
-                //_spriteBatch.Draw(backgroundTexture, new Vector2(0, 0), Color.White);
+
                 float[] tmep = gameSettings.GetWindowScale();
-                //Debug.WriteLine(tmep);
+
                 skybox.Draw(_spriteBatch, tmep[0]);
                 background.Draw(_spriteBatch, tmep[0]);
                 player.Draw(_spriteBatch, gameTime);

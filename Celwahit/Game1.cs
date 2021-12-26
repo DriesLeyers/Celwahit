@@ -118,7 +118,7 @@ namespace Celwahit
         {
             player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody, idlePlayerLegs, bulletTexture);
             soldier = new Soldier(idleSoldier, walkingSoldier, 150, 0);
-            
+
             background = new Background(backgroundTexture);
             skybox = new Skybox(skyboxTexture);
 
@@ -132,10 +132,9 @@ namespace Celwahit
 
             mouseState = Mouse.GetState();
 
-            if (gameState == GameState.StartMenu)
+            if (gameState == GameState.StartMenu && startScreen.CheckIfWantToPlay(previousMouseState))
             {
-                if (startScreen.CheckIfWantToPlay(previousMouseState))
-                    gameState = GameState.Playing;
+                gameState = GameState.Playing;
             }
 
             if (gameState == GameState.Playing)
@@ -145,24 +144,25 @@ namespace Celwahit
                 foreach (Bullet bullet in bullets.ToArray())
                     bullet.Update(gameTime, bullets);
 
+                var soldierRectForBulletHit = soldier.CollisionRect;
+                soldierRectForBulletHit.Width -= 2;
+                soldierRectForBulletHit.X += 8;
+
                 foreach (CollisionTiles tile in map.CollisionTiles)
+                {
                     if (CollisionManager.CheckCollision(tile.Rectangle, player.CollisionRect))
                     {
                         player.Collision(tile.Rectangle, map.Width, map.Height);
                     }
 
-                if (!soldierDead)
-                    foreach (CollisionTiles tile in map.CollisionTiles)
-                        if (CollisionManager.CheckCollision(tile.Rectangle, soldier.CollisionRect))
-                            soldier.Collision(tile.Rectangle, map.Width, map.Height);
-
-
-                var soldierRectForBulletHit = soldier.CollisionRect;
-                soldierRectForBulletHit.Width -= 2;
-                soldierRectForBulletHit.X += 8;
+                    if (!soldierDead && CollisionManager.CheckCollision(tile.Rectangle, soldier.CollisionRect))
+                        soldier.Collision(tile.Rectangle, map.Width, map.Height);
+                }
 
                 foreach (Bullet bullet in bullets.ToArray())
+                {
                     foreach (CollisionTiles tile in map.CollisionTiles)
+                    {
                         if ((CollisionManager.CheckCollision(tile.Rectangle, bullet.collisionRectangle)))
                         {
                             bullet.Collision();
@@ -179,7 +179,8 @@ namespace Celwahit
 
                             break;
                         }
-
+                    }
+                }
 
                 var temp = player.CollisionRect;
                 temp.Height += 6;
@@ -212,10 +213,17 @@ namespace Celwahit
         {
             Matrix matrix;
 
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-            if(player.Positition.X < 385)
+            Debug.WriteLine(player.Positition.X);
+
+            Color color = new Color(43, 87, 84);
+
+            GraphicsDevice.Clear(color);
+            if (player.Positition.X < 385)
             {
-                matrix = NotFollowPlayer();
+                matrix = NotFollowPlayer(true);
+            }else if(player.Positition.X > 1561.5)
+            {
+                matrix = NotFollowPlayer(false);
             }
             else
             {
@@ -240,7 +248,6 @@ namespace Celwahit
                 if (!soldierDead)
                     soldier.Draw(_spriteBatch, gameTime);
 
-
                 foreach (Bullet bullet in bullets.ToArray())
                     bullet.Draw(_spriteBatch, gameTime);
 
@@ -263,13 +270,28 @@ namespace Celwahit
             return position * offset;
         }
 
-        private Matrix NotFollowPlayer()
+        private Matrix NotFollowPlayer(bool playerIsAtBegin)
         {
-            var position = Matrix.CreateTranslation(-800,/* -player.CollisionRect.Y - (player.CollisionRect.Height / 2)*/ 0, 0);
+            var offset = new Matrix();
+            var position = new Matrix();
 
-            var offset = Matrix.CreateTranslation(
-                gameSettings.WindowWidth,
-                gameSettings.WindowHeight / 2, 0);
+            if (playerIsAtBegin)
+            {
+                position = Matrix.CreateTranslation(-800, 0, 0);
+
+                offset = Matrix.CreateTranslation(
+                    gameSettings.WindowWidth,
+                    gameSettings.WindowHeight / 2, 0);
+            }
+            else
+            {
+                position = Matrix.CreateTranslation(-1975, 0, 0);
+
+                offset = Matrix.CreateTranslation(
+                    gameSettings.WindowWidth,
+                    gameSettings.WindowHeight / 2, 0);
+            }
+          
 
             return position * offset;
         }
@@ -291,7 +313,7 @@ namespace Celwahit
                 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
                 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,},
                 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
                 { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
             };
 

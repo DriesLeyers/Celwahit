@@ -50,7 +50,7 @@ namespace Celwahit.GameObjects
         {
             if (isFlipped)
             {
-                spriteBatch.Draw(_texture, position,null, Color.White, _rotation, origin, 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(_texture, position,null, Color.White, _rotation, origin, 1, SpriteEffects.FlipHorizontally, 0);
             }
             spriteBatch.Draw(_texture, position, null, Color.White, _rotation, origin, 1, SpriteEffects.None, 0);
         }

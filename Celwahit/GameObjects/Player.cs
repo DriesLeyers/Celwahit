@@ -178,7 +178,6 @@ namespace Celwahit.GameObjects
                             //Accelerate();
                             break;
                         case Keys.Up:
-                            direction = Direction.Jumping;
                             if (!hasJumped)
                                 Jump();
                             //Accelerate();

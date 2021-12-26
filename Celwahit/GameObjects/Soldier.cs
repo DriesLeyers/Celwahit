@@ -72,6 +72,7 @@ namespace Celwahit.GameObjects
             position += velocity;
 
             CollisionRect = new Rectangle((int)this.Positition.X,(int) this.Positition.Y, idleAnimation.CurrentFrame.SourceRect.Width, idleAnimation.CurrentFrame.SourceRect.Height);
+            _collisionRectangle = CollisionRect;
             direction = Direction.Right;
             
             SetDirectionToPlayer(player);
@@ -94,7 +95,9 @@ namespace Celwahit.GameObjects
                 direction = Direction.Left;
             }
 
-            if (Math.Abs(pPosX - sPosX) >= 150)
+            //TODO check op Y-as verschill da em onder u komt te staan
+
+            if (Math.Abs(pPosX - sPosX) >= 50)
             {
                 if (direction == Direction.Right)
                     velocity.X = 1.5f;
@@ -156,11 +159,10 @@ namespace Celwahit.GameObjects
             else
             if (_collisionRectangle.TouchBottomOf(newRectangle))
             {
-                Debug.WriteLine("Soldier: bottom");
+                //Debug.WriteLine("bottom");
 
-                this.position.Y = newRectangle.Y - 38;
-                this.velocity.Y = 0f;
-                this.hasJumped = false;
+                position.Y = newRectangle.Y - 38;
+                hasJumped = false;
             }
             else if (_collisionRectangle.TouchTopOf(newRectangle))
             {

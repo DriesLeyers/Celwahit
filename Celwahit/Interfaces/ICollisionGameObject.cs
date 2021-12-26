@@ -9,6 +9,6 @@ namespace Celwahit.Collisions
     {
         public Rectangle CollisionRect { get; set; }
 
-        public void UpdateCollision();
+        public void Collision(Rectangle newRectangle, int xOffset, int yOffset);
     }
 }

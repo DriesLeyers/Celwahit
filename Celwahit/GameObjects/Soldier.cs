@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Celwahit.GameObjects
 {
-    class Soldier : CharacterObject//, //IGameObject//, ICollisionGameObject
+    class Soldier : CharacterObject, IGameObject, ICollisionGameObject
     {
         //public Rectangle CollisionRect { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
@@ -78,6 +78,11 @@ namespace Celwahit.GameObjects
             SetDirectionToPlayer(player);
         }
 
+        public void Update(GameTime gameTime, List<Bullet> bullets)
+        {
+            throw new NotImplementedException();
+        }
+
         private void SetDirectionToPlayer(Player player)
         {
             float sPosX = this.position.X;
@@ -110,7 +115,6 @@ namespace Celwahit.GameObjects
 
         private void Gravity()
         {
-            //throw new NotImplementedException();
             velocity.Y += 0.15f * 1.0f;
             position.Y += velocity.Y;
         }
@@ -139,7 +143,6 @@ namespace Celwahit.GameObjects
         {
             _collisionRectangle.X = (int)position.X;
             _collisionRectangle.Y = (int)position.Y;
-            //Debug.WriteLine(velocity.Y);
 
             if (_collisionRectangle.TouchRightOf(newRectangle, velocity))
             {
@@ -159,23 +162,18 @@ namespace Celwahit.GameObjects
             else
             if (_collisionRectangle.TouchBottomOf(newRectangle))
             {
-                //Debug.WriteLine("bottom");
-
                 position.Y = newRectangle.Y - 38;
                 hasJumped = false;
             }
             else if (_collisionRectangle.TouchTopOf(newRectangle))
-            {
-                Debug.WriteLine("top");
-
                 velocity.Y = 1f;
-            }
 
             if (position.X < 0) position.X = 0;
             if (position.X > xOffset - _collisionRectangle.Width) position.X = xOffset - _collisionRectangle.Width;
             if (position.Y < 0) velocity.Y = 1f;
             if (position.Y > yOffset - _collisionRectangle.Height) position.Y = yOffset - _collisionRectangle.Height;
         }
+
 
     }
 }

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Celwahit.GameObjects
 {
-    public class Player : CharacterObject //: IGameObject //, ICollisionGameObject
+    public class Player : CharacterObject, IGameObject , ICollisionGameObject
     {
         Animation walkingAnimationBody;
         Animation walkingAnimationLegs;

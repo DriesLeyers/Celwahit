@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Celwahit.GameObjects;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace Celwahit.Interfaces
 
     interface IGameObject
     {
-        public void Update(GameTime gameTime);
+        public void Update(GameTime gameTime, List<Bullet> bullets);
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime);
     }

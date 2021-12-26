@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Celwahit.GameObjects
 {
-    public class Sprite //: IGameObject
+    public class Sprite : IGameObject
     {
         public Rectangle CollisionRect { get; set; }
         protected Rectangle _collisionRectangle;

@@ -114,7 +114,6 @@ namespace Celwahit
 
             InitializeGameObjects();
         }
-
         private void InitializeGameObjects()
         {
             player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody, idlePlayerLegs, bulletTexture);
@@ -211,8 +210,17 @@ namespace Celwahit
 
         protected override void Draw(GameTime gameTime)
         {
+            Matrix matrix;
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            Matrix matrix = FollowPlayer();
+            if(player.Positition.X < 385)
+            {
+                matrix = NotFollowPlayer();
+            }
+            else
+            {
+                matrix = FollowPlayer();
+            }
 
             if (gameState == GameState.StartMenu)
             {
@@ -252,10 +260,18 @@ namespace Celwahit
                 gameSettings.WindowWidth / 2,
                 gameSettings.WindowHeight / 2, 0);
 
-            var Transform = position * offset;
+            return position * offset;
+        }
 
-            return Transform;
+        private Matrix NotFollowPlayer()
+        {
+            var position = Matrix.CreateTranslation(-800,/* -player.CollisionRect.Y - (player.CollisionRect.Height / 2)*/ 0, 0);
 
+            var offset = Matrix.CreateTranslation(
+                gameSettings.WindowWidth,
+                gameSettings.WindowHeight / 2, 0);
+
+            return position * offset;
         }
 
         private int[,] makeMap()

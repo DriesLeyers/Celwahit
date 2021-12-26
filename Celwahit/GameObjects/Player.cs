@@ -31,12 +31,11 @@ namespace Celwahit.GameObjects
 
         //in da filmpje van collision heeft die en _collisionRect en CollisionRect
 
-
         public Rectangle rectangle;
 
         //Vector2 position;
         //public Vector2 velocity;
-        
+
         Vector2 acceleration;
         //To get the sprites properly aligned
         Vector2 bodyOffset;
@@ -112,7 +111,7 @@ namespace Celwahit.GameObjects
             _previousKey = _currentKey;
             _currentKey = Keyboard.GetState();
 
-            if(_currentKey.IsKeyDown(Keys.LeftControl) && _previousKey.IsKeyUp(Keys.LeftControl))
+            if (_currentKey.IsKeyDown(Keys.LeftControl) && _previousKey.IsKeyUp(Keys.LeftControl))
             {
                 bullets.Add(AddBullet());
             }
@@ -121,8 +120,13 @@ namespace Celwahit.GameObjects
         private void SetBulletData()
         {
             this.bullet.isFlipped = IsFlipped;
-            this.bullet.position = new Vector2(this.position.X+35, this.position.Y+walkingPlayerBody.Bounds.Height/2);
-            this.bullet._velocity = new Vector2(7f,0f);
+
+            if (IsFlipped)
+                this.bullet.position = new Vector2(this.position.X - 5, this.position.Y + 5 + walkingPlayerBody.Bounds.Height / 2);
+            else
+                this.bullet.position = new Vector2(this.position.X + 35, this.position.Y + 5 + walkingPlayerBody.Bounds.Height / 2);
+
+            this.bullet._velocity = new Vector2(7f, 0f);
             this.bullet.LifeSpan = 3f;
         }
 
@@ -276,7 +280,8 @@ namespace Celwahit.GameObjects
                 Debug.WriteLine("left");
                 position.X = newRectangle.X + newRectangle.Width;
 
-            } else
+            }
+            else
             if (_collisionRectangle.TouchBottomOf(newRectangle))
             {
                 //Debug.WriteLine("bottom");
@@ -284,7 +289,7 @@ namespace Celwahit.GameObjects
                 position.Y = newRectangle.Y - 38;
                 hasJumped = false;
             }
-            else if(_collisionRectangle.TouchTopOf(newRectangle))
+            else if (_collisionRectangle.TouchTopOf(newRectangle))
             {
                 Debug.WriteLine("top");
 

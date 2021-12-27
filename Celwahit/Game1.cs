@@ -38,6 +38,14 @@ namespace Celwahit
         Texture2D idleSoldier;
         #endregion soldier
 
+        #region boss
+        Boss boss;
+        Texture2D walkingBoss;
+        Texture2D idleBoss;
+        Texture2D shootingBoss;
+        Texture2D gettingReadyBoss;
+        #endregion
+
         Texture2D backgroundTexture;
         Texture2D skyboxTexture;
 
@@ -46,6 +54,7 @@ namespace Celwahit
         private Texture2D startButton;
 
         bool soldierDead = false;
+        bool bossDead = false;
 
         MouseState mouseState;
         MouseState previousMouseState;
@@ -113,12 +122,19 @@ namespace Celwahit
             backgroundTexture = Content.Load<Texture2D>("plx-5");
             skyboxTexture = Content.Load<Texture2D>("Mission1_Background3");
 
+            idleBoss= Content.Load<Texture2D>("Idle_Boss");
+            walkingBoss= Content.Load<Texture2D>("Walking_Boss");
+            shootingBoss= Content.Load<Texture2D>("Shooting_Boss");
+            gettingReadyBoss = Content.Load<Texture2D>("Get_Ready_Boss");
+
             InitializeGameObjects();
         }
         private void InitializeGameObjects()
         {
             player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody, idlePlayerLegs, bulletTexture);
             soldier = new Soldier(idleSoldier, walkingSoldier, 150, 0, bulletTexture);
+
+            boss = new Boss(idleBoss, walkingBoss, gettingReadyBoss, shootingBoss, 2000, 0);
 
             background = new Background(backgroundTexture);
             skybox = new Skybox(skyboxTexture);
@@ -161,6 +177,9 @@ namespace Celwahit
 
                     if (!soldierDead && CollisionManager.CheckCollision(tile.Rectangle, soldier.CollisionRect))
                         soldier.Collision(tile.Rectangle, map.Width, map.Height);
+
+                    if (!bossDead && CollisionManager.CheckCollision(tile.Rectangle, boss.CollisionRect))
+                        boss.Collision(tile.Rectangle, map.Width, map.Height);
                 }
 
                 foreach (Bullet bullet in bulletsPlayer.ToArray())
@@ -228,6 +247,7 @@ namespace Celwahit
 
                     soldier.Update(gameTime, player, bulletsSoldier);
                 }
+                boss.Update(gameTime, player);
             }
 
             previousMouseState = mouseState;
@@ -271,6 +291,9 @@ namespace Celwahit
 
                 if (!soldierDead)
                     soldier.Draw(_spriteBatch, gameTime);
+
+                if (!bossDead)
+                    boss.Draw(_spriteBatch, gameTime);
 
                 foreach (Bullet bullet in bulletsPlayer.ToArray())
                     bullet.Draw(_spriteBatch, gameTime);

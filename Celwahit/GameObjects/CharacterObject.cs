@@ -11,6 +11,7 @@ namespace Celwahit.GameObjects
         public Rectangle CollisionRect { get; set; }
         protected Rectangle _collisionRectangle;
 
+
         protected Vector2 position = new Vector2(64, 384);
         public Vector2 Positition
         {

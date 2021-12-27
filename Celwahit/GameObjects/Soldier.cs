@@ -17,7 +17,7 @@ namespace Celwahit.GameObjects
         Animation walkingAnimation;
         Animation idleAnimation;
 
-        Direction direction;
+        protected Direction direction;
 
         Bullet bullet;
 
@@ -48,6 +48,10 @@ namespace Celwahit.GameObjects
 
             velocity.Y += 3f;
 
+        }
+
+        public Soldier()
+        {
         }
 
         private void Jump()
@@ -96,7 +100,7 @@ namespace Celwahit.GameObjects
             SetBulletData();
             Shoot(bullets);
 
-            SetDirectionToPlayer(player);
+            SetDirectionToPlayer(player, 50);
         }
 
         public void Update(GameTime gameTime, List<Bullet> bullets)
@@ -104,7 +108,7 @@ namespace Celwahit.GameObjects
             throw new NotImplementedException();
         }
 
-        private void SetDirectionToPlayer(Player player)
+        public virtual void SetDirectionToPlayer(Player player, int distance)
         {
             float sPosX = this.position.X;
             float pPosX = player.Positition.X;
@@ -116,16 +120,18 @@ namespace Celwahit.GameObjects
             {
                 playerFlipped = false;
                 direction = Direction.Right;
+                playerFlipped = true;
             }
             else if(pPosX < sPosX)
             {
                 playerFlipped = true;
                 direction = Direction.Left;
+                playerFlipped = false;
             }
 
             //TODO check op Y-as verschill da em onder u komt te staan
 
-            if (Math.Abs(pPosX - sPosX) >= 50)
+            if (Math.Abs(pPosX - sPosX) >= distance)
             {
                 if (direction == Direction.Right)
                     velocity.X = 1.5f;
@@ -136,7 +142,7 @@ namespace Celwahit.GameObjects
                 velocity.X = 0;
         }
 
-        private void Gravity()
+        protected void Gravity()
         {
             velocity.Y += 0.15f * 1.0f;
             position.Y += velocity.Y;

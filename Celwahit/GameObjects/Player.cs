@@ -29,6 +29,8 @@ namespace Celwahit.GameObjects
         KeyboardState _previousKey;
         KeyboardState _currentKey;
 
+        public int Health = 100;
+
         //in da filmpje van collision heeft die en _collisionRect en CollisionRect
 
         public Rectangle rectangle;

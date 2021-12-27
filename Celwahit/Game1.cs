@@ -55,6 +55,7 @@ namespace Celwahit
 
         bool soldierDead = false;
         bool bossDead = false;
+        bool playerDead = false;
 
         MouseState mouseState;
         MouseState previousMouseState;
@@ -156,7 +157,6 @@ namespace Celwahit
 
             if (gameState == GameState.Playing)
             {
-                player.Update(gameTime, bulletsPlayer);
 
                 foreach (Bullet bullet in bulletsPlayer.ToArray())
                     bullet.Update(gameTime, bulletsPlayer);
@@ -170,7 +170,7 @@ namespace Celwahit
 
                 foreach (CollisionTiles tile in map.CollisionTiles)
                 {
-                    if (CollisionManager.CheckCollision(tile.Rectangle, player.CollisionRect))
+                    if (!playerDead && CollisionManager.CheckCollision(tile.Rectangle, player.CollisionRect))
                     {
                         player.Collision(tile.Rectangle, map.Width, map.Height);
                     }
@@ -221,6 +221,10 @@ namespace Celwahit
                     }
                 }
 
+                var playerRectForBulletHit = player.CollisionRect;
+                playerRectForBulletHit.Width -= 2;
+                playerRectForBulletHit.X += 8;
+
                 foreach (Bullet bullet in bulletsSoldier.ToArray())
                 {
                     foreach (CollisionTiles tile in map.CollisionTiles)
@@ -229,26 +233,31 @@ namespace Celwahit
                         {
                             bullet.Collision();
                         }
-                        //else if (CollisionManager.CheckCollision(soldierRectForBulletHit, bullet.collisionRectangle) && !soldierDead)
-                        //{
-                        //    bullet.Collision();
-                        //    soldier.Health -= 25;
-                        //    if (soldier.Health == 0)
-                        //    {
-                        //        soldierDead = true;
-                        //        Debug.WriteLine("soldier died");
-                        //    }
+                        else if (CollisionManager.CheckCollision(playerRectForBulletHit, bullet.collisionRectangle) && !playerDead)
+                        {
+                            bullet.Collision();
+                            player.Health -= 25;
+                            if (player.Health == 0)
+                            {
+                                playerDead = true;
+                                Debug.WriteLine("player died");
+                            }
 
-                        //    break;
-                        //}
+                            break;
+                        }
                     }
                 }
-                var temp = player.CollisionRect;
-                temp.Height += 6;
-
-                if (!map.CollisionTiles.Any(x => CollisionManager.CheckCollision(x.Rectangle, temp)) && !player.hasJumped)
+                if (!playerDead)
                 {
-                    player.hasJumped = true;
+                    var temp = player.CollisionRect;
+                    temp.Height += 6;
+
+                    if (!map.CollisionTiles.Any(x => CollisionManager.CheckCollision(x.Rectangle, temp)) && !player.hasJumped)
+                    {
+                        player.hasJumped = true;
+                    }
+
+                    player.Update(gameTime, bulletsPlayer);
                 }
 
                 if (!soldierDead)
@@ -261,7 +270,7 @@ namespace Celwahit
                         soldier.hasJumped = true;
                     }
 
-                    soldier.Update(gameTime, player, bulletsSoldier);
+                    soldier.Update(gameTime, player, bulletsSoldier, playerDead);
                 }
                 boss.Update(gameTime, player);
             }
@@ -303,7 +312,9 @@ namespace Celwahit
 
                 skybox.Draw(_spriteBatch, tmep[0]);
                 background.Draw(_spriteBatch, tmep[0]);
-                player.Draw(_spriteBatch, gameTime);
+
+                if(!playerDead)
+                    player.Draw(_spriteBatch, gameTime);
 
                 if (!soldierDead)
                     soldier.Draw(_spriteBatch, gameTime);

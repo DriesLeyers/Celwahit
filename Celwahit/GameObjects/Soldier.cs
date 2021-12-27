@@ -27,7 +27,7 @@ namespace Celwahit.GameObjects
         //Vector2 velocity;
 
         public int Health = 100;
-
+        bool isShooting = false;
         bool playerFlipped = false;
 
         public Soldier(Texture2D idleSoldier, Texture2D walkingSoldier, int startPlaceX, int startPlaceY, Texture2D bullet)
@@ -77,7 +77,7 @@ namespace Celwahit.GameObjects
             return newBullet;
         }
 
-        public void Update(GameTime gameTime, Player player, List<Bullet> bullets)
+        public void Update(GameTime gameTime, Player player, List<Bullet> bullets, bool playerDead)
         {
             idleAnimation.Update(gameTime, 7);
             walkingAnimation.Update(gameTime, 12);
@@ -98,7 +98,18 @@ namespace Celwahit.GameObjects
             direction = Direction.Right;
 
             SetBulletData();
-            Shoot(bullets);
+
+            Debug.WriteLine(gameTime.TotalGameTime.Seconds);
+
+            if (gameTime.TotalGameTime.Seconds % 2 == 0 && !isShooting)
+            {
+                isShooting = true;
+                if(!playerDead)
+                    Shoot(bullets);
+            }
+
+            if (gameTime.TotalGameTime.Seconds % 2 != 0 && isShooting)
+                isShooting = false;
 
             SetDirectionToPlayer(player, 50);
         }
@@ -120,13 +131,11 @@ namespace Celwahit.GameObjects
             {
                 playerFlipped = false;
                 direction = Direction.Right;
-                playerFlipped = true;
             }
             else if(pPosX < sPosX)
             {
                 playerFlipped = true;
                 direction = Direction.Left;
-                playerFlipped = false;
             }
 
             //TODO check op Y-as verschill da em onder u komt te staan

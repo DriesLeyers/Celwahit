@@ -19,6 +19,10 @@ namespace Celwahit.GameObjects
 
         Direction direction;
 
+        Bullet bullet;
+
+        Texture2D walkingSoldierTexture;
+
         //Vector2 position;
         //Vector2 velocity;
 
@@ -26,8 +30,11 @@ namespace Celwahit.GameObjects
 
         bool playerFlipped = false;
 
-        public Soldier(Texture2D idleSoldier, Texture2D walkingSoldier, int startPlaceX, int startPlaceY)
+        public Soldier(Texture2D idleSoldier, Texture2D walkingSoldier, int startPlaceX, int startPlaceY, Texture2D bullet)
         {
+            this.bullet = new Bullet(bullet);
+            this.walkingSoldierTexture = walkingSoldier;
+
             walkingAnimation = SoldierAnimationBuilder.WalkingAnimation(walkingSoldier);
             idleAnimation = SoldierAnimationBuilder.IdleAnimation(idleSoldier);
 
@@ -55,7 +62,18 @@ namespace Celwahit.GameObjects
             position += velocity;
         }
 
-        public void Update(GameTime gameTime, Player player)
+        private void Shoot(List<Bullet> bullets)
+        {
+                bullets.Add(AddBullet());
+        }
+
+        public Bullet AddBullet()
+        {
+            var newBullet = this.bullet.Clone() as Bullet;
+            return newBullet;
+        }
+
+        public void Update(GameTime gameTime, Player player, List<Bullet> bullets)
         {
             idleAnimation.Update(gameTime, 7);
             walkingAnimation.Update(gameTime, 12);
@@ -74,7 +92,10 @@ namespace Celwahit.GameObjects
             CollisionRect = new Rectangle((int)this.Positition.X,(int) this.Positition.Y, idleAnimation.CurrentFrame.SourceRect.Width, idleAnimation.CurrentFrame.SourceRect.Height);
             _collisionRectangle = CollisionRect;
             direction = Direction.Right;
-            
+
+            SetBulletData();
+            Shoot(bullets);
+
             SetDirectionToPlayer(player);
         }
 
@@ -93,10 +114,12 @@ namespace Celwahit.GameObjects
 
             if (pPosX > sPosX)
             {
+                playerFlipped = false;
                 direction = Direction.Right;
             }
             else if(pPosX < sPosX)
             {
+                playerFlipped = true;
                 direction = Direction.Left;
             }
 
@@ -174,6 +197,18 @@ namespace Celwahit.GameObjects
             if (position.Y > yOffset - _collisionRectangle.Height) position.Y = yOffset - _collisionRectangle.Height;
         }
 
+        private void SetBulletData()
+        {
+            this.bullet.isFlipped = playerFlipped;
+
+            if (IsFlipped)
+                this.bullet.position = new Vector2(this.position.X - 5, this.position.Y + 5 + walkingSoldierTexture.Bounds.Height / 2);
+            else
+                this.bullet.position = new Vector2(this.position.X + 35, this.position.Y + 5 + walkingSoldierTexture.Bounds.Height / 2);
+
+            this.bullet._velocity = new Vector2(7f, 0f);
+            this.bullet.LifeSpan = 3f;
+        }
 
     }
 }

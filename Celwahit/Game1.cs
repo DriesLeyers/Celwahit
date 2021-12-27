@@ -21,7 +21,8 @@ namespace Celwahit
         Background background;
         Skybox skybox;
 
-        List<Bullet> bullets = new List<Bullet>();
+        List<Bullet> bulletsPlayer = new List<Bullet>();
+        List<Bullet> bulletsSoldier = new List<Bullet>();
 
         #region player
         Player player;
@@ -117,7 +118,7 @@ namespace Celwahit
         private void InitializeGameObjects()
         {
             player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody, idlePlayerLegs, bulletTexture);
-            soldier = new Soldier(idleSoldier, walkingSoldier, 150, 0);
+            soldier = new Soldier(idleSoldier, walkingSoldier, 150, 0, bulletTexture);
 
             background = new Background(backgroundTexture);
             skybox = new Skybox(skyboxTexture);
@@ -139,10 +140,13 @@ namespace Celwahit
 
             if (gameState == GameState.Playing)
             {
-                player.Update(gameTime, bullets);
+                player.Update(gameTime, bulletsPlayer);
 
-                foreach (Bullet bullet in bullets.ToArray())
-                    bullet.Update(gameTime, bullets);
+                foreach (Bullet bullet in bulletsPlayer.ToArray())
+                    bullet.Update(gameTime, bulletsPlayer);
+
+                foreach (Bullet bullet in bulletsSoldier.ToArray())
+                    bullet.Update(gameTime, bulletsSoldier);
 
                 var soldierRectForBulletHit = soldier.CollisionRect;
                 soldierRectForBulletHit.Width -= 2;
@@ -159,7 +163,7 @@ namespace Celwahit
                         soldier.Collision(tile.Rectangle, map.Width, map.Height);
                 }
 
-                foreach (Bullet bullet in bullets.ToArray())
+                foreach (Bullet bullet in bulletsPlayer.ToArray())
                 {
                     foreach (CollisionTiles tile in map.CollisionTiles)
                     {
@@ -182,6 +186,28 @@ namespace Celwahit
                     }
                 }
 
+                foreach (Bullet bullet in bulletsSoldier.ToArray())
+                {
+                    foreach (CollisionTiles tile in map.CollisionTiles)
+                    {
+                        if ((CollisionManager.CheckCollision(tile.Rectangle, bullet.collisionRectangle)))
+                        {
+                            bullet.Collision();
+                        }
+                        //else if (CollisionManager.CheckCollision(soldierRectForBulletHit, bullet.collisionRectangle) && !soldierDead)
+                        //{
+                        //    bullet.Collision();
+                        //    soldier.Health -= 25;
+                        //    if (soldier.Health == 0)
+                        //    {
+                        //        soldierDead = true;
+                        //        Debug.WriteLine("soldier died");
+                        //    }
+
+                        //    break;
+                        //}
+                    }
+                }
                 var temp = player.CollisionRect;
                 temp.Height += 6;
 
@@ -200,7 +226,7 @@ namespace Celwahit
                         soldier.hasJumped = true;
                     }
 
-                    soldier.Update(gameTime, player);
+                    soldier.Update(gameTime, player, bulletsSoldier);
                 }
             }
 
@@ -246,7 +272,10 @@ namespace Celwahit
                 if (!soldierDead)
                     soldier.Draw(_spriteBatch, gameTime);
 
-                foreach (Bullet bullet in bullets.ToArray())
+                foreach (Bullet bullet in bulletsPlayer.ToArray())
+                    bullet.Draw(_spriteBatch, gameTime);
+
+                foreach (Bullet bullet in bulletsSoldier.ToArray())
                     bullet.Draw(_spriteBatch, gameTime);
 
                 map.Draw(_spriteBatch);

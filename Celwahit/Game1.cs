@@ -239,6 +239,8 @@ namespace Celwahit
                             player.Health -= 25;
                             if (player.Health == 0)
                             {
+                                //TODO Game Over Screen
+
                                 playerDead = true;
                                 Debug.WriteLine("player died");
                             }

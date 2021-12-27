@@ -213,8 +213,6 @@ namespace Celwahit
         {
             Matrix matrix;
 
-            Debug.WriteLine(player.Positition.X);
-
             Color color = new Color(43, 87, 84);
 
             GraphicsDevice.Clear(color);

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Celwahit.GameObjects
 {
-    public class Player : CharacterObject, IGameObject , ICollisionGameObject
+    public class Player : CharacterObject, IGameObject, ICollisionGameObject
     {
         Animation walkingAnimationBody;
         Animation walkingAnimationLegs;
@@ -41,6 +41,8 @@ namespace Celwahit.GameObjects
         Vector2 bodyOffset;
 
         public bool playerFlipped;
+        private int xOffset;
+
         Direction direction;
 
         Bullet bullet;
@@ -140,14 +142,13 @@ namespace Celwahit.GameObjects
         {
             //velocity.X = 0;
             //acceleration = new Vector2(0, 0);
-
-            Debug.WriteLine("Jump");
-            if (!hasJumped)
-            {
-                position.Y -= 10f;
-                velocity.Y = -2.5f;
-            }
-            hasJumped = true;
+                Debug.WriteLine("Jump");
+                if (!hasJumped)
+                {
+                    position.Y -= 10f;
+                    velocity.Y = -2.5f;
+                }
+                hasJumped = true;
 
             //position += velocity;
         }
@@ -163,15 +164,26 @@ namespace Celwahit.GameObjects
                     switch (pressedKeys[i])
                     {
                         case Keys.Right:
-                            direction = Direction.Right;
+                            if (position.X > xOffset - _collisionRectangle.Width)
+                            {
+                                position.X = xOffset - _collisionRectangle.Width;
+                                velocity.X = 0;
+                            }
+
                             velocity.X = 1.5f;
+
+                            direction = Direction.Right;
                             //acceleration.X = 0.25f;
                             IsFlipped = false;
                             //Accelerate();
                             break;
                         case Keys.Left:
+                            if (position.X <= 0)
+                                velocity.X = 0;
+                            else
+                                velocity.X = -1.5f;
+
                             direction = Direction.Left;
-                            velocity.X = -1.5f;
                             //Check tutorial 
                             //acceleration.X = -0.25f;
                             IsFlipped = true;
@@ -265,6 +277,8 @@ namespace Celwahit.GameObjects
 
         public void Collision(Rectangle newRectangle, int xOffset, int yOffset)
         {
+            this.xOffset = xOffset;
+
             _collisionRectangle.X = (int)position.X;
             _collisionRectangle.Y = (int)position.Y;
 
@@ -285,7 +299,7 @@ namespace Celwahit.GameObjects
             {
                 //Debug.WriteLine("bottom");
 
-                position.Y = newRectangle.Y - 38;
+                position.Y = newRectangle.Y - 36;
                 hasJumped = false;
             }
             else if (_collisionRectangle.TouchTopOf(newRectangle))
@@ -294,7 +308,6 @@ namespace Celwahit.GameObjects
 
                 velocity.Y = 1f;
             }
-
             if (position.X < 0) position.X = 0;
             if (position.X > xOffset - _collisionRectangle.Width) position.X = xOffset - _collisionRectangle.Width;
             if (position.Y < 0) velocity.Y = 1f;

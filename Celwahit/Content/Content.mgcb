@@ -37,6 +37,18 @@
 /processorParam:TextureFormat=Color
 /build:floorTile.png
 
+#begin Get_Ready_Boss.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Get_Ready_Boss.png
+
 #begin HgBullet.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -48,6 +60,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:HgBullet.png
+
+#begin Idle_Boss.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Idle_Boss.png
 
 #begin jungle_tileset.png
 /importer:TextureImporter
@@ -169,6 +193,18 @@
 /processorParam:TextureFormat=Color
 /build:SgBullet.png
 
+#begin Shooting_Boss.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Shooting_Boss.png
+
 #begin Soldier_Dead.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -228,4 +264,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:startscherm.png
+
+#begin Walking_Boss.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Walking_Boss.png
 

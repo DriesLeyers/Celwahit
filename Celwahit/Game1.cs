@@ -182,6 +182,10 @@ namespace Celwahit
                         boss.Collision(tile.Rectangle, map.Width, map.Height);
                 }
 
+                var bossRectForBulletHit = boss.CollisionRect;
+                bossRectForBulletHit.Width -= 2;
+                bossRectForBulletHit.X += 8;
+
                 foreach (Bullet bullet in bulletsPlayer.ToArray())
                 {
                     foreach (CollisionTiles tile in map.CollisionTiles)
@@ -198,6 +202,18 @@ namespace Celwahit
                             {
                                 soldierDead = true;
                                 Debug.WriteLine("soldier died");
+                            }
+
+                            break;
+                        }
+                        else if (CollisionManager.CheckCollision(bossRectForBulletHit, bullet.collisionRectangle) && !bossDead)
+                        {
+                            bullet.Collision();
+                            boss.Health -= 25;
+                            if (boss.Health == 0)
+                            {
+                                bossDead = true;
+                                Debug.WriteLine("Boss died");
                             }
 
                             break;

@@ -118,6 +118,9 @@ namespace Celwahit.Scenes
             int[,] mapArray = makeMap();
 
             gameSettings = new GameSettings(_graphics);
+            gameSettings.WindowHeight = 480;
+            gameSettings.WindowWidth = 800;
+
             map.Generate(mapArray, 32);
 
             walkingPlayerLegs = Content.Load<Texture2D>("Player/Fiolina_Bot_Walking");

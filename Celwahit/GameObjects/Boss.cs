@@ -15,10 +15,10 @@ namespace Celwahit.GameObjects
         Animation idleAnimation;
         Animation walkingAnimation;
         Animation gettingReadyAnimation;
-        Animation ShootingAnimation;
+        Animation shootingAnimation;
 
-        public int Health = 1000;
-        Direction direction;
+        
+        //Direction direction;
         bool playerFlipped = false;
         bool gettingReady = false;
 
@@ -27,7 +27,7 @@ namespace Celwahit.GameObjects
             idleAnimation = BossAnimationBuilder.IdleAnimation(idleBoss);
             walkingAnimation= BossAnimationBuilder.WalkingAnimation(walkingBoss);
             gettingReadyAnimation = BossAnimationBuilder.GettingReadyAnimation(gettingReadyBoss);
-            ShootingAnimation = BossAnimationBuilder.ShootingAnimation(shootingBoss);
+            shootingAnimation = BossAnimationBuilder.ShootingAnimation(shootingBoss);
 
             direction = Direction.Idle;
 
@@ -36,7 +36,7 @@ namespace Celwahit.GameObjects
 
             position = new Vector2(startPlaceX, startPlaceY);
             velocity = new Vector2(0, 0);
-
+            Health = 1000;
             velocity.Y += 3f;
         }
 
@@ -64,7 +64,8 @@ namespace Celwahit.GameObjects
             Debug.WriteLine("BOSS MAN: " + this.direction);
             Debug.WriteLine("BOSS MAN: " + this.playerFlipped);
 
-            SetDirectionToPlayer(player, 1750);
+            SetDirectionToPlayer(player, 100);
+            
         }
 
         public override void SetDirectionToPlayer(Player player, int distance)

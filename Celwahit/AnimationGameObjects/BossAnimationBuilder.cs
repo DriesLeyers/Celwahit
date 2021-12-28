@@ -17,8 +17,8 @@ namespace Celwahit.AnimationGameObjects
             int moveRectangle_X = 0;
             for (int i = 0; i < numberOfFrames; i++)
             {
-                animation.AddFrame(new AnimationFrame(new Rectangle(moveRectangle_X, 0, 66, 45)));
-                moveRectangle_X += 66;
+                animation.AddFrame(new AnimationFrame(new Rectangle(moveRectangle_X, 0, 65, 42)));
+                moveRectangle_X += 67;
             }
 
             return animation;
@@ -33,8 +33,8 @@ namespace Celwahit.AnimationGameObjects
             int moveRectangle_X = 0;
             for (int i = 0; i < numberOfFrames; i++)
             {
-                animation.AddFrame(new AnimationFrame(new Rectangle(moveRectangle_X, 0, 64, 46)));
-                moveRectangle_X += 64;
+                animation.AddFrame(new AnimationFrame(new Rectangle(moveRectangle_X, 0, 57, 46)));
+                moveRectangle_X += 57;
             }
 
             return animation;
@@ -49,8 +49,8 @@ namespace Celwahit.AnimationGameObjects
             int moveRectangle_X = 0;
             for (int i = 0; i < numberOfFrames; i++)
             {
-                animation.AddFrame(new AnimationFrame(new Rectangle(moveRectangle_X, 0, 68, 50)));
-                moveRectangle_X += 67;
+                animation.AddFrame(new AnimationFrame(new Rectangle(moveRectangle_X, 0, 65, 42)));
+                moveRectangle_X += 71;
             }
 
             return animation;
@@ -65,7 +65,7 @@ namespace Celwahit.AnimationGameObjects
             int moveRectangle_X = 0;
             for (int i = 0; i < numberOfFrames; i++)
             {
-                animation.AddFrame(new AnimationFrame(new Rectangle(moveRectangle_X, 0, 65, 44)));
+                animation.AddFrame(new AnimationFrame(new Rectangle(moveRectangle_X, 0, 65, 42)));
                 moveRectangle_X += 65;
             }
 

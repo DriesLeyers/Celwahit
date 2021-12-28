@@ -22,13 +22,15 @@ namespace Celwahit.GameObjects
         //bool isShooting = false;
         //bool playerFlipped = false;
 
-        public Soldier(Texture2D idleSoldier, Texture2D walkingSoldier, int startPlaceX, int startPlaceY, Texture2D bullet)
+        public Soldier(Texture2D idleSoldier, Texture2D walkingSoldier, int startPlaceX, int startPlaceY, Texture2D bullet, Texture2D healthbar)
         {
             this.blueprintBullet = new Bullet(bullet);
             this.walkingSoldierTexture = walkingSoldier;
 
             walkingAnimation = SoldierAnimationBuilder.WalkingAnimation(walkingSoldier);
             idleAnimation = SoldierAnimationBuilder.IdleAnimation(idleSoldier);
+
+            this.healthBar = healthbar;
 
             direction = Direction.Idle;
 
@@ -169,8 +171,19 @@ namespace Celwahit.GameObjects
         //    position.Y += velocity.Y;
         //}
 
+        protected void DrawHealthBar(SpriteBatch spriteBatch)
+        {
+            float percentHealth = (float)Health / MaxHealth;
+            int barWidth = (int)(healthBar.Width * percentHealth) / 3;
+
+            var barPos = new Vector2(position.X - barWidth / 2, position.Y - 250);
+            spriteBatch.Draw(healthBar, barPos, new Rectangle(0, 0, barWidth, 25), Color.White);
+        }
+
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
+            DrawHealthBar(spriteBatch);
+
             if (direction == Direction.Right)
             {
                 spriteBatch.Draw(walkingAnimation.Texture, position ,walkingAnimation.CurrentFrame.SourceRect, Color.White);

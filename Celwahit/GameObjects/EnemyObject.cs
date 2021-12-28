@@ -1,6 +1,7 @@
 ﻿using Celwahit.AnimationGameObjects;
 using Celwahit.Interfaces;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,6 +16,8 @@ namespace Celwahit.GameObjects
         protected Animation walkingAnimation;
 
         protected Bullet blueprintBullet;
+
+        public Texture2D healthBar;
 
         public virtual void Update(GameTime gameTime, Player player, List<Bullet> bullets, bool playerDead)
         {
@@ -37,6 +40,8 @@ namespace Celwahit.GameObjects
             _collisionRectangle = CollisionRect;
             direction = Direction.Left;
         }
+
+
 
 
         #region Movement

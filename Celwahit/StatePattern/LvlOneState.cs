@@ -291,7 +291,7 @@ namespace Celwahit.Scenes
         private void InitializeGameObjects()
         {
             player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody, idlePlayerLegs, bulletTexture, pHealthBar);
-            soldier = new Soldier(idleSoldier, walkingSoldier, 500, 0, bulletTexture);
+            soldier = new Soldier(idleSoldier, walkingSoldier, 500, 0, bulletTexture, healthBar);
 
             boss = new Boss(idleBoss, walkingBoss, gettingReadyBoss, shootingBoss, bulletTexture,healthBar , 500, 0);
 

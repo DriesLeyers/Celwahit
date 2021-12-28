@@ -14,7 +14,7 @@ namespace Celwahit.GameObjects
         Animation gettingReadyAnimation;
         Animation shootingAnimation;
 
-        Texture2D healthBar;
+
   
         //Direction direction;
 
@@ -123,6 +123,14 @@ namespace Celwahit.GameObjects
         //        velocity.X = 0;
         //}
 
+        protected void DrawHealthBar(SpriteBatch spriteBatch)
+        {
+            float percentHealth = (float)Health / MaxHealth;
+            int barWidth = (int)(healthBar.Width * percentHealth) / 3;
+
+            var barPos = new Vector2(position.X - barWidth / 2, position.Y - 250);
+            spriteBatch.Draw(healthBar, barPos, new Rectangle(0, 0, barWidth, 25), Color.White);
+        }
 
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
@@ -151,13 +159,7 @@ namespace Celwahit.GameObjects
             //draw de rest
         }
 
-        private void DrawHealthBar(SpriteBatch spriteBatch)
-        {
-            float percentHealth = (float) Health / MaxHealth;
-            int barWidth =(int) (healthBar.Width * percentHealth) / 3;
-
-            var barPos = new Vector2(position.X - barWidth/2, position.Y - 250);
-            spriteBatch.Draw(healthBar, barPos, new Rectangle(0, 0, barWidth, 25), Color.White);
-        }
     }
+
+
 }

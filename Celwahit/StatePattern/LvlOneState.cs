@@ -238,6 +238,10 @@ namespace Celwahit.Scenes
                     }
                 }
             }
+
+            //Bij presentatie zeg da wij jumpe door dirty flag pattern.
+            //Dus de hasjumped is de dirty flag
+
             if (!playerDead)
             {
                 var temp = player.CollisionRect;
@@ -263,7 +267,20 @@ namespace Celwahit.Scenes
 
                 soldier.Update(gameTime, player, bulletsSoldier, playerDead);
             }
-            boss.Update(gameTime, player);
+
+            if(!bossDead)
+            {
+                var temp3 = boss.CollisionRect;
+                temp3.Height += 6;
+
+                if (!map.CollisionTiles.Any(x => CollisionManager.CheckCollision(x.Rectangle, temp3)) && !boss.hasJumped)
+                {
+                    boss.hasJumped = true;
+                }
+
+                boss.Update(gameTime, player, bulletsSoldier, playerDead);
+            }
+
 
         }
 
@@ -272,7 +289,7 @@ namespace Celwahit.Scenes
             player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody, idlePlayerLegs, bulletTexture);
             soldier = new Soldier(idleSoldier, walkingSoldier, 150, 0, bulletTexture);
 
-            boss = new Boss(idleBoss, walkingBoss, gettingReadyBoss, shootingBoss, 2000, 0);
+            boss = new Boss(idleBoss, walkingBoss, gettingReadyBoss, shootingBoss, bulletTexture, 200, 0);
 
             background = new Background(backgroundTexture);
             skybox = new Skybox(skyboxTexture);

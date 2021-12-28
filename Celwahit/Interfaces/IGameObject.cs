@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Celwahit.Interfaces
 {
-    enum Direction
+    public enum Direction
     {
         Idle,
         Right,

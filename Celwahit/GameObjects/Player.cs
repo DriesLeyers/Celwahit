@@ -29,7 +29,7 @@ namespace Celwahit.GameObjects
         KeyboardState _previousKey;
         KeyboardState _currentKey;
 
-        public int Health = 100;
+        public int Health = 100000;
 
         //in da filmpje van collision heeft die en _collisionRect en CollisionRect
 
@@ -134,11 +134,11 @@ namespace Celwahit.GameObjects
             this.bullet.LifeSpan = 3f;
         }
 
-        public void StopJump()
-        {
-            hasJumped = false;
-            velocity.Y = 0;
-        }
+        //public void StopJump()
+        //{
+        //    hasJumped = false;
+        //    velocity.Y = 0;
+        //}
 
         private void Jump()
         {

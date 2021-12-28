@@ -126,10 +126,10 @@ namespace Celwahit.GameObjects
         protected void DrawHealthBar(SpriteBatch spriteBatch)
         {
             float percentHealth = (float)Health / MaxHealth;
-            int barWidth = (int)(healthBar.Width * percentHealth) / 3;
+            int barWidth = (int)(healthBar.Width * percentHealth) / 10;
 
-            var barPos = new Vector2(position.X - barWidth / 2, position.Y - 250);
-            spriteBatch.Draw(healthBar, barPos, new Rectangle(0, 0, barWidth, 25), Color.White);
+            var barPos = new Vector2(position.X - barWidth / 2, position.Y - 20);
+            spriteBatch.Draw(healthBar, barPos, new Rectangle(0, 0, barWidth, 8), Color.White);
         }
 
 

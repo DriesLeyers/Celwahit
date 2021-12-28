@@ -13,16 +13,19 @@ namespace Celwahit.GameObjects
     {
         Animation gettingReadyAnimation;
         Animation shootingAnimation;
+
+        Texture2D healthBar;
   
         //Direction direction;
 
-        public Boss(Texture2D idleBoss, Texture2D walkingBoss, Texture2D gettingReadyBoss, Texture2D shootingBoss, Texture2D bullet, int startPlaceX, int startPlaceY)
+        public Boss(Texture2D idleBoss, Texture2D walkingBoss, Texture2D gettingReadyBoss, Texture2D shootingBoss, Texture2D bullet, Texture2D healthBar, int startPlaceX, int startPlaceY)
         {
             idleAnimation = BossAnimationBuilder.IdleAnimation(idleBoss);
             walkingAnimation= BossAnimationBuilder.WalkingAnimation(walkingBoss);
             gettingReadyAnimation = BossAnimationBuilder.GettingReadyAnimation(gettingReadyBoss);
             shootingAnimation = BossAnimationBuilder.ShootingAnimation(shootingBoss);
 
+            this.healthBar = healthBar;
             this.blueprintBullet = new Bullet(bullet);
 
             direction = Direction.Idle;
@@ -32,7 +35,8 @@ namespace Celwahit.GameObjects
 
             position = new Vector2(startPlaceX, startPlaceY);
             velocity = new Vector2(0, 0);
-            Health = 1000;
+            Health = 500;
+            MaxHealth = 500;
             velocity.Y += 3f;
         }
 
@@ -125,6 +129,8 @@ namespace Celwahit.GameObjects
         {
             Debug.WriteLine(position + " " + CollisionRect);
 
+            DrawHealthBar(spriteBatch, gameTime);
+
             if (direction == Direction.Left)
             {
                 spriteBatch.Draw(walkingAnimation.Texture, position, walkingAnimation.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.None, 1f);
@@ -143,6 +149,22 @@ namespace Celwahit.GameObjects
             }
 
             //draw de rest
+        }
+
+        private void DrawHealthBar(SpriteBatch spriteBatch, GameTime gameTime)
+        {
+            float percentHealth = (float) Health / MaxHealth;
+            int barWidth =(int) (healthBar.Width * percentHealth) / 3;
+
+            var barPos = new Vector2(position.X - barWidth/2, position.Y - 250);
+
+            Debug.WriteLine("HEALTHBAR: " + barWidth);
+            Debug.WriteLine("HEALTHBAR: " + healthBar.Width);
+            Debug.WriteLine("PERCENT: " + percentHealth);
+
+            Debug.WriteLine("HEALTH: " + Health + ", " + MaxHealth);
+
+            spriteBatch.Draw(healthBar, barPos, new Rectangle(0, 0, barWidth, 50), Color.White);
         }
     }
 }

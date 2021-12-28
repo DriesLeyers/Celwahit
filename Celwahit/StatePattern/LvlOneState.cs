@@ -42,6 +42,7 @@ namespace Celwahit.Scenes
         Texture2D idleBoss;
         Texture2D shootingBoss;
         Texture2D gettingReadyBoss;
+        Texture2D healthBar;
         #endregion
 
         Texture2D backgroundTexture;
@@ -141,6 +142,8 @@ namespace Celwahit.Scenes
             walkingBoss = Content.Load<Texture2D>("Walking_Boss");
             shootingBoss = Content.Load<Texture2D>("Shooting_Boss");
             gettingReadyBoss = Content.Load<Texture2D>("Get_Ready_Boss");
+
+            healthBar = Content.Load<Texture2D>("Health_Bar");
 
             InitializeGameObjects();
         }
@@ -288,7 +291,7 @@ namespace Celwahit.Scenes
             player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody, idlePlayerLegs, bulletTexture);
             soldier = new Soldier(idleSoldier, walkingSoldier, 500, 0, bulletTexture);
 
-            boss = new Boss(idleBoss, walkingBoss, gettingReadyBoss, shootingBoss, bulletTexture, 1750, 0);
+            boss = new Boss(idleBoss, walkingBoss, gettingReadyBoss, shootingBoss, bulletTexture,healthBar , 500, 0);
 
             background = new Background(backgroundTexture);
             skybox = new Skybox(skyboxTexture);

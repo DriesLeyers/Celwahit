@@ -19,6 +19,7 @@ namespace Celwahit.GameObjects
         public Direction direction;
 
         public int Health = 100;
+        public int MaxHealth = 100;
 
         protected Vector2 position = new Vector2(64, 384);
 

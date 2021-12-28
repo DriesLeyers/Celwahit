@@ -36,7 +36,26 @@ namespace Celwahit.GameObjects
             velocity.Y += 3f;
         }
 
-      
+        public override void Update(GameTime gameTime, Player player, List<Bullet> bullets, bool playerDead)
+        {
+            base.Update(gameTime, player, bullets, playerDead);
+
+            SetBulletData(30,30);
+
+            if (gameTime.TotalGameTime.Milliseconds % 200 == 0 && !isShooting)
+            {
+                isShooting = true;
+                if (!playerDead)
+                    Shoot(bullets);
+            }
+
+            if (gameTime.TotalGameTime.Milliseconds % 200 != 0 && isShooting)
+                isShooting = false;
+
+            SetDirectionToPlayer(player, 1750);
+        }
+
+
         //public new void Update(GameTime gameTime, Player player)
         //{
         //    idleAnimation.Update(gameTime, 7);
@@ -65,7 +84,7 @@ namespace Celwahit.GameObjects
         //    direction = Direction.Right;
 
         //    SetDirectionToPlayer(player, 100);
-            
+
         //}
 
         //public override void SetDirectionToPlayer(Player player, int distance)

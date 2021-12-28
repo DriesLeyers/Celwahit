@@ -233,7 +233,6 @@ namespace Celwahit.Scenes
                             playerDead = true;
                             Debug.WriteLine("player died");
                         }
-
                         break;
                     }
                 }
@@ -287,9 +286,9 @@ namespace Celwahit.Scenes
         private void InitializeGameObjects()
         {
             player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody, idlePlayerLegs, bulletTexture);
-            soldier = new Soldier(idleSoldier, walkingSoldier, 150, 0, bulletTexture);
+            soldier = new Soldier(idleSoldier, walkingSoldier, 500, 0, bulletTexture);
 
-            boss = new Boss(idleBoss, walkingBoss, gettingReadyBoss, shootingBoss, bulletTexture, 200, 0);
+            boss = new Boss(idleBoss, walkingBoss, gettingReadyBoss, shootingBoss, bulletTexture, 1750, 0);
 
             background = new Background(backgroundTexture);
             skybox = new Skybox(skyboxTexture);

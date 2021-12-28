@@ -16,7 +16,7 @@ namespace Celwahit.GameObjects
 
         protected Bullet blueprintBullet;
 
-        public void Update(GameTime gameTime, Player player, List<Bullet> bullets, bool playerDead)
+        public virtual void Update(GameTime gameTime, Player player, List<Bullet> bullets, bool playerDead)
         {
             idleAnimation.Update(gameTime, 7);
             walkingAnimation.Update(gameTime, 12);
@@ -35,22 +35,7 @@ namespace Celwahit.GameObjects
 
             CollisionRect = new Rectangle((int)this.Positition.X, (int)this.Positition.Y, idleAnimation.CurrentFrame.SourceRect.Width, idleAnimation.CurrentFrame.SourceRect.Height);
             _collisionRectangle = CollisionRect;
-            direction = Direction.Right;
-
-
-            SetBulletData(9);
-
-            if (gameTime.TotalGameTime.Seconds % 2 == 0 && !isShooting)
-            {
-                isShooting = true;
-                if (!playerDead)
-                    Shoot(bullets);
-            }
-
-            if (gameTime.TotalGameTime.Seconds % 2 != 0 && isShooting)
-                isShooting = false;
-
-            SetDirectionToPlayer(player, 50);
+            direction = Direction.Left;
         }
 
 
@@ -142,14 +127,14 @@ namespace Celwahit.GameObjects
         #endregion
 
         #region Bullets
-        protected void SetBulletData(float bulletOffset)
+        protected void SetBulletData(float bulletOffsetX, float bulletOffsetY)
         {
             this.blueprintBullet.isFlipped = playerFlipped;
 
             if (IsFlipped)
-                this.blueprintBullet.position = new Vector2(this.position.X - 5, this.position.Y + 5 + bulletOffset);
+                this.blueprintBullet.position = new Vector2(this.position.X - bulletOffsetX, this.position.Y + bulletOffsetY);
             else
-                this.blueprintBullet.position = new Vector2(this.position.X + 35, this.position.Y + 5 + bulletOffset);
+                this.blueprintBullet.position = new Vector2(this.position.X + bulletOffsetX, this.position.Y + bulletOffsetY);
 
             this.blueprintBullet._velocity = new Vector2(7f, 0f);
             this.blueprintBullet.LifeSpan = 3f;

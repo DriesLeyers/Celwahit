@@ -42,6 +42,25 @@ namespace Celwahit.GameObjects
 
         }
 
+        public override void Update(GameTime gameTime, Player player, List<Bullet> bullets, bool playerDead)
+        {
+            base.Update(gameTime, player, bullets, playerDead);
+
+            SetBulletData(5,5);
+
+            if (gameTime.TotalGameTime.Seconds % 2 == 0 && !isShooting)
+            {
+                isShooting = true;
+                if (!playerDead)
+                    Shoot(bullets);
+            }
+
+            if (gameTime.TotalGameTime.Seconds % 2 != 0 && isShooting)
+                isShooting = false;
+
+            SetDirectionToPlayer(player, 75);
+        }
+
         public Soldier()
         {
         }

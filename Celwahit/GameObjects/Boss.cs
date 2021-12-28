@@ -129,7 +129,7 @@ namespace Celwahit.GameObjects
         {
             Debug.WriteLine(position + " " + CollisionRect);
 
-            DrawHealthBar(spriteBatch, gameTime);
+            DrawHealthBar(spriteBatch);
 
             if (direction == Direction.Left)
             {
@@ -151,20 +151,13 @@ namespace Celwahit.GameObjects
             //draw de rest
         }
 
-        private void DrawHealthBar(SpriteBatch spriteBatch, GameTime gameTime)
+        private void DrawHealthBar(SpriteBatch spriteBatch)
         {
             float percentHealth = (float) Health / MaxHealth;
             int barWidth =(int) (healthBar.Width * percentHealth) / 3;
 
             var barPos = new Vector2(position.X - barWidth/2, position.Y - 250);
-
-            Debug.WriteLine("HEALTHBAR: " + barWidth);
-            Debug.WriteLine("HEALTHBAR: " + healthBar.Width);
-            Debug.WriteLine("PERCENT: " + percentHealth);
-
-            Debug.WriteLine("HEALTH: " + Health + ", " + MaxHealth);
-
-            spriteBatch.Draw(healthBar, barPos, new Rectangle(0, 0, barWidth, 50), Color.White);
+            spriteBatch.Draw(healthBar, barPos, new Rectangle(0, 0, barWidth, 25), Color.White);
         }
     }
 }

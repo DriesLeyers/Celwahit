@@ -29,7 +29,7 @@ namespace Celwahit.GameObjects
         KeyboardState _previousKey;
         KeyboardState _currentKey;
 
-        public int Health = 100000;
+        public int Health = 100;
 
         //in da filmpje van collision heeft die en _collisionRect en CollisionRect
 
@@ -49,14 +49,18 @@ namespace Celwahit.GameObjects
 
         Bullet bullet;
 
+        Texture2D healthBar;
 
-        public Player(Texture2D walkingPlayerBody, Texture2D walkingPlayerLegs, Texture2D idlePlayerBody, Texture2D idlePlayerLegs, Texture2D bullet)
+
+        public Player(Texture2D walkingPlayerBody, Texture2D walkingPlayerLegs, Texture2D idlePlayerBody, Texture2D idlePlayerLegs, Texture2D bullet, Texture2D healthBar)
         {
             this.bullet = new Bullet(bullet);
             this.walkingPlayerBody = walkingPlayerBody;
             this.walkingPlayerLegs = walkingPlayerLegs;
             this.idlePlayerBody = idlePlayerBody;
             this.idlePlayerLegs = idlePlayerLegs;
+
+            this.healthBar = healthBar;
 
             walkingAnimationBody = PlayerAnimationBuilder.WalkingAnimationBody(walkingPlayerBody);
             walkingAnimationLegs = PlayerAnimationBuilder.WalkingAnimationLegs(walkingPlayerLegs);
@@ -251,6 +255,7 @@ namespace Celwahit.GameObjects
         //TODO: drawFactory mss?
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
+            DrawHealthBar(spriteBatch);
             if (direction == Direction.Left)
             {
                 spriteBatch.Draw(walkingPlayerLegs, position + bodyOffset, walkingAnimationLegs.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
@@ -275,6 +280,15 @@ namespace Celwahit.GameObjects
                 }
             }
 
+        }
+
+        private void DrawHealthBar(SpriteBatch spriteBatch)
+        {
+            float percentHealth = (float)Health / MaxHealth;
+            int barWidth = (int)(healthBar.Width * percentHealth) / 3;
+
+            var barPos = new Vector2(position.X - barWidth / 2, position.Y - 250);
+            spriteBatch.Draw(healthBar, barPos, new Rectangle(0, 0, barWidth, 25), Color.White);
         }
 
         public void Collision(Rectangle newRectangle, int xOffset, int yOffset)

@@ -373,7 +373,7 @@ namespace Celwahit.GameObjects
             }
             else if (TouchBottomOfSpike(_collisionRectangle,newRectangle))
             {
-                Health -= 100;
+                //Health -= 100;
                 position.Y = newRectangle.Y - 36;
                 hasJumped = false;
             }
@@ -389,7 +389,7 @@ namespace Celwahit.GameObjects
             return r1.Bottom > r2.Top &&
              r1.Top < r2.Top &&
              r1.Right - 20 > r2.Left &&
-             r1.Left + 20 < r2.Right;
+             r1.Left + 10 < r2.Right;
         }
 
       

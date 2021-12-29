@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace Celwahit.Scenes
 {
-    public class LvlOneState : SceneState
+    public class LvlTwoState : SceneState
     {
         Map map;
 
@@ -31,42 +31,32 @@ namespace Celwahit.Scenes
         #endregion player
 
         #region soldier
-        Soldier soldier;
-        Texture2D walkingSoldier;
-        Texture2D idleSoldier;
         #endregion soldier
 
-        #region boss
-        Boss boss;
-        Texture2D walkingBoss;
-        Texture2D idleBoss;
-        Texture2D shootingBoss;
-        Texture2D gettingReadyBoss;
-        Texture2D healthBar;
         Texture2D pHealthBar;
-        #endregion
 
         Texture2D backgroundTexture;
         Texture2D skyboxTexture;
 
         Texture2D bulletTexture;
 
-        private Texture2D startButton;
-
-        bool soldierDead = false;
-        bool bossDead = false;
         bool playerDead = false;
 
-        MouseState mouseState;
-        MouseState previousMouseState;
-
-        public LvlOneState(Game1 game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch) : base(game, graphics, spriteBatch)
+        public LvlTwoState(Game1 game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch) : base(game, graphics, spriteBatch)
         {
             LoadContent();
         }
 
+        public LvlTwoState(Game1 game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch, Player player) : base(game, graphics, spriteBatch)
+        {
+            this.player.Health = player.Health;
+        }
+
         public override void Draw(GameTime gameTime)
         {
+            Color color = new Color(123, 72, 0);
+            GraphicsDevice.Clear(color);
+
             Matrix matrix;
 
             if (player.Positition.X < 385)
@@ -87,18 +77,9 @@ namespace Celwahit.Scenes
             float[] tmep = gameSettings.GetWindowScale();
 
             skybox.Draw(_spriteBatch, tmep[0]);
-            background.Draw(_spriteBatch, tmep[0]);
 
             if (!playerDead)
                 player.Draw(_spriteBatch, gameTime);
-
-            if (!soldierDead)
-                soldier.Draw(_spriteBatch, gameTime);
-
-            if (!bossDead)
-            {
-                boss.Draw(_spriteBatch, gameTime);
-            }
 
             foreach (Bullet bullet in bulletsPlayer.ToArray())
                 bullet.Draw(_spriteBatch, gameTime);
@@ -125,7 +106,7 @@ namespace Celwahit.Scenes
             gameSettings.WindowHeight = 480;
             gameSettings.WindowWidth = 800;
 
-            map.Generate(mapArray, 32, "level1");
+            map.Generate(mapArray, 32,"level2");
 
             walkingPlayerLegs = Content.Load<Texture2D>("Player/Fiolina_Bot_Walking");
             walkingPlayerBody = Content.Load<Texture2D>("Player/Fiolina_Top_Walking");
@@ -135,18 +116,9 @@ namespace Celwahit.Scenes
             idlePlayerBody = Content.Load<Texture2D>("Player/Fiolina_Top_Idle");
             idlePlayerLegs = Content.Load<Texture2D>("Player/Fiolina_Bot_Idle");
 
-            idleSoldier = Content.Load<Texture2D>("Soldier_Idle");
-            walkingSoldier = Content.Load<Texture2D>("Soldier_Walking");
-
             backgroundTexture = Content.Load<Texture2D>("plx-5");
-            skyboxTexture = Content.Load<Texture2D>("Mission1_Background3");
+            skyboxTexture = Content.Load<Texture2D>("background_Lvl2");
 
-            idleBoss = Content.Load<Texture2D>("Idle_Boss");
-            walkingBoss = Content.Load<Texture2D>("Walking_Boss");
-            shootingBoss = Content.Load<Texture2D>("Shooting_Boss");
-            gettingReadyBoss = Content.Load<Texture2D>("Get_Ready_Boss");
-
-            healthBar = Content.Load<Texture2D>("Health_Bar");
             pHealthBar = Content.Load<Texture2D>("P_Health_Bar");
 
             InitializeGameObjects();
@@ -157,71 +129,15 @@ namespace Celwahit.Scenes
             foreach (Bullet bullet in bulletsPlayer.ToArray())
                 bullet.Update(gameTime, bulletsPlayer);
 
-            foreach (Bullet bullet in bulletsSoldier.ToArray())
-                bullet.Update(gameTime, bulletsSoldier);
-
-            var soldierRectForBulletHit = soldier.CollisionRect;
-            soldierRectForBulletHit.Width -= 2;
-            soldierRectForBulletHit.X += 8;
-
             foreach (CollisionTiles tile in map.CollisionTiles)
             {
                 if (!playerDead && CollisionManager.CheckCollision(tile.Rectangle, player.CollisionRect))
                 {
                     player.Collision(tile.Rectangle, map.Width, map.Height);
                 }
-
-                if (!soldierDead && CollisionManager.CheckCollision(tile.Rectangle, soldier.CollisionRect))
-                    soldier.Collision(tile.Rectangle, map.Width, map.Height);
-
-                if (!bossDead && CollisionManager.CheckCollision(tile.Rectangle, boss.CollisionRect))
-                    boss.Collision(tile.Rectangle, map.Width, map.Height);
             }
 
-            var bossRectForBulletHit = boss.CollisionRect;
-            bossRectForBulletHit.Width -= 2;
-            bossRectForBulletHit.X += 8;
-
-            foreach (Bullet bullet in bulletsPlayer.ToArray())
-            {
-                foreach (CollisionTiles tile in map.CollisionTiles)
-                {
-                    if ((CollisionManager.CheckCollision(tile.Rectangle, bullet.collisionRectangle)))
-                    {
-                        bullet.Collision();
-                    }
-                    else if (CollisionManager.CheckCollision(soldierRectForBulletHit, bullet.collisionRectangle) && !soldierDead)
-                    {
-                        bullet.Collision();
-                        soldier.Health -= 25;
-                        if (soldier.Health == 0)
-                        {
-                            soldierDead = true;
-                            Debug.WriteLine("soldier died");
-                        }
-
-                        break;
-                    }
-                    else if (CollisionManager.CheckCollision(bossRectForBulletHit, bullet.collisionRectangle) && !bossDead)
-                    {
-                        bullet.Collision();
-                        boss.Health -= 25;
-                        if (boss.Health == 0)
-                        {
-                            bossDead = true;
-                            Game1.ChangeSceneState(new LvlTwoState(Game1, _graphics, _spriteBatch));
-                            Debug.WriteLine("Boss died");
-                        }
-
-                        break;
-                    }
-                }
-            }
-
-            var playerRectForBulletHit = player.CollisionRect;
-            playerRectForBulletHit.Width -= 2;
-            playerRectForBulletHit.X += 8;
-
+           
             foreach (Bullet bullet in bulletsSoldier.ToArray())
             {
                 foreach (CollisionTiles tile in map.CollisionTiles)
@@ -229,19 +145,6 @@ namespace Celwahit.Scenes
                     if ((CollisionManager.CheckCollision(tile.Rectangle, bullet.collisionRectangle)))
                     {
                         bullet.Collision();
-                    }
-                    else if (CollisionManager.CheckCollision(playerRectForBulletHit, bullet.collisionRectangle) && !playerDead)
-                    {
-                        bullet.Collision();
-                        player.Health -= 25;
-                        if (player.Health == 0)
-                        {
-                            //TODO Game Over Screen
-
-                            playerDead = true;
-                            Debug.WriteLine("player died");
-                        }
-                        break;
                     }
                 }
             }
@@ -262,41 +165,11 @@ namespace Celwahit.Scenes
                 player.Update(gameTime, bulletsPlayer);
             }
 
-            if (!soldierDead)
-            {
-                var temp2 = soldier.CollisionRect;
-                temp2.Height += 6;
-
-                if (!map.CollisionTiles.Any(x => CollisionManager.CheckCollision(x.Rectangle, temp2)) && !soldier.hasJumped)
-                {
-                    soldier.hasJumped = true;
-                }
-
-                soldier.Update(gameTime, player, bulletsSoldier, playerDead);
-            }
-
-            if(!bossDead)
-            {
-                var temp3 = boss.CollisionRect;
-                temp3.Height += 6;
-
-                if (!map.CollisionTiles.Any(x => CollisionManager.CheckCollision(x.Rectangle, temp3)) && !boss.hasJumped)
-                {
-                    boss.hasJumped = true;
-                }
-
-                boss.Update(gameTime, player, bulletsSoldier, playerDead);
-            }
-
-
         }
 
         private void InitializeGameObjects()
         {
             player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody, idlePlayerLegs, bulletTexture, pHealthBar);
-            soldier = new Soldier(idleSoldier, walkingSoldier, 500, 0, bulletTexture, healthBar);
-
-            boss = new Boss(idleBoss, walkingBoss, gettingReadyBoss, shootingBoss, bulletTexture,healthBar , 500, 0);
 
             background = new Background(backgroundTexture);
             skybox = new Skybox(skyboxTexture);

@@ -14,7 +14,7 @@ namespace Celwahit.GameObjects
         Animation gettingReadyAnimation;
         Animation shootingAnimation;
 
-
+        private bool cooldown = false;
   
         //Direction direction;
 
@@ -45,16 +45,19 @@ namespace Celwahit.GameObjects
             base.Update(gameTime, player, bullets, playerDead);
 
             SetBulletData(30,30);
-
-            if (gameTime.TotalGameTime.Milliseconds % 200 == 0 && !isShooting)
+            if(gameTime.TotalGameTime.Seconds % 3 >= 0 && gameTime.TotalGameTime.Seconds % 3 < 1)
             {
-                isShooting = true;
-                if (!playerDead)
-                    Shoot(bullets);
-            }
+                if (gameTime.TotalGameTime.Milliseconds % 200 == 0 && !isShooting)
+                {
+                    isShooting = true;
+                    if (!playerDead)
+                        Shoot(bullets);
+                }
 
-            if (gameTime.TotalGameTime.Milliseconds % 200 != 0 && isShooting)
-                isShooting = false;
+                if (gameTime.TotalGameTime.Milliseconds % 200 != 0 && isShooting)
+                    isShooting = false;
+            }
+           
 
             SetDirectionToPlayer(player, 1750);
         }
@@ -128,7 +131,7 @@ namespace Celwahit.GameObjects
             float percentHealth = (float)Health / MaxHealth;
             int barWidth = (int)(healthBar.Width * percentHealth) / 10;
 
-            var barPos = new Vector2(position.X - barWidth / 2, position.Y - 20);
+            var barPos = new Vector2(position.X - barWidth / 4, position.Y - 20);
             spriteBatch.Draw(healthBar, barPos, new Rectangle(0, 0, barWidth, 8), Color.White);
         }
 

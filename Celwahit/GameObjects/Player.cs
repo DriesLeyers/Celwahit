@@ -287,7 +287,7 @@ namespace Celwahit.GameObjects
             float percentHealth = (float)Health / MaxHealth;
             int barWidth = (int)(healthBar.Width * percentHealth) / 10;
 
-            var barPos = new Vector2(position.X - barWidth / 2, position.Y - 25);
+            var barPos = new Vector2(position.X - barWidth / 4, position.Y - 25);
             spriteBatch.Draw(healthBar, barPos, new Rectangle(0, 0, barWidth, 8), Color.White);
         }
 

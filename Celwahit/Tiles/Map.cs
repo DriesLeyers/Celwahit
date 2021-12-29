@@ -30,7 +30,7 @@ namespace Celwahit
 
         }
 
-        public void Generate(int[,] map, int size)
+        public void Generate(int[,] map, int size, string lvl)
         {
             for(int i = 0; i < map.GetLength(1); i++)
                 for(int  j = 0; j < map.GetLength(0); j++)
@@ -38,7 +38,7 @@ namespace Celwahit
                     int number = map[j, i];
 
                     if(number > 0)
-                        collisionTiles.Add(new CollisionTiles(number, new Rectangle(i * size, j * size, size, size)));
+                        collisionTiles.Add(new CollisionTiles(number, new Rectangle(i * size, j * size, size, size),lvl));
 
                     width = (i + 1) * size;
                     height = (j + 1) * size;

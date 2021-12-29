@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Celwahit.Scenes;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -9,6 +10,12 @@ namespace Celwahit
 {
     class Tiles
     {
+        enum Level
+        {
+            Level1,
+            Level2
+        }
+
         protected Texture2D texture;
 
         private Rectangle rectangle;
@@ -33,12 +40,24 @@ namespace Celwahit
 
     class CollisionTiles : Tiles
     {
-        public CollisionTiles(int i, Rectangle newRectangle)
+        public CollisionTiles(int i, Rectangle newRectangle, string level)
         {
-            if(i == 1)
-                texture = Content.Load<Texture2D>("floorTile");
-            else
-                texture = Content.Load<Texture2D>("blockTile");
+            if (level.Equals("level1"))
+            {
+                if (i == 1)
+                    texture = Content.Load<Texture2D>("floorTile");
+                else if (i == 2)
+                    texture = Content.Load<Texture2D>("");
+            }
+            else if(level.Equals("level2"))
+            {
+                if (i == 1)
+                    texture = Content.Load<Texture2D>("floorTileLvl2");
+                else if (i == 2)
+                    texture = Content.Load<Texture2D>("");
+            }
+
+           
 
             this.Rectangle = newRectangle;
         }

@@ -15,13 +15,14 @@ namespace Celwahit.GameObjects
         Animation shootingAnimation;
 
         private bool cooldown = false;
-  
+        private bool isActive = false;
+
         //Direction direction;
 
         public Boss(Texture2D idleBoss, Texture2D walkingBoss, Texture2D gettingReadyBoss, Texture2D shootingBoss, Texture2D bullet, Texture2D healthBar, int startPlaceX, int startPlaceY)
         {
             idleAnimation = BossAnimationBuilder.IdleAnimation(idleBoss);
-            walkingAnimation= BossAnimationBuilder.WalkingAnimation(walkingBoss);
+            walkingAnimation = BossAnimationBuilder.WalkingAnimation(walkingBoss);
             gettingReadyAnimation = BossAnimationBuilder.GettingReadyAnimation(gettingReadyBoss);
             shootingAnimation = BossAnimationBuilder.ShootingAnimation(shootingBoss);
 
@@ -43,88 +44,53 @@ namespace Celwahit.GameObjects
         public override void Update(GameTime gameTime, Player player, List<Bullet> bullets, bool playerDead)
         {
             base.Update(gameTime, player, bullets, playerDead);
+            shootingAnimation.Update(gameTime, 12);
+            SetBulletData(30, 30);
 
-            SetBulletData(30,30);
-            if(gameTime.TotalGameTime.Seconds % 3 >= 0 && gameTime.TotalGameTime.Seconds % 3 < 1)
+            if (gameTime.TotalGameTime.Seconds % 3 >= 0 && gameTime.TotalGameTime.Seconds % 3 < 2)
             {
                 if (gameTime.TotalGameTime.Milliseconds % 200 == 0 && !isShooting)
                 {
-                    isShooting = true;
-                    if (!playerDead)
-                        Shoot(bullets);
+                    Shoot(bullets);
+                    //Debug.WriteLine("Boss: Shoot");
                 }
 
                 if (gameTime.TotalGameTime.Milliseconds % 200 != 0 && isShooting)
+                {
                     isShooting = false;
+                    //Debug.WriteLine("Boss: no shoot"); 
+                }
             }
-           
+            if (isActive)
+                SetDirectionToPlayer(player, 330);
 
-            SetDirectionToPlayer(player, 1750);
+            Ideling(gameTime, player, 900);
         }
 
+        private void Ideling(GameTime gameTime,Player player, int distance)
+        {
+            float sPosX = this.position.X;
+            float pPosX = player.Positition.X;
 
-        //public new void Update(GameTime gameTime, Player player)
-        //{
-        //    idleAnimation.Update(gameTime, 7);
-        //    walkingAnimation.Update(gameTime, 12);
-        //    shootingAnimation.Update(gameTime, 12);
+            float sPosY = this.position.Y;
+            float pPosY = player.Positition.Y;
 
-        //    if (this.hasJumped)
-        //    {
-        //        Debug.WriteLine(this.velocity + "BOSS" + this.position);
-        //        base.Gravity();
-        //        Debug.WriteLine(this.velocity + "BOSS 2" + this.position);
-        //        this.velocity.Y += 0.15f * 1.0f;
-        //        Debug.WriteLine(this.velocity + "BOSS 3" + this.position);
-        //    }
-
-        //    if (!this.hasJumped)
-        //    {
-        //        this.velocity.Y = 0f;
-        //    }
-
-        //    base.Gravity();
-        //    this.position += this.velocity;
-
-        //    CollisionRect = new Rectangle((int)this.Positition.X, (int)this.Positition.Y, idleAnimation.CurrentFrame.SourceRect.Width, idleAnimation.CurrentFrame.SourceRect.Height);
-        //    _collisionRectangle = CollisionRect;
-        //    direction = Direction.Right;
-
-        //    SetDirectionToPlayer(player, 100);
-
-        //}
-
-        //public override void SetDirectionToPlayer(Player player, int distance)
-        //{
-        //    float sPosX = this.position.X;
-        //    float pPosX = player.Positition.X;
-
-        //    float sPosY = this.position.Y;
-        //    float pPosY = player.Positition.Y;
-
-        //    if (pPosX > sPosX)
-        //    {
-        //        direction = Direction.Right;
-        //        playerFlipped = true;
-        //    }
-        //    else if (pPosX < sPosX)
-        //    {
-        //        direction = Direction.Left;
-        //        playerFlipped = false;
-        //    }
-
-        //    //TODO check op Y-as verschill da em onder u komt te staan
-
-        //    if (Math.Abs(pPosX - sPosX) >= distance)
-        //    {
-        //        if (direction == Direction.Right)
-        //            velocity.X = 1.5f;
-        //        if (direction == Direction.Left)
-        //            velocity.X = -1.5f;
-        //    }
-        //    else
-        //        velocity.X = 0;
-        //}
+            if (Math.Abs(pPosX - sPosX) <= distance)
+            {
+                isActive = true;
+                Debug.WriteLine("isActive");
+            }
+            else
+            {
+                Debug.WriteLine("isInactive");
+                velocity.X = 1;
+                if (gameTime.TotalGameTime.Seconds % 6 >= 0 && gameTime.TotalGameTime.Seconds % 6 < 5)
+                {
+                    velocity.X *= -1;
+                }
+                isActive = false;
+            }
+        }
 
         protected void DrawHealthBar(SpriteBatch spriteBatch)
         {
@@ -138,27 +104,35 @@ namespace Celwahit.GameObjects
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            Debug.WriteLine(position + " " + CollisionRect);
+            if(isActive)
+                DrawHealthBar(spriteBatch);
 
-            DrawHealthBar(spriteBatch);
-
-            if (direction == Direction.Left)
+            if (isShooting)
             {
-                spriteBatch.Draw(walkingAnimation.Texture, position, walkingAnimation.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.None, 1f);
+                if(playerFlipped)
+                    spriteBatch.Draw(shootingAnimation.Texture, position, shootingAnimation.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
+                if (!playerFlipped)
+                    spriteBatch.Draw(shootingAnimation.Texture, position, shootingAnimation.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.None, 1f);
             }
-            else if (direction == Direction.Right)
+            else if(!isShooting)
             {
-                spriteBatch.Draw(walkingAnimation.Texture, position, walkingAnimation.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
+                if (direction == Direction.Left)
+                {
+                    spriteBatch.Draw(walkingAnimation.Texture, position, walkingAnimation.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.None, 1f);
+                }
+                else if (direction == Direction.Right)
+                {
+                    spriteBatch.Draw(walkingAnimation.Texture, position, walkingAnimation.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
+                }
+                else if (direction == Direction.Idle && !playerFlipped)
+                {
+                    spriteBatch.Draw(idleAnimation.Texture, position, idleAnimation.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.None, 1f);
+                }
+                else if (direction == Direction.Idle && playerFlipped)
+                {
+                    spriteBatch.Draw(idleAnimation.Texture, position, idleAnimation.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
+                }
             }
-            else if (direction == Direction.Idle && !playerFlipped)
-            {
-                spriteBatch.Draw(idleAnimation.Texture, position, idleAnimation.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.None, 1f);
-            }
-            else if (direction == Direction.Idle && playerFlipped)
-            {
-                spriteBatch.Draw(idleAnimation.Texture, position, idleAnimation.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
-            }
-
             //draw de rest
         }
 

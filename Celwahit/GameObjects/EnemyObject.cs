@@ -146,6 +146,7 @@ namespace Celwahit.GameObjects
         }
         protected void Shoot(List<Bullet> bullets)
         {
+            isShooting = true;
             bullets.Add(AddBullet());
         }
         private Bullet AddBullet()

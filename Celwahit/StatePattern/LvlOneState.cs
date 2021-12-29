@@ -296,7 +296,7 @@ namespace Celwahit.Scenes
             player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody, idlePlayerLegs, bulletTexture, pHealthBar);
             soldier = new Soldier(idleSoldier, walkingSoldier, 500, 0, bulletTexture, healthBar);
 
-            boss = new Boss(idleBoss, walkingBoss, gettingReadyBoss, shootingBoss, bulletTexture,healthBar , 500, 0);
+            boss = new Boss(idleBoss, walkingBoss, gettingReadyBoss, shootingBoss, bulletTexture,healthBar , 1750, 0);
 
             background = new Background(backgroundTexture);
             skybox = new Skybox(skyboxTexture);

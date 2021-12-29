@@ -8,13 +8,15 @@ using System.Text;
 
 namespace Celwahit
 {
+    public enum TypeTiles
+    {
+        Tile,
+        Spike
+    }
     class Tiles
     {
-        enum Level
-        {
-            Level1,
-            Level2
-        }
+        public TypeTiles typeTile;
+       
 
         protected Texture2D texture;
 
@@ -45,16 +47,23 @@ namespace Celwahit
             if (level.Equals("level1"))
             {
                 if (i == 1)
+                {
                     texture = Content.Load<Texture2D>("floorTile");
-                else if (i == 2)
-                    texture = Content.Load<Texture2D>("");
+                    typeTile = TypeTiles.Tile;
+                }
             }
             else if(level.Equals("level2"))
             {
                 if (i == 1)
+                {
                     texture = Content.Load<Texture2D>("floorTileLvl2");
+                    typeTile = TypeTiles.Tile;
+                }
                 else if (i == 2)
-                    texture = Content.Load<Texture2D>("");
+                {
+                    texture = Content.Load<Texture2D>("spikes");
+                    typeTile = TypeTiles.Spike;
+                }
             }
 
            

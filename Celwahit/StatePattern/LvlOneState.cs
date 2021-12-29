@@ -209,7 +209,7 @@ namespace Celwahit.Scenes
                         if (boss.Health == 0)
                         {
                             bossDead = true;
-                            Game1.ChangeSceneState(new LvlTwoState(Game1, _graphics, _spriteBatch));
+                            Game1.ChangeSceneState(new LvlTwoState(Game1, _graphics, _spriteBatch, player));
                             Debug.WriteLine("Boss died");
                         }
 

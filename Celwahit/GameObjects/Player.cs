@@ -114,6 +114,33 @@ namespace Celwahit.GameObjects
             CollisionRect = _collisionRect;
         }
 
+        public void Update(GameTime gameTime)
+        {
+            Rectangle _collisionRect = CollisionRect;
+            //8, 12 MN for making sprite move normally
+            walkingAnimationBody.Update(gameTime, 8);
+            walkingAnimationLegs.Update(gameTime, 12);
+            idleAnimationBody.Update(gameTime, 8);
+            idleAnimationLegs.Update(gameTime, 12);
+            Move();
+
+            if (hasJumped)
+            {
+                velocity.Y += 0.15f * 1.0f;
+            }
+
+            if (!hasJumped)
+            {
+                velocity.Y = 0f;
+            }
+
+            position += velocity;
+            _collisionRect.X = (int)position.X;
+            _collisionRect.Y = (int)position.Y;
+
+            CollisionRect = _collisionRect;
+        }
+
         private void Shoot(List<Bullet> bullets)
         {
             _previousKey = _currentKey;
@@ -301,7 +328,6 @@ namespace Celwahit.GameObjects
             if (_collisionRectangle.TouchRightOf(newRectangle, velocity))
             {
                 Debug.WriteLine("right");
-
                 position.X = newRectangle.X - _collisionRectangle.Width;
             }
             else if (_collisionRectangle.TouchLeftOf(newRectangle, velocity) && velocity.X < 0)
@@ -310,25 +336,63 @@ namespace Celwahit.GameObjects
                 position.X = newRectangle.X + newRectangle.Width;
 
             }
-            else
-            if (_collisionRectangle.TouchBottomOf(newRectangle))
+            else if (_collisionRectangle.TouchBottomOf(newRectangle))
             {
-                //Debug.WriteLine("bottom");
-
                 position.Y = newRectangle.Y - 36;
                 hasJumped = false;
             }
             else if (_collisionRectangle.TouchTopOf(newRectangle))
             {
                 Debug.WriteLine("top");
-
                 velocity.Y = 1f;
             }
+
             if (position.X < 0) position.X = 0;
             if (position.X > xOffset - _collisionRectangle.Width) position.X = xOffset - _collisionRectangle.Width;
             if (position.Y < 0) velocity.Y = 1f;
             if (position.Y > yOffset - _collisionRectangle.Height) position.Y = yOffset - _collisionRectangle.Height;
         }
 
+        public void isOnSpike(Rectangle newRectangle, int xOffset, int yOffset)
+        {
+            this.xOffset = xOffset;
+
+            _collisionRectangle.X = (int)position.X;
+            _collisionRectangle.Y = (int)position.Y;
+
+            if (_collisionRectangle.TouchRightOf(newRectangle, velocity))
+            {
+                Debug.WriteLine("right");
+                position.X = newRectangle.X - _collisionRectangle.Width;
+            }
+            else if (_collisionRectangle.TouchLeftOf(newRectangle, velocity) && velocity.X < 0)
+            {
+                Debug.WriteLine("left");
+                position.X = newRectangle.X + newRectangle.Width;
+
+            }
+            else if (TouchBottomOfSpike(_collisionRectangle,newRectangle))
+            {
+                Health -= 100;
+                position.Y = newRectangle.Y - 36;
+                hasJumped = false;
+            }
+            
+            if (position.X < 0) position.X = 0;
+            if (position.X > xOffset - _collisionRectangle.Width) position.X = xOffset - _collisionRectangle.Width;
+            if (position.Y < 0) velocity.Y = 1f;
+            if (position.Y > yOffset - _collisionRectangle.Height) position.Y = yOffset - _collisionRectangle.Height;
+        }
+
+        private bool TouchBottomOfSpike(Rectangle r1, Rectangle r2)
+        {
+            return r1.Bottom > r2.Top &&
+             r1.Top < r2.Top &&
+             r1.Right - 20 > r2.Left &&
+             r1.Left + 20 < r2.Right;
+        }
+
+      
     }
+
 }

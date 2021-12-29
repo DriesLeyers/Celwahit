@@ -36,6 +36,8 @@ namespace Celwahit.Scenes
         Texture2D idleSoldier;
         #endregion soldier
 
+        Texture2D gameOver;
+
         #region boss
         Boss boss;
         Texture2D walkingBoss;
@@ -107,6 +109,13 @@ namespace Celwahit.Scenes
                 bullet.Draw(_spriteBatch, gameTime);
 
             map.Draw(_spriteBatch);
+
+            if (playerDead)
+            {
+                player.Positition = new Vector2(0, player.Positition.Y);
+
+                _spriteBatch.Draw(gameOver, new Vector2(0, -240), Color.White);
+            }
         }
 
         public override void Initialize()
@@ -137,6 +146,8 @@ namespace Celwahit.Scenes
 
             idleSoldier = Content.Load<Texture2D>("Soldier_Idle");
             walkingSoldier = Content.Load<Texture2D>("Soldier_Walking");
+
+            gameOver = Content.Load<Texture2D>("GameOver");
 
             backgroundTexture = Content.Load<Texture2D>("plx-5");
             skyboxTexture = Content.Load<Texture2D>("Mission1_Background3");
@@ -286,6 +297,13 @@ namespace Celwahit.Scenes
                 }
 
                 boss.Update(gameTime, player, bulletsSoldier, playerDead);
+            }
+
+            KeyboardState keyboardState = Keyboard.GetState();
+
+            if (keyboardState.IsKeyDown(Keys.Enter) && playerDead)
+            {
+                Game1.ChangeSceneState(new LvlOneState(Game1, _graphics, _spriteBatch));
             }
 
 

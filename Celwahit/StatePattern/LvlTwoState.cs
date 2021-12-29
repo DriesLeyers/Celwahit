@@ -28,6 +28,8 @@ namespace Celwahit.Scenes
         Texture2D idlePlayerLegs;
         #endregion player
 
+        Texture2D gameOver;
+
         #region soldier
         #endregion soldier
 
@@ -75,12 +77,20 @@ namespace Celwahit.Scenes
 
             float[] tmep = gameSettings.GetWindowScale();
 
+
             skybox.Draw(_spriteBatch, tmep[0]);
 
             if (!playerDead)
                 player.Draw(_spriteBatch, gameTime);
 
             map.Draw(_spriteBatch);
+
+            if (playerDead)
+            {
+                player.Positition = new Vector2(0, player.Positition.Y);
+
+                _spriteBatch.Draw(gameOver, new Vector2(0, -240), Color.White);
+            }
         }
 
         public override void Initialize()
@@ -101,6 +111,7 @@ namespace Celwahit.Scenes
 
             map.Generate(mapArray, 32,"level2");
 
+            gameOver = Content.Load<Texture2D>("GameOver");
             walkingPlayerLegs = Content.Load<Texture2D>("Player/Fiolina_Bot_Walking");
             walkingPlayerBody = Content.Load<Texture2D>("Player/Fiolina_Top_Walking");
 
@@ -124,7 +135,7 @@ namespace Celwahit.Scenes
                 if(tile.typeTile == TypeTiles.Spike)
                 {
                     player.isOnSpike(tile.Rectangle, map.Width, map.Height);
-                    if(player.Health == 0)
+                    if(player.Health <= 0)
                     {
                         playerDead = true;
                     }
@@ -152,6 +163,13 @@ namespace Celwahit.Scenes
                 }
 
                 player.Update(gameTime);
+            }
+
+            KeyboardState keyboardState = Keyboard.GetState();
+
+            if (keyboardState.IsKeyDown(Keys.Enter) && playerDead)
+            {
+                Game1.ChangeSceneState(new LvlOneState(Game1, _graphics, _spriteBatch));
             }
         }
 

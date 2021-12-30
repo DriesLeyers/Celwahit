@@ -60,7 +60,14 @@ namespace Celwahit.GameObjects
                 }
             }
             if (isActive)
-                SetDirectionToPlayer(player, 330);
+            {
+                int dist = 330;
+                if(position.Y < 410)
+                {
+                    dist = 75;
+                }
+                SetDirectionToPlayer(player, dist);
+            }
 
             Ideling(gameTime, player, 900);
         }

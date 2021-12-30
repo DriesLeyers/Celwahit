@@ -4,6 +4,7 @@ using Celwahit.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace Celwahit
 {
     public class Game1 : Game
     {
+        Song music;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         public SceneState SceneState { get; set; }
@@ -32,6 +34,9 @@ namespace Celwahit
 
         protected override void LoadContent()
         {
+            music = Content.Load<Song>("Soundtrack");
+            MediaPlayer.Play(music);
+            MediaPlayer.Volume = 0.2f;
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             this.SceneState = new MenuState(this, _graphics, _spriteBatch);
         }

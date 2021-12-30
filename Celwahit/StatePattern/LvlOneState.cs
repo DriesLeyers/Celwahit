@@ -5,6 +5,7 @@ using Celwahit.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -22,6 +23,8 @@ namespace Celwahit.Scenes
 
         List<Bullet> bulletsPlayer = new List<Bullet>();
         List<Bullet> bulletsSoldier = new List<Bullet>();
+
+        
 
         #region player
         Player player;
@@ -162,6 +165,8 @@ namespace Celwahit.Scenes
 
         public override void Update(GameTime gameTime)
         {
+            
+
             foreach (Bullet bullet in bulletsPlayer.ToArray())
                 bullet.Update(gameTime, bulletsPlayer);
 

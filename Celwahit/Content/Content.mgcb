@@ -313,6 +313,12 @@
 /processorParam:TextureFormat=Color
 /build:Soldier_Walking.png
 
+#begin Soundtrack.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Soundtrack.mp3
+
 #begin spikes.png
 /importer:TextureImporter
 /processor:TextureProcessor

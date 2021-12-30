@@ -59,7 +59,7 @@ namespace Celwahit.GameObjects
             }
             if (isActive)
             {
-                int dist = 330;
+                int dist = 400;
                 if (position.Y < 410)
                 {
                     dist = 75;
@@ -67,7 +67,7 @@ namespace Celwahit.GameObjects
                 SetDirectionToPlayer(player, dist);
             }
 
-            Ideling(gameTime, player, 900);
+            Ideling(gameTime, player, 1200);
         }
 
         private void Ideling(GameTime gameTime, Player player, int distance)

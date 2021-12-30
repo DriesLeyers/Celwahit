@@ -37,7 +37,7 @@ namespace Celwahit.GameObjects
             _collisionRectangle = new Rectangle((int)position.X, (int)position.Y, idleSoldier.Bounds.Width, idleSoldier.Bounds.Height);
             hasJumped = true;
 
-            position = new Vector2(startPlaceX, startPlaceY);
+            position = new Vector2(startPlaceX, 250);
             velocity = new Vector2(0, 0);
 
             velocity.Y += 3f;
@@ -49,18 +49,21 @@ namespace Celwahit.GameObjects
             base.Update(gameTime, player, bullets, playerDead);
 
             SetBulletData(5,5);
-
-            if (gameTime.TotalGameTime.Seconds % 2 == 0 && !isShooting)
+            if(gameTime.TotalGameTime.Seconds > 0)
             {
-                isShooting = true;
-                if (!playerDead)
-                    Shoot(bullets);
+                if (gameTime.TotalGameTime.Seconds % 2 == 0 && !isShooting)
+                {
+                    isShooting = true;
+                    if (!playerDead)
+                        Shoot(bullets);
+                }
+
+                if (gameTime.TotalGameTime.Seconds % 2 != 0 && isShooting)
+                    isShooting = false;
+
+                SetDirectionToPlayer(player, 75);
             }
-
-            if (gameTime.TotalGameTime.Seconds % 2 != 0 && isShooting)
-                isShooting = false;
-
-            SetDirectionToPlayer(player, 75);
+            
         }
 
         public Soldier()

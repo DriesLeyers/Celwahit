@@ -52,13 +52,11 @@ namespace Celwahit.GameObjects
                 if (gameTime.TotalGameTime.Milliseconds % 200 == 0 && !isShooting)
                 {
                     Shoot(bullets);
-                    //Debug.WriteLine("Boss: Shoot");
                 }
 
                 if (gameTime.TotalGameTime.Milliseconds % 200 != 0 && isShooting)
                 {
                     isShooting = false;
-                    //Debug.WriteLine("Boss: no shoot"); 
                 }
             }
             if (isActive)
@@ -78,11 +76,9 @@ namespace Celwahit.GameObjects
             if (Math.Abs(pPosX - sPosX) <= distance)
             {
                 isActive = true;
-                Debug.WriteLine("isActive");
             }
             else
             {
-                Debug.WriteLine("isInactive");
                 velocity.X = 1;
                 if (gameTime.TotalGameTime.Seconds % 6 >= 0 && gameTime.TotalGameTime.Seconds % 6 < 5)
                 {

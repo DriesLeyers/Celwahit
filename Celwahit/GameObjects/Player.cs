@@ -72,7 +72,7 @@ namespace Celwahit.GameObjects
 
             hasJumped = true;
 
-            position = new Vector2(0, 0);
+            position = new Vector2(25, 320);
             velocity = new Vector2(1.5f, 0);
             acceleration = new Vector2(0.0f, 0.0f);
             bodyOffset = new Vector2(0, 10);

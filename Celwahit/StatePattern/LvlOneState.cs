@@ -1,6 +1,7 @@
 ﻿using Celwahit;
 using Celwahit.Collisions;
 using Celwahit.GameObjects;
+using Celwahit.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -11,7 +12,7 @@ using System.Threading;
 
 namespace Celwahit.Scenes
 {
-    public class LvlOneState : SceneState
+    public class LvlOneState : SceneState, IGameObject
     {
         Map map;
 
@@ -37,6 +38,8 @@ namespace Celwahit.Scenes
         #endregion soldier
 
         Texture2D gameOver;
+
+        Direction direction;
 
         #region boss
         Boss boss;
@@ -229,6 +232,11 @@ namespace Celwahit.Scenes
                 }
             }
 
+            if(player.direction == Direction.Crouching)
+            {
+                Debug.WriteLine("crouching");
+            }
+
             var playerRectForBulletHit = player.CollisionRect;
             playerRectForBulletHit.Width -= 2;
             playerRectForBulletHit.X += 8;
@@ -381,6 +389,16 @@ namespace Celwahit.Scenes
 
 
             return position * offset;
+        }
+
+        public void Update(GameTime gameTime, List<Bullet> bullets)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

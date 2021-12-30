@@ -206,10 +206,11 @@ namespace Celwahit.GameObjects
                             velocity.X = 1.5f;
 
                             direction = Direction.Right;
-                            //acceleration.X = 0.25f;
                             IsFlipped = false;
-                            //Accelerate();
+                            position += velocity;
+
                             break;
+
                         case Keys.Left:
                             if (position.X <= 0)
                                 velocity.X = 0;
@@ -217,25 +218,26 @@ namespace Celwahit.GameObjects
                                 velocity.X = -1.5f;
 
                             direction = Direction.Left;
-                            //Check tutorial 
-                            //acceleration.X = -0.25f;
                             IsFlipped = true;
-                            //Accelerate();
+                            position += velocity;
+
                             break;
+
                         case Keys.Up:
                             if (!hasJumped)
                                 Jump();
-                            //Accelerate();
+                            position += velocity;
+
                             break;
                         case Keys.Down:
                             velocity.X = 0;
                             acceleration = new Vector2(0, 0);
                             direction = Direction.Crouching;
+                            position += velocity;
                             break;
 
                     }
 
-                    position += velocity;
                 }
             }
             else
@@ -285,13 +287,18 @@ namespace Celwahit.GameObjects
             DrawHealthBar(spriteBatch);
             if (direction == Direction.Left)
             {
-                spriteBatch.Draw(walkingPlayerLegs, position + bodyOffset, walkingAnimationLegs.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
                 spriteBatch.Draw(walkingPlayerBody, position, walkingAnimationBody.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
+                spriteBatch.Draw(walkingPlayerLegs, position + bodyOffset, walkingAnimationLegs.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
             }
             else if (direction == Direction.Right)
             {
-                spriteBatch.Draw(walkingPlayerLegs, position + bodyOffset, walkingAnimationLegs.CurrentFrame.SourceRect, Color.White);
                 spriteBatch.Draw(walkingPlayerBody, position, walkingAnimationBody.CurrentFrame.SourceRect, Color.White);
+                spriteBatch.Draw(walkingPlayerLegs, position + bodyOffset, walkingAnimationLegs.CurrentFrame.SourceRect, Color.White);
+            }else if(direction == Direction.Crouching)
+            {
+                position = new Vector2(position.X, position.Y + 10);
+                spriteBatch.Draw(walkingPlayerBody, position, walkingAnimationBody.CurrentFrame.SourceRect, Color.White);
+                spriteBatch.Draw(walkingPlayerLegs, position + bodyOffset, walkingAnimationLegs.CurrentFrame.SourceRect, Color.White);
             }
             else
             {

@@ -24,14 +24,14 @@ namespace Celwahit.GameObjects
 
         public override void Update(GameTime gameTime, List<Bullet> bullets)
         {
-            this.collisionRectangle.X = (int) position.X;
-            this.collisionRectangle.Y = (int) position.Y;
+            this.collisionRectangle.X = (int)position.X;
+            this.collisionRectangle.Y = (int)position.Y;
             //timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             timer = 0;
 
             if (timer > LifeSpan)
                 isRemoved = true;
-            if(isFlipped)
+            if (isFlipped)
                 position -= _velocity;
             else
                 position += _velocity;
@@ -50,7 +50,7 @@ namespace Celwahit.GameObjects
         {
             if (isFlipped)
             {
-                spriteBatch.Draw(_texture, position,null, Color.White, _rotation, origin, 1, SpriteEffects.FlipHorizontally, 0);
+                spriteBatch.Draw(_texture, position, null, Color.White, _rotation, origin, 1, SpriteEffects.FlipHorizontally, 0);
             }
             spriteBatch.Draw(_texture, position, null, Color.White, _rotation, origin, 1, SpriteEffects.None, 0);
         }

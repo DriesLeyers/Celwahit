@@ -16,7 +16,7 @@ namespace Celwahit
     class Tiles
     {
         public TypeTiles typeTile;
-       
+
 
         protected Texture2D texture;
 
@@ -52,7 +52,7 @@ namespace Celwahit
                     typeTile = TypeTiles.Tile;
                 }
             }
-            else if(level.Equals("level2"))
+            else if (level.Equals("level2"))
             {
                 if (i == 1)
                 {
@@ -66,7 +66,7 @@ namespace Celwahit
                 }
             }
 
-           
+
 
             this.Rectangle = newRectangle;
         }

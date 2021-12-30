@@ -10,17 +10,9 @@ using System.Text;
 
 namespace Celwahit.GameObjects
 {
-    class Soldier : EnemyObject//, IGameObject, ICollisionGameObject
+    class Soldier : EnemyObject
     {
-        //public Rectangle CollisionRect { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        //Animation walkingAnimation;
-        //Animation idleAnimation;
-
         Texture2D walkingSoldierTexture;
-
-        //bool isShooting = false;
-        //bool playerFlipped = false;
 
         public Soldier(Texture2D idleSoldier, Texture2D walkingSoldier, int startPlaceX, int startPlaceY, Texture2D bullet, Texture2D healthbar)
         {
@@ -48,8 +40,8 @@ namespace Celwahit.GameObjects
         {
             base.Update(gameTime, player, bullets, playerDead);
 
-            SetBulletData(5,5);
-            if(gameTime.TotalGameTime.Seconds > 0)
+            SetBulletData(10,17);
+            if(gameTime.TotalGameTime.Seconds > 0.5)
             {
                 if (gameTime.TotalGameTime.Seconds % 2 == 0 && !isShooting)
                 {
@@ -64,10 +56,6 @@ namespace Celwahit.GameObjects
                 SetDirectionToPlayer(player, 75);
             }
             
-        }
-
-        public Soldier()
-        {
         }
 
         protected void DrawHealthBar(SpriteBatch spriteBatch)

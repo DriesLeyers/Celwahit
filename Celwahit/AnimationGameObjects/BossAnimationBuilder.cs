@@ -24,7 +24,7 @@ namespace Celwahit.AnimationGameObjects
             return animation;
         }
 
-        public static Animation IdleAnimation(Texture2D idleBoss )
+        public static Animation IdleAnimation(Texture2D idleBoss)
         {
             Animation animation = new Animation();
             animation.Texture = idleBoss;

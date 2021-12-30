@@ -8,8 +8,6 @@ namespace Celwahit.AnimationGameObjects
 {
     static class PlayerAnimationBuilder
     {
-        #region Player
-        #region Idle
         public static Animation IdleAnimationBody(Texture2D idlePlayerBody)
         {
             Animation animation = new Animation();
@@ -24,8 +22,8 @@ namespace Celwahit.AnimationGameObjects
             }
 
             return animation;
-
         }
+
         public static Animation IdleAnimationLegs(Texture2D idlePlayerLegs)
         {
             Animation animation = new Animation();
@@ -33,8 +31,7 @@ namespace Celwahit.AnimationGameObjects
             animation.AddFrame(new AnimationFrame(new Rectangle(0, 0, 32, 28)));
             return animation;
         }
-        #endregion Idle
-        #region Walking
+
         public static Animation WalkingAnimationBody(Texture2D walkingPlayerBody)
         {
             Animation animation = new Animation();
@@ -51,7 +48,6 @@ namespace Celwahit.AnimationGameObjects
             return animation;
         }
 
-
         public static Animation WalkingAnimationLegs(Texture2D walkingPlayerLegs)
         {
             Animation animation = new Animation();
@@ -67,7 +63,5 @@ namespace Celwahit.AnimationGameObjects
 
             return animation;
         }
-        #endregion Walking
-        #endregion Player
     }
 }

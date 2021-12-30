@@ -39,8 +39,6 @@ namespace Celwahit.Scenes
 
         Texture2D gameOver;
 
-        Direction direction;
-
         #region boss
         Boss boss;
         Texture2D walkingBoss;
@@ -56,14 +54,10 @@ namespace Celwahit.Scenes
 
         Texture2D bulletTexture;
 
-        private Texture2D startButton;
-
         bool soldierDead = false;
         bool bossDead = false;
         bool playerDead = false;
 
-        MouseState mouseState;
-        MouseState previousMouseState;
 
         public LvlOneState(Game1 game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch) : base(game, graphics, spriteBatch)
         {
@@ -211,7 +205,6 @@ namespace Celwahit.Scenes
                         if (soldier.Health == 0)
                         {
                             soldierDead = true;
-                            Debug.WriteLine("soldier died");
                         }
 
                         break;
@@ -224,7 +217,6 @@ namespace Celwahit.Scenes
                         {
                             bossDead = true;
                             Game1.ChangeSceneState(new LvlTwoState(Game1, _graphics, _spriteBatch, player));
-                            Debug.WriteLine("Boss died");
                         }
 
                         break;
@@ -250,10 +242,7 @@ namespace Celwahit.Scenes
                         player.Health -= 25;
                         if (player.Health == 0)
                         {
-                            //TODO Game Over Screen
-
                             playerDead = true;
-                            Debug.WriteLine("player died");
                         }
                         break;
                     }

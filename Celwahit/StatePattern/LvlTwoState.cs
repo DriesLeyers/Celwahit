@@ -21,6 +21,7 @@ namespace Celwahit.Scenes
 
 
         #region player
+        bool playerWon;
         Player player;
         Texture2D walkingPlayerBody;
         Texture2D walkingPlayerLegs;
@@ -29,6 +30,7 @@ namespace Celwahit.Scenes
         #endregion player
 
         Texture2D gameOver;
+        Texture2D youWin;
 
         #region soldier
         #endregion soldier
@@ -91,6 +93,12 @@ namespace Celwahit.Scenes
 
                 _spriteBatch.Draw(gameOver, new Vector2(0, -240), Color.White);
             }
+
+            if(player.Positition.X >= 2250)
+            {
+                playerWon = true;
+                _spriteBatch.Draw(youWin, new Vector2(1175, -240), Color.White);
+            }
         }
 
         public override void Initialize()
@@ -111,6 +119,7 @@ namespace Celwahit.Scenes
 
             map.Generate(mapArray, 32,"level2");
 
+            youWin = Content.Load<Texture2D>("win");
             gameOver = Content.Load<Texture2D>("GameOver");
             walkingPlayerLegs = Content.Load<Texture2D>("Player/Fiolina_Bot_Walking");
             walkingPlayerBody = Content.Load<Texture2D>("Player/Fiolina_Top_Walking");
@@ -137,7 +146,7 @@ namespace Celwahit.Scenes
                     player.isOnSpike(tile.Rectangle, map.Width, map.Height);
                     if(player.Health <= 0)
                     {
-                        playerDead = true;
+                       playerDead = true;
                     }
                 }
                 else
@@ -168,6 +177,11 @@ namespace Celwahit.Scenes
             KeyboardState keyboardState = Keyboard.GetState();
 
             if (keyboardState.IsKeyDown(Keys.Enter) && playerDead)
+            {
+                Game1.ChangeSceneState(new LvlOneState(Game1, _graphics, _spriteBatch));
+            }
+
+            if (keyboardState.IsKeyDown(Keys.Enter) && playerWon)
             {
                 Game1.ChangeSceneState(new LvlOneState(Game1, _graphics, _spriteBatch));
             }

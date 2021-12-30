@@ -17,7 +17,6 @@ namespace Celwahit
         {
             this.texture = texture;
             this.width = 384;
-            this.height = height;  
         }
 
         public void Draw(SpriteBatch spriteBatch, float scale)

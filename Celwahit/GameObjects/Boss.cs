@@ -17,8 +17,6 @@ namespace Celwahit.GameObjects
         private bool cooldown = false;
         private bool isActive = false;
 
-        //Direction direction;
-
         public Boss(Texture2D idleBoss, Texture2D walkingBoss, Texture2D gettingReadyBoss, Texture2D shootingBoss, Texture2D bullet, Texture2D healthBar, int startPlaceX, int startPlaceY)
         {
             idleAnimation = BossAnimationBuilder.IdleAnimation(idleBoss);
@@ -62,7 +60,7 @@ namespace Celwahit.GameObjects
             if (isActive)
             {
                 int dist = 330;
-                if(position.Y < 410)
+                if (position.Y < 410)
                 {
                     dist = 75;
                 }
@@ -72,7 +70,7 @@ namespace Celwahit.GameObjects
             Ideling(gameTime, player, 900);
         }
 
-        private void Ideling(GameTime gameTime,Player player, int distance)
+        private void Ideling(GameTime gameTime, Player player, int distance)
         {
             float sPosX = this.position.X;
             float pPosX = player.Positition.X;
@@ -107,17 +105,17 @@ namespace Celwahit.GameObjects
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            if(isActive)
+            if (isActive)
                 DrawHealthBar(spriteBatch);
 
             if (isShooting)
             {
-                if(playerFlipped)
+                if (playerFlipped)
                     spriteBatch.Draw(shootingAnimation.Texture, position, shootingAnimation.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
                 if (!playerFlipped)
                     spriteBatch.Draw(shootingAnimation.Texture, position, shootingAnimation.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.None, 1f);
             }
-            else if(!isShooting)
+            else if (!isShooting)
             {
                 if (direction == Direction.Left)
                 {

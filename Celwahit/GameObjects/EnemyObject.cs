@@ -41,11 +41,6 @@ namespace Celwahit.GameObjects
             direction = Direction.Left;
         }
 
-
-
-
-        #region Movement
-
         protected void Gravity()
         {
             velocity.Y += 0.15f * 1.0f;
@@ -102,14 +97,12 @@ namespace Celwahit.GameObjects
 
             if (_collisionRectangle.TouchRightOf(newRectangle, velocity))
             {
-                Debug.WriteLine("right");
                 position.X = newRectangle.X - 32;
                 if (!hasJumped)
                     Jump();
             }
             else if (_collisionRectangle.TouchLeftOf(newRectangle, velocity) && velocity.X < 0)
             {
-                Debug.WriteLine("left");
                 position.X = newRectangle.X + newRectangle.Width;
                 if (!hasJumped)
                     Jump();
@@ -129,9 +122,7 @@ namespace Celwahit.GameObjects
             if (position.Y < 0) velocity.Y = 1f;
             if (position.Y > yOffset - _collisionRectangle.Height) position.Y = yOffset - _collisionRectangle.Height;
         }
-        #endregion
 
-        #region Bullets
         protected void SetBulletData(float bulletOffsetX, float bulletOffsetY)
         {
             this.blueprintBullet.isFlipped = playerFlipped;
@@ -154,7 +145,5 @@ namespace Celwahit.GameObjects
             var newBullet = this.blueprintBullet.Clone() as Bullet;
             return newBullet;
         }
-
-        #endregion
     }
 }

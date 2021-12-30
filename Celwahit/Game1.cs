@@ -21,7 +21,6 @@ namespace Celwahit
         {
             _graphics = new GraphicsDeviceManager(this);
 
-            //_groundRect = new Rectangle(0, 0, 0, 0);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }

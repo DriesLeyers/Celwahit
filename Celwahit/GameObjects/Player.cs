@@ -31,15 +31,8 @@ namespace Celwahit.GameObjects
 
         public int Health = 100;
 
-        //in da filmpje van collision heeft die en _collisionRect en CollisionRect
-
         public Rectangle rectangle;
 
-        //Vector2 position;
-        //public Vector2 velocity;
-
-        Vector2 acceleration;
-        //To get the sprites properly aligned
         Vector2 bodyOffset;
 
         public bool playerFlipped;
@@ -74,7 +67,6 @@ namespace Celwahit.GameObjects
 
             position = new Vector2(25, 320);
             velocity = new Vector2(1.5f, 0);
-            acceleration = new Vector2(0.0f, 0.0f);
             bodyOffset = new Vector2(0, 10);
 
             CollisionRect = new Rectangle((int)position.X, (int)position.Y, 32, 38);
@@ -165,25 +157,15 @@ namespace Celwahit.GameObjects
             this.bullet.LifeSpan = 3f;
         }
 
-        //public void StopJump()
-        //{
-        //    hasJumped = false;
-        //    velocity.Y = 0;
-        //}
-
         private void Jump()
         {
-            //velocity.X = 0;
-            //acceleration = new Vector2(0, 0);
-                Debug.WriteLine("Jump");
-                if (!hasJumped)
-                {
-                    position.Y -= 10f;
-                    velocity.Y = -2.5f;
-                }
-                hasJumped = true;
+            if (!hasJumped)
+            {
+                position.Y -= 10f;
+                velocity.Y = -2.5f;
+            }
+            hasJumped = true;
 
-            //position += velocity;
         }
 
         private void Move()
@@ -231,8 +213,7 @@ namespace Celwahit.GameObjects
                             break;
                         case Keys.Down:
                             velocity.X = 0;
-                            velocity.Y += 1f;
-                            acceleration = new Vector2(0, 0);
+                            velocity.Y += 0.25f;
                             direction = Direction.Crouching;
                             position += velocity;
                             break;
@@ -245,8 +226,6 @@ namespace Celwahit.GameObjects
             {
                 direction = Direction.Idle;
                 velocity.X = 0;
-                acceleration = new Vector2(0, 0);
-                //Accelerate();
                 position += velocity;
             }
         }
@@ -257,12 +236,6 @@ namespace Celwahit.GameObjects
             return newBullet;
         }
         //TODO: Movement.cs maken fzoeit
-        private void Accelerate()
-        {
-            velocity += acceleration;
-            velocity = Limit(velocity, 1.5f);
-
-        }
 
         /// <summary>
         /// Limits the max length of a given Vector2
@@ -330,12 +303,10 @@ namespace Celwahit.GameObjects
 
             if (_collisionRectangle.TouchRightOf(newRectangle, velocity))
             {
-                Debug.WriteLine("right");
                 position.X = newRectangle.X - _collisionRectangle.Width;
             }
             else if (_collisionRectangle.TouchLeftOf(newRectangle, velocity) && velocity.X < 0)
             {
-                Debug.WriteLine("left");
                 position.X = newRectangle.X + newRectangle.Width;
 
             }
@@ -346,7 +317,6 @@ namespace Celwahit.GameObjects
             }
             else if (_collisionRectangle.TouchTopOf(newRectangle))
             {
-                Debug.WriteLine("top");
                 velocity.Y = 1f;
             }
 
@@ -365,22 +335,20 @@ namespace Celwahit.GameObjects
 
             if (_collisionRectangle.TouchRightOf(newRectangle, velocity))
             {
-                Debug.WriteLine("right");
                 position.X = newRectangle.X - _collisionRectangle.Width;
             }
             else if (_collisionRectangle.TouchLeftOf(newRectangle, velocity) && velocity.X < 0)
             {
-                Debug.WriteLine("left");
                 position.X = newRectangle.X + newRectangle.Width;
 
             }
-            else if (TouchBottomOfSpike(_collisionRectangle,newRectangle))
+            else if (TouchBottomOfSpike(_collisionRectangle, newRectangle))
             {
                 Health -= 100;
                 position.Y = newRectangle.Y - 36;
                 hasJumped = false;
             }
-            
+
             if (position.X < 0) position.X = 0;
             if (position.X > xOffset - _collisionRectangle.Width) position.X = xOffset - _collisionRectangle.Width;
             if (position.Y < 0) velocity.Y = 1f;
@@ -395,7 +363,7 @@ namespace Celwahit.GameObjects
              r1.Left + 10 < r2.Right;
         }
 
-      
+
     }
 
 }

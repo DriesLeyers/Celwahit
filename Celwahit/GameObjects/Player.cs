@@ -231,6 +231,7 @@ namespace Celwahit.GameObjects
                             break;
                         case Keys.Down:
                             velocity.X = 0;
+                            velocity.Y += 1f;
                             acceleration = new Vector2(0, 0);
                             direction = Direction.Crouching;
                             position += velocity;
@@ -292,11 +293,6 @@ namespace Celwahit.GameObjects
             }
             else if (direction == Direction.Right)
             {
-                spriteBatch.Draw(walkingPlayerBody, position, walkingAnimationBody.CurrentFrame.SourceRect, Color.White);
-                spriteBatch.Draw(walkingPlayerLegs, position + bodyOffset, walkingAnimationLegs.CurrentFrame.SourceRect, Color.White);
-            }else if(direction == Direction.Crouching)
-            {
-                position = new Vector2(position.X, position.Y + 10);
                 spriteBatch.Draw(walkingPlayerBody, position, walkingAnimationBody.CurrentFrame.SourceRect, Color.White);
                 spriteBatch.Draw(walkingPlayerLegs, position + bodyOffset, walkingAnimationLegs.CurrentFrame.SourceRect, Color.White);
             }

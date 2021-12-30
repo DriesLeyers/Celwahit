@@ -232,11 +232,6 @@ namespace Celwahit.Scenes
                 }
             }
 
-            if(player.direction == Direction.Crouching)
-            {
-                Debug.WriteLine("crouching");
-            }
-
             var playerRectForBulletHit = player.CollisionRect;
             playerRectForBulletHit.Width -= 2;
             playerRectForBulletHit.X += 8;

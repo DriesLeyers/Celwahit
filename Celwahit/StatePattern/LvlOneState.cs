@@ -25,7 +25,7 @@ namespace Celwahit.Scenes
         List<Bullet> bulletsPlayer = new List<Bullet>();
         List<Bullet> bulletsSoldier = new List<Bullet>();
 
-        
+        SoundEffect die;
 
         #region player
         Player player;
@@ -159,6 +159,8 @@ namespace Celwahit.Scenes
             shootingBoss = Content.Load<Texture2D>("Shooting_Boss");
             gettingReadyBoss = Content.Load<Texture2D>("Get_Ready_Boss");
 
+            die = Content.Load<SoundEffect>("dead");
+
             healthBar = Content.Load<Texture2D>("Health_Bar");
             pHealthBar = Content.Load<Texture2D>("P_Health_Bar");
 
@@ -250,6 +252,7 @@ namespace Celwahit.Scenes
                         player.Health -= 25;
                         if (player.Health == 0)
                         {
+                            die.Play();
                             playerDead = true;
                         }
                         break;

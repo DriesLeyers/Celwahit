@@ -48,7 +48,7 @@ namespace Celwahit.GameObjects
             shootingAnimation.Update(gameTime, 12);
             SetBulletData(30, 30);
 
-            if (gameTime.TotalGameTime.Seconds % 3 >= 0 && gameTime.TotalGameTime.Seconds % 3 < 2 && isActive)
+            if (gameTime.TotalGameTime.Seconds % 3 >= 0 && gameTime.TotalGameTime.Seconds % 3 < 2 && isActive && !playerDead)
             {
                 if (gameTime.TotalGameTime.Milliseconds % 200 == 0 && !isShooting)
                 {

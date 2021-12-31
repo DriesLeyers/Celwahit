@@ -2,6 +2,7 @@
 using Celwahit.Collisions;
 using Celwahit.GameObjects;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace Celwahit.Scenes
         Background background;
         Skybox skybox;
 
+        SoundEffect won;
 
         #region player
         bool playerWon;
@@ -96,6 +98,7 @@ namespace Celwahit.Scenes
 
             if(player.Positition.X >= 2250)
             {
+                won.Play();
                 playerWon = true;
                 _spriteBatch.Draw(youWin, new Vector2(1175, -240), Color.White);
             }
@@ -118,6 +121,8 @@ namespace Celwahit.Scenes
             gameSettings.WindowWidth = 800;
 
             map.Generate(mapArray, 32,"level2");
+
+            won = Content.Load<SoundEffect>("dead");
 
             youWin = Content.Load<Texture2D>("win");
             gameOver = Content.Load<Texture2D>("GameOver");

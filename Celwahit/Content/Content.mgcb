@@ -37,6 +37,12 @@
 /processorParam:TextureFormat=Color
 /build:blockTile.png
 
+#begin dead.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:dead.wav
+
 #begin floorTile.png
 /importer:TextureImporter
 /processor:TextureProcessor

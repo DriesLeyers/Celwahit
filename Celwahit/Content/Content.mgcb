@@ -85,6 +85,12 @@
 /processorParam:TextureFormat=Color
 /build:Get_Ready_Boss.png
 
+#begin gun1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:gun1.wav
+
 #begin Health_Bar.png
 /importer:TextureImporter
 /processor:TextureProcessor

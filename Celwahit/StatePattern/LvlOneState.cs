@@ -3,6 +3,7 @@ using Celwahit.Collisions;
 using Celwahit.GameObjects;
 using Celwahit.Interfaces;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -134,6 +135,7 @@ namespace Celwahit.Scenes
             gameSettings.WindowHeight = 480;
             gameSettings.WindowWidth = 800;
 
+
             map.Generate(mapArray, 32, "level1");
 
             walkingPlayerLegs = Content.Load<Texture2D>("Player/Fiolina_Bot_Walking");
@@ -159,6 +161,7 @@ namespace Celwahit.Scenes
 
             healthBar = Content.Load<Texture2D>("Health_Bar");
             pHealthBar = Content.Load<Texture2D>("P_Health_Bar");
+
 
             InitializeGameObjects();
         }
@@ -309,6 +312,8 @@ namespace Celwahit.Scenes
         private void InitializeGameObjects()
         {
             player = new Player(walkingPlayerBody, walkingPlayerLegs, idlePlayerBody, idlePlayerLegs, bulletTexture, pHealthBar);
+            player.gunSound = Content.Load<SoundEffect>("gun1");
+
             soldier = new Soldier(idleSoldier, walkingSoldier, 500, 0, bulletTexture, healthBar);
 
             boss = new Boss(idleBoss, walkingBoss, gettingReadyBoss, shootingBoss, bulletTexture,healthBar , 1750, 0);

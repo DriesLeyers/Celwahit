@@ -10,6 +10,8 @@ using Celwahit.Collisions;
 using Celwahit.InputReaders;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Celwahit.GameObjects
 {
@@ -17,6 +19,8 @@ namespace Celwahit.GameObjects
     {
         Animation walkingAnimationBody;
         Animation walkingAnimationLegs;
+
+        public SoundEffect gunSound;
 
         Animation idleAnimationBody;
         Animation idleAnimationLegs;
@@ -140,6 +144,7 @@ namespace Celwahit.GameObjects
 
             if (_currentKey.IsKeyDown(Keys.LeftControl) && _previousKey.IsKeyUp(Keys.LeftControl))
             {
+                gunSound.Play();
                 bullets.Add(AddBullet());
             }
         }

@@ -315,8 +315,10 @@ namespace Celwahit.Scenes
             player.gunSound = Content.Load<SoundEffect>("gun1");
 
             soldier = new Soldier(idleSoldier, walkingSoldier, 500, 0, bulletTexture, healthBar);
+            soldier.gunSound = Content.Load<SoundEffect>("gun2");
 
             boss = new Boss(idleBoss, walkingBoss, gettingReadyBoss, shootingBoss, bulletTexture,healthBar , 1750, 0);
+            boss.gunSound = Content.Load<SoundEffect>("gun3");
 
             background = new Background(backgroundTexture);
             skybox = new Skybox(skyboxTexture);

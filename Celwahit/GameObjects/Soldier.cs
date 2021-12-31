@@ -1,18 +1,16 @@
 ﻿using Celwahit.AnimationGameObjects;
-using Celwahit.Collisions;
 using Celwahit.Interfaces;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 
 namespace Celwahit.GameObjects
 {
     class Soldier : EnemyObject
     {
         Texture2D walkingSoldierTexture;
+        public SoundEffect gunSound;
 
         public Soldier(Texture2D idleSoldier, Texture2D walkingSoldier, int startPlaceX, int startPlaceY, Texture2D bullet, Texture2D healthbar)
         {
@@ -47,7 +45,10 @@ namespace Celwahit.GameObjects
                 {
                     isShooting = true;
                     if (!playerDead)
+                    {
+                        gunSound.Play();
                         Shoot(bullets);
+                    }
                 }
 
                 if (gameTime.TotalGameTime.Seconds % 2 != 0 && isShooting)

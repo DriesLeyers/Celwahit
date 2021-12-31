@@ -91,6 +91,18 @@
 /processorParam:Quality=Best
 /build:gun1.wav
 
+#begin gun2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:gun2.wav
+
+#begin gun3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:gun3.wav
+
 #begin Health_Bar.png
 /importer:TextureImporter
 /processor:TextureProcessor

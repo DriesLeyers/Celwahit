@@ -1,6 +1,7 @@
 ﻿using Celwahit.AnimationGameObjects;
 using Celwahit.Interfaces;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ namespace Celwahit.GameObjects
 {
     class Boss : EnemyObject
     {
+        public SoundEffect gunSound;
+
         Animation gettingReadyAnimation;
         Animation shootingAnimation;
 
@@ -45,10 +48,11 @@ namespace Celwahit.GameObjects
             shootingAnimation.Update(gameTime, 12);
             SetBulletData(30, 30);
 
-            if (gameTime.TotalGameTime.Seconds % 3 >= 0 && gameTime.TotalGameTime.Seconds % 3 < 2)
+            if (gameTime.TotalGameTime.Seconds % 3 >= 0 && gameTime.TotalGameTime.Seconds % 3 < 2 && isActive)
             {
                 if (gameTime.TotalGameTime.Milliseconds % 200 == 0 && !isShooting)
                 {
+                    gunSound.Play();
                     Shoot(bullets);
                 }
 

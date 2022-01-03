@@ -1,12 +1,13 @@
 ﻿using Celwahit.Interfaces;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Celwahit.GameObjects
 {
-    public class CharacterObject
+    public class CharacterObject : IGameObject, ICollisionGameObject
     {
         public Rectangle CollisionRect { get; set; }
         protected Rectangle _collisionRectangle;
@@ -31,9 +32,19 @@ namespace Celwahit.GameObjects
 
         public Vector2 velocity;
 
+        public virtual void Update(GameTime gameTime, List<Bullet> bullets)
+        {
+            throw new NotImplementedException();
+        }
 
+        public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        {
+            throw new NotImplementedException();
+        }
 
-
-
+        public virtual void Collision(Rectangle newRectangle, int xOffset, int yOffset)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -14,7 +14,7 @@ using System.Threading;
 
 namespace Celwahit.Scenes
 {
-    public class LvlOneState : SceneState, IGameObject
+    public class LvlOneState : SceneState, IGameState
     {
         Map map;
 

@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using Celwahit.Interfaces;
 
 namespace Celwahit.Scenes
 {
-    public abstract class SceneState
+    public abstract class SceneState : IGameState
     {
         public Game1 Game1 { get; set; }
 

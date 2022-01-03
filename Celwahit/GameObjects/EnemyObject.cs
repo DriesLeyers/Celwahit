@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Celwahit.GameObjects
 {
-    public class EnemyObject : CharacterObject
+    public class EnemyObject : CharacterObject, IEnemyObject
     {
 
         protected Animation idleAnimation;
@@ -90,7 +90,7 @@ namespace Celwahit.GameObjects
                 velocity.X = 0;
         }
 
-        public void Collision(Rectangle newRectangle, int xOffset, int yOffset)
+        public override void Collision(Rectangle newRectangle, int xOffset, int yOffset)
         {
             _collisionRectangle.X = (int)position.X;
             _collisionRectangle.Y = (int)position.Y;

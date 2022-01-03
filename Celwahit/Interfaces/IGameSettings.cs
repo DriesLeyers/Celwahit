@@ -15,6 +15,8 @@ namespace Celwahit.Interfaces
 
         public GraphicsDeviceManager Graphics { get; set; }
 
+        public float[] GetWindowScale();
+
     }
 }
 

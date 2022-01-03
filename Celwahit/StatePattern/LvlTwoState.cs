@@ -1,6 +1,7 @@
 ﻿using Celwahit;
 using Celwahit.Collisions;
 using Celwahit.GameObjects;
+using Celwahit.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,7 +13,7 @@ using System.Threading;
 
 namespace Celwahit.Scenes
 {
-    public class LvlTwoState : SceneState
+    public class LvlTwoState : SceneState, IGameState
     {
         Map map;
 

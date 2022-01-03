@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Celwahit.Collisions
+namespace Celwahit.Interfaces
 {
     interface ICollisionGameObject
     {

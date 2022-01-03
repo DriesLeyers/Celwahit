@@ -36,7 +36,7 @@ namespace Celwahit
         {
             music = Content.Load<Song>("Soundtrack");
             MediaPlayer.Play(music);
-            MediaPlayer.Volume = 0.2f;
+            MediaPlayer.Volume = 0.05f;
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             this.SceneState = new MenuState(this, _graphics, _spriteBatch);
         }

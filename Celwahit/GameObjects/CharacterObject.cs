@@ -1,5 +1,6 @@
 ﻿using Celwahit.Interfaces;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -7,10 +8,12 @@ using System.Text;
 
 namespace Celwahit.GameObjects
 {
-    public class CharacterObject : IGameObject, ICollisionGameObject
+    public class CharacterObject : IGameObject, ICollisionGameObject, IGunSound
     {
         public Rectangle CollisionRect { get; set; }
         protected Rectangle _collisionRectangle;
+
+        public SoundEffect gunSound { get; set; }
 
         protected bool isShooting = false;
         protected bool playerFlipped = false;

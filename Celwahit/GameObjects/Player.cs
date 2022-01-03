@@ -20,8 +20,6 @@ namespace Celwahit.GameObjects
         Animation walkingAnimationBody;
         Animation walkingAnimationLegs;
 
-        public SoundEffect gunSound;
-
         Animation idleAnimationBody;
         Animation idleAnimationLegs;
 
@@ -33,16 +31,9 @@ namespace Celwahit.GameObjects
         KeyboardState _previousKey;
         KeyboardState _currentKey;
 
-        public int Health = 100;
-
         public Rectangle rectangle;
-
         Vector2 bodyOffset;
-
-        public bool playerFlipped;
         private int xOffset;
-
-        Direction direction;
 
         Bullet bullet;
 
@@ -81,7 +72,7 @@ namespace Celwahit.GameObjects
                 velocity.Y += 0.4f;
         }
 
-        public void Update(GameTime gameTime, List<Bullet> bullets)
+        public new void Update(GameTime gameTime, List<Bullet> bullets)
         {
             Rectangle _collisionRect = CollisionRect;
             //8, 12 MN for making sprite move normally

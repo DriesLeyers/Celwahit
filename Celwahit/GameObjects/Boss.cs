@@ -12,12 +12,9 @@ namespace Celwahit.GameObjects
 {
     class Boss : EnemyObject
     {
-        public SoundEffect gunSound;
-
         Animation gettingReadyAnimation;
         Animation shootingAnimation;
 
-        private bool cooldown = false;
         private bool isActive = false;
 
         public Boss(Texture2D idleBoss, Texture2D walkingBoss, Texture2D gettingReadyBoss, Texture2D shootingBoss, Texture2D bullet, Texture2D healthBar, int startPlaceX, int startPlaceY)
@@ -107,7 +104,7 @@ namespace Celwahit.GameObjects
         }
 
 
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public new void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             if (isActive)
                 DrawHealthBar(spriteBatch);

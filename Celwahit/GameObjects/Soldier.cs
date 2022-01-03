@@ -10,7 +10,6 @@ namespace Celwahit.GameObjects
     class Soldier : EnemyObject
     {
         Texture2D walkingSoldierTexture;
-        public SoundEffect gunSound;
 
         public Soldier(Texture2D idleSoldier, Texture2D walkingSoldier, int startPlaceX, int startPlaceY, Texture2D bullet, Texture2D healthbar)
         {

@@ -25,6 +25,7 @@ namespace Celwahit.Scenes
 
         #region player
         bool playerWon;
+        bool playWinMusic = true;
         Player player;
         Texture2D walkingPlayerBody;
         Texture2D walkingPlayerLegs;
@@ -97,9 +98,18 @@ namespace Celwahit.Scenes
                 _spriteBatch.Draw(gameOver, new Vector2(0, -240), Color.White);
             }
 
-            if(player.Positition.X >= 2250)
+            if (playerWon)
             {
-                won.Play();
+                player.Positition = new Vector2(2300, player.Positition.Y);
+            }
+
+            if (player.Positition.X >= 2250)
+            {
+                if (playWinMusic)
+                {
+                    won.Play();
+                }
+                playWinMusic = false;
                 playerWon = true;
                 _spriteBatch.Draw(youWin, new Vector2(1175, -240), Color.White);
             }

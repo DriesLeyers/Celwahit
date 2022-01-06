@@ -28,7 +28,7 @@ namespace Celwahit
             gameSettings.Graphics.PreferredBackBufferWidth = 1280;
             gameSettings.Graphics.PreferredBackBufferHeight = 720;
             gameSettings.Graphics.ApplyChanges();
-
+            gameState = GameState.StartMenu;
             startButtonPosition = new Vector2(450, 554);
         }
 

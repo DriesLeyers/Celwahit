@@ -52,7 +52,7 @@ namespace Celwahit.Scenes
 
             if (startScreen.CheckIfWantToPlay(previousMouseState))
             {
-                Game1.ChangeSceneState(new LvlTwoState(Game1, _graphics, _spriteBatch));
+                Game1.ChangeSceneState(new LvlOneState(Game1, _graphics, _spriteBatch));
             }
 
             previousMouseState = mouseState;

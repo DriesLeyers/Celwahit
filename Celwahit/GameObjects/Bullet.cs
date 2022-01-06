@@ -1,9 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 
 namespace Celwahit.GameObjects
 {
@@ -26,7 +23,6 @@ namespace Celwahit.GameObjects
         {
             this.collisionRectangle.X = (int)position.X;
             this.collisionRectangle.Y = (int)position.Y;
-            //timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             timer = 0;
 
             if (timer > LifeSpan)

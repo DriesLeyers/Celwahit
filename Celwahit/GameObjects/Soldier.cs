@@ -1,7 +1,6 @@
 ﻿using Celwahit.AnimationGameObjects;
 using Celwahit.Interfaces;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
@@ -38,9 +37,9 @@ namespace Celwahit.GameObjects
             base.Update(gameTime, player, bullets, playerDead);
 
             SetBulletData(10,17);
-            if(gameTime.TotalGameTime.Seconds > 0.5)
+            if(gameTime.TotalGameTime.Seconds > 1.5)
             {
-                if (gameTime.TotalGameTime.Seconds % 2 == 0 && !isShooting)
+                if (gameTime.TotalGameTime.Milliseconds % 1000 == 0 && !isShooting)
                 {
                     isShooting = true;
                     if (!playerDead)
@@ -50,7 +49,7 @@ namespace Celwahit.GameObjects
                     }
                 }
 
-                if (gameTime.TotalGameTime.Seconds % 2 != 0 && isShooting)
+                if (gameTime.TotalGameTime.Milliseconds % 1000 != 0 && isShooting)
                     isShooting = false;
 
                 SetDirectionToPlayer(player, 75);
@@ -67,7 +66,7 @@ namespace Celwahit.GameObjects
             spriteBatch.Draw(healthBar, barPos, new Rectangle(0, 0, barWidth, 8), Color.White);
         }
 
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public new void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             DrawHealthBar(spriteBatch);
 

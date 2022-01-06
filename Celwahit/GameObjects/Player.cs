@@ -1,17 +1,11 @@
 ﻿using Celwahit.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using Celwahit.AnimationGameObjects;
 using Microsoft.Xna.Framework.Input;
-using Celwahit.Collisions;
 using Celwahit.InputReaders;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Audio;
+
 
 namespace Celwahit.GameObjects
 {
@@ -231,28 +225,8 @@ namespace Celwahit.GameObjects
             var newBullet = this.bullet.Clone() as Bullet;
             return newBullet;
         }
-        //TODO: Movement.cs maken fzoeit
 
-        /// <summary>
-        /// Limits the max length of a given Vector2
-        /// </summary>
-        /// <param name="vector">The vector thats needs to limited</param>
-        /// <param name="maxVectorLength">max length of vector</param>
-        /// <returns></returns>
-        private Vector2 Limit(Vector2 vector, float maxVectorLength)
-        {
-            if (vector.Length() > maxVectorLength)
-            {
-                var ratio = maxVectorLength / vector.Length();
-                vector.X *= ratio;
-                vector.Y *= ratio;
-            }
-
-            return vector;
-        }
-
-        //TODO: drawFactory mss?
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public new void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             DrawHealthBar(spriteBatch);
             if (direction == Direction.Left)
@@ -290,7 +264,7 @@ namespace Celwahit.GameObjects
             spriteBatch.Draw(healthBar, barPos, new Rectangle(0, 0, barWidth, 8), Color.White);
         }
 
-        public void Collision(Rectangle newRectangle, int xOffset, int yOffset)
+        public new void Collision(Rectangle newRectangle, int xOffset, int yOffset)
         {
             this.xOffset = xOffset;
 

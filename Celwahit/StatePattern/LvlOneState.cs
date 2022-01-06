@@ -8,9 +8,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading;
+
 
 namespace Celwahit.Scenes
 {
@@ -24,6 +23,7 @@ namespace Celwahit.Scenes
 
         List<Bullet> bulletsPlayer = new List<Bullet>();
         List<Bullet> bulletsSoldier = new List<Bullet>();
+        List<Bullet> bulletsSoldier2 = new List<Bullet>();
 
         SoundEffect die;
 
@@ -37,6 +37,7 @@ namespace Celwahit.Scenes
 
         #region soldier
         Soldier soldier;
+        Soldier soldier2;
         Texture2D walkingSoldier;
         Texture2D idleSoldier;
         #endregion soldier
@@ -59,6 +60,7 @@ namespace Celwahit.Scenes
         Texture2D bulletTexture;
 
         bool soldierDead = false;
+        bool soldierDead2 = false;
         bool bossDead = false;
         bool playerDead = false;
 
@@ -98,6 +100,9 @@ namespace Celwahit.Scenes
             if (!soldierDead)
                 soldier.Draw(_spriteBatch, gameTime);
 
+            if (!soldierDead2)
+                soldier2.Draw(_spriteBatch, gameTime);
+
             if (!bossDead)
             {
                 boss.Draw(_spriteBatch, gameTime);
@@ -107,6 +112,9 @@ namespace Celwahit.Scenes
                 bullet.Draw(_spriteBatch, gameTime);
 
             foreach (Bullet bullet in bulletsSoldier.ToArray())
+                bullet.Draw(_spriteBatch, gameTime);
+
+            foreach (Bullet bullet in bulletsSoldier2.ToArray())
                 bullet.Draw(_spriteBatch, gameTime);
 
             map.Draw(_spriteBatch);
@@ -178,6 +186,9 @@ namespace Celwahit.Scenes
             foreach (Bullet bullet in bulletsSoldier.ToArray())
                 bullet.Update(gameTime, bulletsSoldier);
 
+            foreach (Bullet bullet in bulletsSoldier2.ToArray())
+                bullet.Update(gameTime, bulletsSoldier2);
+
             var soldierRectForBulletHit = soldier.CollisionRect;
             soldierRectForBulletHit.Width -= 2;
             soldierRectForBulletHit.X += 8;
@@ -191,6 +202,9 @@ namespace Celwahit.Scenes
 
                 if (!soldierDead && CollisionManager.CheckCollision(tile.Rectangle, soldier.CollisionRect))
                     soldier.Collision(tile.Rectangle, map.Width, map.Height);
+
+                if (!soldierDead2 && CollisionManager.CheckCollision(tile.Rectangle, soldier2.CollisionRect))
+                    soldier2.Collision(tile.Rectangle, map.Width, map.Height);
 
                 if (!bossDead && CollisionManager.CheckCollision(tile.Rectangle, boss.CollisionRect))
                     boss.Collision(tile.Rectangle, map.Width, map.Height);
@@ -230,6 +244,16 @@ namespace Celwahit.Scenes
                         }
 
                         break;
+                    }else if(CollisionManager.CheckCollision(soldier2.CollisionRect, bullet.collisionRectangle) && !soldierDead2)
+                    {
+                        bullet.Collision();
+                        soldier2.Health -= 25;
+                        if (soldier2.Health == 0)
+                        {
+                            soldierDead2 = true;
+                        }
+
+                        break;
                     }
                 }
             }
@@ -260,8 +284,27 @@ namespace Celwahit.Scenes
                 }
             }
 
-            //Bij presentatie zeg da wij jumpe door dirty flag pattern.
-            //Dus de hasjumped is de dirty flag
+            foreach (Bullet bullet in bulletsSoldier2.ToArray())
+            {
+                foreach (CollisionTiles tile in map.CollisionTiles)
+                {
+                    if ((CollisionManager.CheckCollision(tile.Rectangle, bullet.collisionRectangle)))
+                    {
+                        bullet.Collision();
+                    }
+                    else if (CollisionManager.CheckCollision(playerRectForBulletHit, bullet.collisionRectangle) && !playerDead)
+                    {
+                        bullet.Collision();
+                        player.Health -= 25;
+                        if (player.Health == 0)
+                        {
+                            die.Play();
+                            playerDead = true;
+                        }
+                        break;
+                    }
+                }
+            }
 
             if (!playerDead)
             {
@@ -289,7 +332,20 @@ namespace Celwahit.Scenes
                 soldier.Update(gameTime, player, bulletsSoldier, playerDead);
             }
 
-            if(!bossDead)
+            if (!soldierDead2)
+            {
+                var temp2 = soldier2.CollisionRect;
+                temp2.Height += 6;
+
+                if (!map.CollisionTiles.Any(x => CollisionManager.CheckCollision(x.Rectangle, temp2)) && !soldier2.hasJumped)
+                {
+                    soldier2.hasJumped = true;
+                }
+
+                soldier2.Update(gameTime, player, bulletsSoldier2, playerDead);
+            }
+
+            if (!bossDead)
             {
                 var temp3 = boss.CollisionRect;
                 temp3.Height += 6;
@@ -319,6 +375,9 @@ namespace Celwahit.Scenes
 
             soldier = new Soldier(idleSoldier, walkingSoldier, 500, 0, bulletTexture, healthBar);
             soldier.gunSound = Content.Load<SoundEffect>("gun2");
+
+            soldier2 = new Soldier(idleSoldier, walkingSoldier, 650, 0, bulletTexture, healthBar);
+            soldier2.gunSound = Content.Load<SoundEffect>("gun2");
 
             boss = new Boss(idleBoss, walkingBoss, gettingReadyBoss, shootingBoss, bulletTexture,healthBar , 1750, 0);
             boss.gunSound = Content.Load<SoundEffect>("gun3");

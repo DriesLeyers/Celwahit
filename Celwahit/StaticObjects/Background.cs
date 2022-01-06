@@ -11,7 +11,6 @@ namespace Celwahit
     {
         private Texture2D texture;
         public int width;
-        public int height;
 
         public Background(Texture2D texture)
         {

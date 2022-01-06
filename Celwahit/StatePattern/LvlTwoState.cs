@@ -6,10 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 
 namespace Celwahit.Scenes
 {
@@ -173,9 +170,6 @@ namespace Celwahit.Scenes
                     }
                 }
             }
-
-            //Bij presentatie zeg da wij jumpe door dirty flag pattern.
-            //Dus de hasjumped is de dirty flag
 
             if (!playerDead)
             {

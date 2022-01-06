@@ -69,7 +69,6 @@ namespace Celwahit.GameObjects
         public new void Update(GameTime gameTime, List<Bullet> bullets)
         {
             Rectangle _collisionRect = CollisionRect;
-            //8, 12 MN for making sprite move normally
             walkingAnimationBody.Update(gameTime, 8);
             walkingAnimationLegs.Update(gameTime, 12);
             idleAnimationBody.Update(gameTime, 8);
@@ -98,7 +97,6 @@ namespace Celwahit.GameObjects
         public void Update(GameTime gameTime)
         {
             Rectangle _collisionRect = CollisionRect;
-            //8, 12 MN for making sprite move normally
             walkingAnimationBody.Update(gameTime, 8);
             walkingAnimationLegs.Update(gameTime, 12);
             idleAnimationBody.Update(gameTime, 8);

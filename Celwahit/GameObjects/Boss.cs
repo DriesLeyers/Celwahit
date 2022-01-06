@@ -132,7 +132,6 @@ namespace Celwahit.GameObjects
                     spriteBatch.Draw(idleAnimation.Texture, position, idleAnimation.CurrentFrame.SourceRect, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.FlipHorizontally, 1f);
                 }
             }
-            //draw de rest
         }
 
     }
